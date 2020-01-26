@@ -6,8 +6,9 @@ import {
 import './App.css';
 import Home from './view/pages/home';
 import LogIn from './view/pages/login';
-import SignUp from './view/pages/signup';
+import SignUp from './view/pages/signup/Signup';
 import NotFound from './view/pages/notfound';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   return (
