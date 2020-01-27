@@ -4,6 +4,10 @@
   justify-content: center;
 }
 
+#root{
+  color: #bbe1fa;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
