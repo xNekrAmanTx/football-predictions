@@ -1,0 +1,39 @@
+.sign-up-form{
+    flex: 0 0 50%;
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    background-color: #3282b8;
+}
+
+.error{
+    color: #dd2c00;
+}
+
+.sign-up-form h3{
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1b262c;
+}
+
+.required:after {
+    content: "\2217";
+    position: relative;
+    top: -5px;
+}
+
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+.sign-up-form .btnSubmit{
+    font-weight: 600;
+    background-color: #0f4c75;
+    color: #bbe1fa;
+}
