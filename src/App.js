@@ -8,18 +8,21 @@ import Home from './view/pages/home';
 import LogIn from './view/pages/login';
 import SignUp from './view/pages/signup';
 import NotFound from './view/pages/notfound';
+import Header from './view/containers/header';
 
 function App() {
   return (
-    <Switch>
+    <div clasName='App'>
+      <Header></Header>
+      <Switch>
 
-      <Route exact path='/' component={Home} />
-      <Route path='/login' component={LogIn}/>
-      <Route path='/signup' component={SignUp}/>
-      <Route component={NotFound} />
-      
-    </Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/login' component={LogIn} />
+        <Route path='/signup' component={SignUp} />
+        <Route component={NotFound} />
 
+      </Switch>
+    </div>
   );
 }
 
