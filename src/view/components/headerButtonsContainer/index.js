@@ -1,11 +1,41 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Button } from '@material-ui/core';
+import { 
+    Link,
+    useLocation,
+} from 'react-router-dom';
 import { paths } from '../../../constants';
+import Login from '../../containers/login'
 
-export default () => (
-    <div className="">
-        <Link to={paths[1]}><button>Log In</button></Link>
-        <Link to={paths[2]}><button >Sign Up</button></Link>
-    </div>
-)
+export default () => {
 
+    const [open, setOpen] = useState(false)
+    const location = useLocation();
+
+    function handleOpen() {
+        setOpen(true);
+    }
+
+    function handleClose() {
+        setOpen(false)
+    }
+
+    return (
+        <div className="">
+            <Button
+                disabled={location.pathname === paths[2]}
+                variant="contained"
+                color="primary"
+                onClick={handleOpen}
+            >
+                Log In
+            </Button>
+            <Login open={open} onClose={handleClose}/>
+            <Link to={paths[2]}>
+                <Button variant="contained" color="primary">
+                    Sign up
+                </Button>
+            </Link>
+        </div>
+    )
+}
