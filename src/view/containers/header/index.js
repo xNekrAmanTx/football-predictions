@@ -1,0 +1,32 @@
+import React from 'react';
+//import withStyles from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles'
+import HeaderLogo from '../../components/headerLogo';
+import HeaderButtonsContainer from '../../components/headerButtonsContainer'
+
+const styles = () => ({
+    header: {
+        backgroundColor: "#a7d129",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "-webkit-fill-available",
+        color: "#1b1919",
+        padding: '10px'
+    }
+})
+
+function Header({classes}) {
+    return (
+        <header className={classes.header}>
+            <HeaderLogo />
+            <HeaderButtonsContainer />
+        </header>
+    )
+}
+
+export default withStyles(styles)(Header)
+
+// <img src='./'/>
+
+// '../../images/headerLogo'
