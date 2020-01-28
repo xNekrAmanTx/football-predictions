@@ -1,20 +1,31 @@
 import React from 'react';
-import './index.css';
+//import withStyles from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles'
 import HeaderLogo from '../../components/headerLogo';
-import SignUp from '../../pages/signup';
+import HeaderButtonsContainer from '../../components/headerButtonsContainer'
 
-export default function Header() {
+const styles = () => ({
+    header: {
+        backgroundColor: "#a7d129",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "-webkit-fill-available",
+        color: "#1b1919",
+        padding: '10px'
+    }
+})
+
+function Header({classes}) {
     return (
-        <header>
+        <header className={classes.header}>
             <HeaderLogo />
-            <div className='header-but-cont'>
-                <button>Sign in</button>
-                <button>Sign up</button>
-            </div>
-
+            <HeaderButtonsContainer />
         </header>
     )
 }
+
+export default withStyles(styles)(Header)
 
 // <img src='./'/>
 

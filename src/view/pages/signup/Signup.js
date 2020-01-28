@@ -1,10 +1,10 @@
 import React from 'react';
-import { useForm } from 'react-hook-form'
-import '../../../styles/signup.css';
+import { useForm } from 'react-hook-form';
+
 
 export default function SignUp(){
     const { register, handleSubmit, errors } = useForm();
-    const onSubmit = (data, e) => { console.log(data); e.defaultPrevented = false; };
+    const onSubmit = (data) => { console.log(data); };
     const validators = {
         email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
         firstOrLastName: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,

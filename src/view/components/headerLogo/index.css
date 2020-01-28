@@ -1,4 +1,6 @@
 .header-logo{
     display: flex;
     align-items: center;
+    font-size: x-large;
+    font-weight: bold;
 }
