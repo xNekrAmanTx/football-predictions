@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Switch
-} from 'react-router-dom';
+import {Switch} from 'react-router-dom';
 import CustomRoute from './view/components/customRoute';
 import './App.css';
 import Home from './view/pages/home';
