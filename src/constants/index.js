@@ -1,1 +1,1 @@
-export  const paths = ['/', '/login', '/signup', '/rules']
+export const paths = ['/', '/login', '/signup', '/rules']
