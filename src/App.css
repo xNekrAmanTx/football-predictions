@@ -1,9 +1,11 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #root{
-  color: #bbe1fa;
+  color: #a7d129;
 }
 
 .App-logo {
