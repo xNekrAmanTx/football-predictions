@@ -51,8 +51,9 @@
 // }
 
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
-import { Avatar,
+import { Link } from 'react-router-dom';
+import {
+    Avatar,
     Button,
     TextField,
     FormHelperText,
@@ -61,14 +62,18 @@ import { Avatar,
     makeStyles,
     Container,
     createMuiTheme,
-    MuiThemeProvider } from '@material-ui/core';
+    MuiThemeProvider
+} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {paths} from '../../constants';
+import { paths } from '../../constants';
+import * as validation from '../../helpers/validation/signupValidation'
+
+const {validatePassword, validateUsername, validateName, validateEmail} = validation;
 
 const useStyles = makeStyles(theme => ({
     paper: {
         margin: theme.spacing(1),
-        padding : theme.spacing(1),
+        padding: theme.spacing(1),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -87,7 +92,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp({handleOpen}) {
+export default function SignUp({ handleOpen }) {
     const classes = useStyles();
 
     const formLabelsTheme = createMuiTheme({
@@ -100,52 +105,21 @@ export default function SignUp({handleOpen}) {
         }
     });
 
-    let [username, setUsername] = useState('');
-    let [firstName, setFirstName] = useState('');
-    let [lastName, setLastName] = useState('');
-    let [email, setEmail] = useState('');
-    let [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    let [isUsernameValid, setIsUsernameValid] = useState(true);
-    let [isFirstNameValid, setIsFirstNameValid] = useState(true);
-    let [isLastNameValid, setIsLastNameValid] = useState(true);
-    let [isEmailValid, setIsEmailValid] = useState(true);
-    let [isPasswordValid, setIsPasswordValid] = useState(true);
+    const [isFirst, setIsFirst] = useState(true);
 
-    let [isFirstSubmission, setIsFirstSubmission] = useState(true);
-
+    
     const disabledSignUpButton = !(username && email && password);
 
-    const validators = {
-        email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-        firstOrLastName: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
-    };
 
-    function setIsValuesValid(target) {
-        switch(target.name) {
-            case 'firstName': setIsFirstNameValid(validators.firstOrLastName.test(target.value)); break;
-            case 'lastName': setIsLastNameValid(validators.firstOrLastName.test(target.value)); break;
-            case 'email': setIsEmailValid(validators.email.test(target.value)); break;
-            case 'password': setIsPasswordValid(target.value.length > 7); break;
-            default: break;
-        }
-    }
+    const handleChange = (e, setValue) => {setValue(e.target.value)}
 
-    const handleChange = (e, setValue) => {
-        setValue(e.target.value);
-        if(!isFirstSubmission) {
-            setIsValuesValid(e.target);
-            console.log(e.target.name);
-        }
-    };
-
-    const handleSubmit = e => {
-        for (let el of e.target.elements) {
-            setIsValuesValid(el);
-        }
-        setIsFirstSubmission(false);
-        e.preventDefault();
-    };
+    const handleSubmit = e => (setIsFirst(false), e.preventDefault());
 
     return (
         <Container component="main" maxWidth="xs">
@@ -157,100 +131,102 @@ export default function SignUp({handleOpen}) {
                     Sign up
                 </Typography>
                 <MuiThemeProvider theme={formLabelsTheme}>
-                <form className={classes.form} noValidate onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant={"outlined"}
-                                required
-                                fullWidth
-                                id="username"
-                                label="Username"
-                                name="username"
-                                autoComplete="username"
-                                size = "small"
-                                autoFocus
-                                onChange={(e) => handleChange(e, setUsername)}
-                            />
+                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant={"outlined"}
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Username"
+                                    name="username"
+                                    autoComplete="username"
+                                    size="small"
+                                    error={!isFirst && !validateUsername(username)}
+                                    autoFocus
+                                    onChange={(e) => handleChange(e, setUsername)}
+                                />
+                                {!isFirst && !validateUsername(username) && <FormHelperText error>Username must contain only latin letters and digits(2-20 chars)</FormHelperText>}
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="fname"
+                                    name="firstName"
+                                    variant="outlined"
+                                    fullWidth
+                                    id="firstName"
+                                    label="First Name (optional)"
+                                    size="small"
+                                    error={!isFirst && !validateName(firstName)}
+                                    onChange={(e) => handleChange(e, setFirstName)}
+                                />
+                                {!isFirst && !validateName(firstName) && <FormHelperText error>First name must contain only latin letters(2-40)</FormHelperText>}
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    fullWidth
+                                    id="lastName"
+                                    label="Last Name (optional)"
+                                    name="lastName"
+                                    autoComplete="lname"
+                                    size="small"
+                                    error={!isFirst && !validateName(lastName)}
+                                    onChange={(e) => handleChange(e, setLastName)}
+                                />
+                                {!isFirst && !validateName(lastName) && <FormHelperText error>Last name must contain only latin letters(2-40)</FormHelperText>}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    size="small"
+                                    error={!isFirst && !validateEmail(email)}
+                                    onChange={(e) => handleChange(e, setEmail)}
+                                />
+                                {!isFirst && !validateEmail(email) && <FormHelperText error>Email is not valid</FormHelperText>}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    size="small"
+                                    error={!isFirst && !validatePassword(password)}
+                                    onChange={(e) => handleChange(e, setPassword)}
+                                />
+                                {!isFirst && !validatePassword(password) && <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin letters and 1 digit(8 or more chars)</FormHelperText>}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                fullWidth
-                                id="firstName"
-                                label="First Name (optional)"
-                                size = "small"
-                                error={!isFirstNameValid}
-                                onChange={(e) => handleChange(e, setFirstName)}
-                            />
-                            {!isFirstNameValid && <FormHelperText error>First name must contain only letters and special characters</FormHelperText>}
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                fullWidth
-                                id="lastName"
-                                label="Last Name (optional)"
-                                name="lastName"
-                                autoComplete="lname"
-                                size = "small"
-                                error={!isLastNameValid}
-                                onChange={(e) => handleChange(e, setLastName)}
-                            />
-                            {!isLastNameValid && <FormHelperText error>Last name must contain only letters and special characters</FormHelperText>}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                size = "small"
-                                error={!isEmailValid}
-                                onChange={(e) => handleChange(e, setEmail)}
-                            />
-                            {!isEmailValid && <FormHelperText error>Email is not valid</FormHelperText>}
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                size = "small"
-                                error={!isPasswordValid}
-                                onChange={(e) => handleChange(e, setPassword)}
-                            />
-                            {!isPasswordValid && <FormHelperText error>Password must have minimum 8 characters</FormHelperText>}
-                        </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        disabled={disabledSignUpButton}
-                    >
-                        Sign Up
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            disabled={disabledSignUpButton}
+                        >
+                            Sign Up
                     </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link onClick={handleOpen} to={paths[0]} >
-                                Already have an account? Log in
+                        <Grid container justify="flex-end">
+                            <Grid item>
+                                <Link onClick={handleOpen} to={paths[0]} >
+                                    Already have an account? Log in
                             </Link>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </form>
+                    </form>
                 </MuiThemeProvider>
             </div>
         </Container>
