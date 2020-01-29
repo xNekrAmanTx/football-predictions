@@ -51,11 +51,11 @@
 // }
 
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import { Avatar,
     Button,
     TextField,
     FormHelperText,
-    Link,
     Grid,
     Typography,
     makeStyles,
@@ -63,6 +63,7 @@ import { Avatar,
     createMuiTheme,
     MuiThemeProvider } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import {paths} from '../../constants';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -86,7 +87,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp() {
+export default function SignUp({handleOpen}) {
     const classes = useStyles();
 
     const formLabelsTheme = createMuiTheme({
@@ -244,7 +245,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/login" variant="body2">
+                            <Link onClick={handleOpen} to={paths[0]} >
                                 Already have an account? Log in
                             </Link>
                         </Grid>

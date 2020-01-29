@@ -16,11 +16,11 @@ const styles = () => ({
     }
 })
 
-function Header({classes}) {
+function Header({classes, ...restProps}) {
     return (
         <header className={classes.header}>
             <HeaderLogo />
-            <HeaderButtonsContainer />
+            <HeaderButtonsContainer {...restProps}/>
         </header>
     )
 }
