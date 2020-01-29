@@ -50,17 +50,20 @@
 //     )
 // }
 
-import React from 'react';
+import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import { Avatar,
+    Button,
+    TextField,
+    FormHelperText,
+    Grid,
+    Typography,
+    makeStyles,
+    Container,
+    createMuiTheme,
+    MuiThemeProvider } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {paths} from '../../constants'
+import {paths} from '../../constants';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -86,7 +89,63 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUp({handleOpen}) {
     const classes = useStyles();
-    const handleSubmit = e => e.preventDefault();
+
+    const formLabelsTheme = createMuiTheme({
+        overrides: {
+            MuiFormLabel: {
+                asterisk: {
+                    color: '#db3131',
+                }
+            }
+        }
+    });
+
+    let [username, setUsername] = useState('');
+    let [firstName, setFirstName] = useState('');
+    let [lastName, setLastName] = useState('');
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
+
+    let [isUsernameValid, setIsUsernameValid] = useState(true);
+    let [isFirstNameValid, setIsFirstNameValid] = useState(true);
+    let [isLastNameValid, setIsLastNameValid] = useState(true);
+    let [isEmailValid, setIsEmailValid] = useState(true);
+    let [isPasswordValid, setIsPasswordValid] = useState(true);
+
+    let [isFirstSubmission, setIsFirstSubmission] = useState(true);
+
+    const disabledSignUpButton = !(username && email && password);
+
+    const validators = {
+        email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+        firstOrLastName: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
+    };
+
+    function setIsValuesValid(target) {
+        switch(target.name) {
+            case 'firstName': setIsFirstNameValid(validators.firstOrLastName.test(target.value)); break;
+            case 'lastName': setIsLastNameValid(validators.firstOrLastName.test(target.value)); break;
+            case 'email': setIsEmailValid(validators.email.test(target.value)); break;
+            case 'password': setIsPasswordValid(target.value.length > 7); break;
+            default: break;
+        }
+    }
+
+    const handleChange = (e, setValue) => {
+        setValue(e.target.value);
+        if(!isFirstSubmission) {
+            setIsValuesValid(e.target);
+            console.log(e.target.name);
+        }
+    };
+
+    const handleSubmit = e => {
+        for (let el of e.target.elements) {
+            setIsValuesValid(el);
+        }
+        setIsFirstSubmission(false);
+        e.preventDefault();
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -97,6 +156,7 @@ export default function SignUp({handleOpen}) {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
+                <MuiThemeProvider theme={formLabelsTheme}>
                 <form className={classes.form} noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -110,7 +170,7 @@ export default function SignUp({handleOpen}) {
                                 autoComplete="username"
                                 size = "small"
                                 autoFocus
-                                className={classes.tf}
+                                onChange={(e) => handleChange(e, setUsername)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -120,20 +180,26 @@ export default function SignUp({handleOpen}) {
                                 variant="outlined"
                                 fullWidth
                                 id="firstName"
-                                label="First Name"
+                                label="First Name (optional)"
                                 size = "small"
+                                error={!isFirstNameValid}
+                                onChange={(e) => handleChange(e, setFirstName)}
                             />
+                            {!isFirstNameValid && <FormHelperText error>First name must contain only letters and special characters</FormHelperText>}
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 variant="outlined"
                                 fullWidth
                                 id="lastName"
-                                label="Last Name"
+                                label="Last Name (optional)"
                                 name="lastName"
                                 autoComplete="lname"
                                 size = "small"
+                                error={!isLastNameValid}
+                                onChange={(e) => handleChange(e, setLastName)}
                             />
+                            {!isLastNameValid && <FormHelperText error>Last name must contain only letters and special characters</FormHelperText>}
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
@@ -145,7 +211,10 @@ export default function SignUp({handleOpen}) {
                                 name="email"
                                 autoComplete="email"
                                 size = "small"
+                                error={!isEmailValid}
+                                onChange={(e) => handleChange(e, setEmail)}
                             />
+                            {!isEmailValid && <FormHelperText error>Email is not valid</FormHelperText>}
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
@@ -158,7 +227,10 @@ export default function SignUp({handleOpen}) {
                                 id="password"
                                 autoComplete="current-password"
                                 size = "small"
+                                error={!isPasswordValid}
+                                onChange={(e) => handleChange(e, setPassword)}
                             />
+                            {!isPasswordValid && <FormHelperText error>Password must have minimum 8 characters</FormHelperText>}
                         </Grid>
                     </Grid>
                     <Button
@@ -167,6 +239,7 @@ export default function SignUp({handleOpen}) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        disabled={disabledSignUpButton}
                     >
                         Sign Up
                     </Button>
@@ -178,6 +251,7 @@ export default function SignUp({handleOpen}) {
                         </Grid>
                     </Grid>
                 </form>
+                </MuiThemeProvider>
             </div>
         </Container>
     );
