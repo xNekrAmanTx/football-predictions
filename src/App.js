@@ -3,13 +3,13 @@ import {Switch} from 'react-router-dom';
 import CustomRoute from './view/components/customRoute';
 import './App.css';
 import Home from './view/pages/home';
-import LogIn from './view/containers/login';
+import LogIn from './view/containers/loginDialog';
 import SignUp from './view/pages/signup/Signup';
 import Rules from './view/pages/rules';
 import NotFound from './view/pages/notfound';
 import Header from './view/containers/header';
 import Footer from './view/containers/footer';
-import { paths } from './constants';
+import { paths } from './view/constants';
 
 
 function App() {

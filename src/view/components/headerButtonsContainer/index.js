@@ -4,8 +4,8 @@ import {
     Link,
     useLocation,
 } from 'react-router-dom';
-import { paths } from '../../../constants';
-import Login from '../../containers/login'
+import { paths } from '../../constants';
+import Login from '../../containers/loginDialog'
 
 export default () => {
 
@@ -30,7 +30,7 @@ export default () => {
             >
                 Log In
             </Button>
-            <Login open={open} onClose={handleClose}/>
+            <Login open={open} handleClose={handleClose}/>
             <Link to={paths[2]}>
                 <Button variant="contained" color="primary">
                     Sign up
