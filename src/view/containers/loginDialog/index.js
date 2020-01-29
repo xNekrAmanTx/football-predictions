@@ -6,6 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {validateUser} from '../../helpers/validation/loginValidation'
+import {paths} from '../../constants'
+import {Link} from 'react-router-dom'
 
 export default ({open, handleClose}) => {
     const [username, setUsername] = useState('')
@@ -53,6 +55,7 @@ export default ({open, handleClose}) => {
                         Login
                     </Button>
                 </DialogActions>
+                <Link onClick={handleClose} to={paths[2]}>Don't have an account?</Link>
             </Dialog>
     );
 }

@@ -51,15 +51,16 @@
 // }
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {paths} from '../../constants'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -83,7 +84,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp() {
+export default function SignUp({handleOpen}) {
     const classes = useStyles();
     const handleSubmit = e => e.preventDefault();
 
@@ -171,7 +172,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/login" variant="body2">
+                            <Link onClick={handleOpen} to={paths[0]} >
                                 Already have an account? Log in
                             </Link>
                         </Grid>
