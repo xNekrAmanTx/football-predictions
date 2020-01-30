@@ -10,8 +10,8 @@ import {paths} from '../../constants'
 import {Link} from 'react-router-dom'
 
 export default ({open, handleClose}) => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const dis = !(username && password);
 
