@@ -5,7 +5,11 @@ import {
     useLocation,
 } from 'react-router-dom';
 import { paths } from '../../constants';
-import LoginDialogForm from '../../containers/loginDialog'
+import LoginDialogForm from '../../containers/loginDialog';
+
+const linkStyle = {
+    textDecoration: 'none'
+};
 
 export default (props) => {
     
@@ -22,7 +26,7 @@ export default (props) => {
                 Log In
             </Button>
             <LoginDialogForm {...props}/>
-            <Link to={paths[2]}>
+            <Link to={paths[2]} style={linkStyle}>
                 <Button variant="contained" color="primary">
                     Sign up
                 </Button>

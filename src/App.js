@@ -11,7 +11,6 @@ import Header from './view/containers/header';
 import Footer from './view/containers/footer';
 import { paths } from './view/constants';
 
-
 function App() {
 
   const [open, setOpen] = useState(false)
