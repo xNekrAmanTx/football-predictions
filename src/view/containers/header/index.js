@@ -1,8 +1,8 @@
 import React from 'react';
 //import withStyles from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles'
-import HeaderLogo from '../../components/headerLogo';
-import HeaderButtonsContainer from '../../components/headerButtonsContainer'
+import HeaderLogo from './logo';
+import HeaderButtonsContainer from './buttonsContainer'
 
 const styles = () => ({
     header: {
