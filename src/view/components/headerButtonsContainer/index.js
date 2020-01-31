@@ -18,7 +18,7 @@ export default (props) => {
     return (
         <div className="">
             <Button
-                disabled={location.pathname === paths[2]}
+                disabled={location.pathname === paths.signup}
                 variant="contained"
                 color="primary"
                 onClick={props.handleOpen}
@@ -26,7 +26,7 @@ export default (props) => {
                 Log In
             </Button>
             <LoginDialogForm {...props}/>
-            <Link to={paths[2]} style={linkStyle}>
+            <Link to={paths.signup} style={linkStyle}>
                 <Button variant="contained" color="primary">
                     Sign up
                 </Button>

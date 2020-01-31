@@ -6,9 +6,10 @@ import Home from './view/pages/home';
 // import LogIn from './view/containers/loginDialog';
 import SignUp from './view/pages/signup/Signup';
 import Rules from './view/pages/rules';
-import NotFound from './view/pages/notfound';
+import MainPage from './view/pages/mainPage';
 import Header from './view/containers/header';
 import Footer from './view/containers/footer';
+import NotFound from './view/pages/notfound';
 import { paths } from './view/constants';
 
 function App() {
@@ -29,10 +30,10 @@ function App() {
       <main>
         <Switch>
 
-          <CustomRoute exact path={paths[0]} component={Home} />
-          {/* <CustomRoute path={paths[1]} component={LogIn} /> */}
-          <CustomRoute path={paths[2]}><SignUp handleOpen={handleOpen}/></CustomRoute>
-          <CustomRoute path={paths[3]} component={Rules} />
+          <CustomRoute exact path={paths.home} component={Home} />
+          <CustomRoute path={paths.main} component={MainPage} />
+          <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen}/></CustomRoute>
+          <CustomRoute path={paths.rules} component={Rules} />
           <CustomRoute component={NotFound} />
 
         </Switch>

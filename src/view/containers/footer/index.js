@@ -33,7 +33,7 @@ function Copyright() {
     return (
         <Typography variant="body2">
             {'Copyright © '}
-            <Link to={paths[0]}>
+            <Link to={paths.home}>
                 Predictor
             </Link>{' '}
             {new Date().getFullYear()}

@@ -221,7 +221,7 @@ export default function SignUp({ handleOpen }) {
                     </Button>
                         <Grid container justify="flex-end">
                             <Grid item>
-                                <Link onClick={handleOpen} to={paths[0]} >
+                                <Link onClick={handleOpen} to={paths.home} >
                                     Already have an account? Log in
                             </Link>
                             </Grid>
