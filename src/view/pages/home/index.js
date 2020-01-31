@@ -9,7 +9,7 @@ import {paths} from '../../constants/';
 import CL from '../../images/CL.png';
 import PL from '../../images/PL.png';
 
-export default function Home(){
+export default function Home(props){
     return (
         <>
             <Typography variant="h3">Predictor Homepage</Typography>
@@ -21,13 +21,13 @@ export default function Home(){
             <Typography variant="h4">Leagues</Typography>
             <Divider/>
             <Box display="flex">
-                <LeagueCard leagueName={'Champions League'} image={CL}  link={paths.main}/>
-                <LeagueCard leagueName={'Europa League'} image={''} link={paths.main}/>
-                <LeagueCard leagueName={'English Premier League'} image={PL} link={paths.main}/>
-                <LeagueCard leagueName={'Serie A'} image={''} link={paths.main}/>
-                <LeagueCard leagueName={'La Liga'} image={''} link={paths.main}/>
-                <LeagueCard leagueName={'BundesLiga'} image={''} link={paths.main}/>
-                <LeagueCard leagueName={'Ligue 1'} image={''} link={paths.main}/>
+                <LeagueCard leagueName={'Champions League'} image={CL}  link={paths.main} {...props}/>
+                <LeagueCard leagueName={'Europa League'} image={CL} link={paths.main} {...props}/>
+                <LeagueCard leagueName={'English Premier League'} image={PL} link={paths.main} {...props}/>
+                <LeagueCard leagueName={'Serie A'} image={PL} link={paths.main} {...props}/>
+                <LeagueCard leagueName={'La Liga'} image={PL} link={paths.main} {...props}/>
+                <LeagueCard leagueName={'BundesLiga'} image={PL} link={paths.main} {...props}/>
+                <LeagueCard leagueName={'Ligue 1'} image={PL} link={paths.main} {...props}/>
             </Box>
         </>
     );

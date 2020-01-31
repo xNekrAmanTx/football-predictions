@@ -1,7 +1,7 @@
 //export const paths = ['/', '/main', '/signup', '/rules'];
 export const paths = {
     home : '/',
-    main : '/main',
+    main : '/leagues',
     signup : '/signup',
     rules : '/rules'
 };

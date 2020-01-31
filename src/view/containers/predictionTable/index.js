@@ -58,27 +58,27 @@ function PredictionTable() {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>i</TableCell>
+                                <TableCell align="center">i</TableCell>
                                 <TableCell align="right">First Team</TableCell>
-                                <TableCell align="right">Result</TableCell>
-                                <TableCell align="right">Second Team</TableCell>
-                                <TableCell align="right">x2</TableCell>
-                                <TableCell align="right">Prediction</TableCell>
-                                <TableCell align="right">Points</TableCell>
+                                <TableCell align="center">Result</TableCell>
+                                <TableCell align="left">Second Team</TableCell>
+                                <TableCell align="center">x2</TableCell>
+                                <TableCell align="center">Prediction</TableCell>
+                                <TableCell align="center">Points</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {rows.map(row => (
                                 <TableRow key={row.i}>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell component="th" scope="row" align="center">
                                         {row.i}
                                     </TableCell>
                                     <TableCell align="right">{row.firstTeam}</TableCell>
-                                    <TableCell align="right">{row.result}</TableCell>
-                                    <TableCell align="right">{row.secondTeam}</TableCell>
-                                    <TableCell align="right">{row.x2}</TableCell>
-                                    <TableCell align="right">{row.prediction}</TableCell>
-                                    <TableCell align="right">{row.points}</TableCell>
+                                    <TableCell align="center">{row.result}</TableCell>
+                                    <TableCell align="left">{row.secondTeam}</TableCell>
+                                    <TableCell align="center">{row.x2}</TableCell>
+                                    <TableCell align="center">{row.prediction}</TableCell>
+                                    <TableCell align="center">{row.points}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -55,7 +55,7 @@ export default ({open, handleClose}) => {
                         Login
                     </Button>
                 </DialogActions>
-                <Link onClick={handleClose} to={paths.signup}>Don't have an account?</Link>
+                <Link onClick={handleClose} to={paths.signup}>Don't have an account? Sign up</Link>
             </Dialog>
     );
 }

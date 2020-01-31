@@ -14,7 +14,8 @@ import { paths } from './view/constants';
 
 function App() {
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [leagueId, setLeagueId] = useState(-1);
 
   function handleOpen() {
     setOpen(true);
@@ -24,14 +25,20 @@ function App() {
     setOpen(false)
 }
 
+    function getLeagueId(leagueName) {
+        // axios kam fetch
+        //fetch(firebaseBaseUrl + leagueName).then(res => setLeagueId(res))
+        return Promise.resolve(1)
+  }
+
   return (
     <div className='App'>
       <Header open={open} handleOpen={handleOpen} handleClose={handleClose}/>
       <main>
         <Switch>
 
-          <CustomRoute exact path={paths.home} component={Home} />
-          <CustomRoute path={paths.main} component={MainPage} />
+          <CustomRoute exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
+          <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen}/></CustomRoute>
           <CustomRoute path={paths.rules} component={Rules} />
           <CustomRoute component={NotFound} />
