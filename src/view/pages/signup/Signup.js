@@ -119,7 +119,7 @@ export default function SignUp({ handleOpen }) {
 
     const handleChange = (e, setValue) => {setValue(e.target.value)}
 
-    const handleSubmit = e => (setIsFirst(false), e.preventDefault());
+    const handleSubmit = e => { setIsFirst(false); e.preventDefault() };
 
     return (
         <Container component="main" maxWidth="xs">

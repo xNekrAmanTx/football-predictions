@@ -1,7 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import PropTypes from 'prop-types';
 import {Card, CardContent, CardMedia, makeStyles, Typography} from "@material-ui/core";
+import {paths} from '../../constants'
 
 const useStyles = makeStyles({
     card: {
@@ -17,10 +18,16 @@ const useStyles = makeStyles({
 
 function LeagueCard(props) {
     const classes = useStyles();
-    const {leagueName, image, link } = props;
+    const history = useHistory();
+    const {leagueName, image, getLeagueId } = props;
+
+    function handleCardClick(leagueName){
+        getLeagueId(leagueName).then(id => history.push(paths.main/* + `/${id}`*/));
+    }
+
     return (
-        <Link to={link} className={classes.link}>
-            <Card className={classes.card}>
+        // <Link to={link} className={classes.link}>
+            <Card onClick={() => handleCardClick(leagueName)} className={classes.card}>
                 <CardMedia
                     className={classes.media}
                     image={image}
@@ -31,7 +38,7 @@ function LeagueCard(props) {
                     </Typography>
                 </CardContent>
             </Card>
-        </Link>
+        // </Link>
     );
 }
 
