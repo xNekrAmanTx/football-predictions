@@ -55,7 +55,7 @@ export default ({open, handleClose}) => {
                         Login
                     </Button>
                 </DialogActions>
-                <Link onClick={handleClose} to={paths[2]}>Don't have an account?</Link>
+                <Link onClick={handleClose} to={paths.signup}>Don't have an account?</Link>
             </Dialog>
     );
 }

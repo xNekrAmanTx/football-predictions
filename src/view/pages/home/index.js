@@ -16,18 +16,18 @@ export default function Home(){
             <Divider/>
             <Typography variant="body2">
                 About our website
-                <Link to={paths[3]}>rules</Link>
+                <Link to={paths.rules}>rules</Link>
             </Typography>
             <Typography variant="h4">Leagues</Typography>
             <Divider/>
             <Box display="flex">
-                <LeagueCard leagueName={'Champions League'} image={CL}  link={''}/>
-                <LeagueCard leagueName={'Europa League'} image={''} link={''}/>
-                <LeagueCard leagueName={'English Premier League'} image={PL} link={''}/>
-                <LeagueCard leagueName={'Serie A'} image={''} link={''}/>
-                <LeagueCard leagueName={'La Liga'} image={''} link={''}/>
-                <LeagueCard leagueName={'BundesLiga'} image={''} link={''}/>
-                <LeagueCard leagueName={'Ligue 1'} image={''} link={''}/>
+                <LeagueCard leagueName={'Champions League'} image={CL}  link={paths.main}/>
+                <LeagueCard leagueName={'Europa League'} image={''} link={paths.main}/>
+                <LeagueCard leagueName={'English Premier League'} image={PL} link={paths.main}/>
+                <LeagueCard leagueName={'Serie A'} image={''} link={paths.main}/>
+                <LeagueCard leagueName={'La Liga'} image={''} link={paths.main}/>
+                <LeagueCard leagueName={'BundesLiga'} image={''} link={paths.main}/>
+                <LeagueCard leagueName={'Ligue 1'} image={''} link={paths.main}/>
             </Box>
         </>
     );
