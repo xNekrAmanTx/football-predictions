@@ -4,8 +4,8 @@ import {
     Link,
     useLocation,
 } from 'react-router-dom';
-import { paths } from '../../constants';
-import LoginDialogForm from '../../containers/loginDialog';
+import { paths } from '../../../constants';
+import LoginDialogForm from '../../loginDialog';
 
 const linkStyle = {
     textDecoration: 'none'
