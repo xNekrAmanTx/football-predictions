@@ -1,4 +1,4 @@
-import React from 'react';
+import React/* , { useState } */ from 'react';
 import {
     Table,
     TableBody,
@@ -9,50 +9,60 @@ import {
     Paper,
     makeStyles,
     Button,
-    Divider
+    Divider,
+    Grid,
 } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 650,
     },
 
     button: {
-        position: 'absolute',
-        right: 0,
+        // position: 'absolute',
+        alignSelf: 'flex-end',
+        // right: 0,
     },
 
-    prevNextDiv: {
-        display: 'flex',
-        margin: 'auto',
-        width: 'fit-content'
-    },
+    // prevNextDiv: {
+    //     display: 'flex',
+    //     margin: 'auto',
+    //     width: 'fit-content'
+    // },
 
     rootDiv: {
-        position: 'relative'
+        // position: 'relative'
+        display:'flex',
+        flexDirection: 'column',
     },
-});
+}));
 
-function createData(i, firstTeam, result, secondTeam, x2, prediction, points) {
-    return { i, firstTeam, result, secondTeam, x2, prediction, points };
-}
+function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points) {
+    return {id, i, firstTeam, result, secondTeam, x2, prediction, points };
+};
 
 const rows = [
-    createData('+', 159, 6.0, 24, 4.0, 1, 2),
-    createData('+', 237, 9.0, 37, 4.3, 1, 2),
-    createData('+', 262, 16.0, 24, 6.0, 1, 2),
-    createData('+', 305, 3.7, 67, 4.3, 1, 2),
-    createData('+', 356, 16.0, 49, 3.9, 1, 2),
+    createData(0,'+', 237, 9.0, 37, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(1,'+', 262, 16.0, 24, 6.0, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(2,'+', 305, 3.7, 67, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(3,'+', 356, 16.0, 49, 3.9, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
 ];
+
+// const currentLeagueThisTourMatches = (async leagueId => {
+//     let gamesIds = await fetch(`.../leagues:?leagueId=${leagueId}/currentTour`)
+//     let curMatches = await Promise.all(gamesIds.map(matchId => fetch(`...fixtures:?matchId=${matchId}`)))
+//     return curMatches;
+// })()
 
 function PredictionTable() {
     const classes = useStyles();
 
+    // const [currentMatches, setCurrentMatches] = useState([])
     return (
         <div className={classes.rootDiv}>
-            <div className={classes.prevNextDiv}>
-                <span>previous</span><Divider orientation={"vertical"}/><span>next</span>
-            </div>
+            <Grid container justify="center" spacing={5} className={classes.prevNextDiv} >
+                <Grid item >previous</Grid><Divider orientation={"vertical"} /><Grid item>next</Grid>
+            </Grid>
             <form>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
@@ -69,7 +79,7 @@ function PredictionTable() {
                         </TableHead>
                         <TableBody>
                             {rows.map(row => (
-                                <TableRow key={row.i}>
+                                <TableRow key={row.id}>
                                     <TableCell component="th" scope="row" align="center">
                                         {row.i}
                                     </TableCell>
@@ -83,13 +93,16 @@ function PredictionTable() {
                             ))}
                         </TableBody>
                     </Table>
+                    
                 </TableContainer>
-                <Button
+                <Grid container justify="flex-end">
+                    <Button
                     type="submit"
                     variant="contained"
                     color="primary"
-                    className={classes.button}
+                    // className={classes.button}
                 >Save Prediction</Button>
+                </Grid>
             </form>
         </div>
     );
