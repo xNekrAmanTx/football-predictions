@@ -15,7 +15,7 @@ import { paths } from './view/constants';
 function App() {
 
   const [open, setOpen] = useState(false);
-  const [leagueId, setLeagueId] = useState(-1);
+  const [leagueId/* , setLeagueId */] = useState(-1);
 
   function handleOpen() {
     setOpen(true);

@@ -7,7 +7,11 @@ import {paths} from '../../constants'
 const useStyles = makeStyles({
     card: {
         maxWidth: 345,
+        '&:hover':{
+            cursor:'pointer',
+        }
     },
+    
     media: {
         height: 140,
     },
