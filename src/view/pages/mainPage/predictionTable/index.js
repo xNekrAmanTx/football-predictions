@@ -15,7 +15,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
     table: {
-        minWidth: 650,
+        minWidth: 350,
     },
 
     button: {
@@ -32,20 +32,20 @@ const useStyles = makeStyles(theme => ({
 
     rootDiv: {
         // position: 'relative'
-        display:'flex',
+        display: 'flex',
         flexDirection: 'column',
     },
 }));
 
 function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points) {
-    return {id, i, firstTeam, result, secondTeam, x2, prediction, points };
+    return { id, i, firstTeam, result, secondTeam, x2, prediction, points };
 };
 
 const rows = [
-    createData(0,'+', 237, 9.0, 37, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
-    createData(1,'+', 262, 16.0, 24, 6.0, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-    createData(2,'+', 305, 3.7, 67, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-    createData(3,'+', 356, 16.0, 49, 3.9, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(0, '+', 237, 9.0, 37, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(1, '+', 262, 16.0, 24, 6.0, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(2, '+', 305, 3.7, 67, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(3, '+', 356, 16.0, 49, 3.9, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
 ];
 
 // const currentLeagueThisTourMatches = (async leagueId => {
@@ -60,11 +60,13 @@ function PredictionTable() {
     // const [currentMatches, setCurrentMatches] = useState([])
     return (
         <div className={classes.rootDiv}>
-            <Grid container justify="center" spacing={5} className={classes.prevNextDiv} >
-                <Grid item >previous</Grid><Divider orientation={"vertical"} /><Grid item>next</Grid>
-            </Grid>
+            {/* <Paper square> */}
+                <Grid container justify="center" spacing={5} className={classes.prevNextDiv} >
+                    <Grid item >previous</Grid><Divider orientation={"vertical"} /><Grid item>next</Grid>
+                </Grid>
+            {/* </Paper> */}
             <form>
-                <TableContainer component={Paper}>
+                <TableContainer square component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -93,15 +95,15 @@ function PredictionTable() {
                             ))}
                         </TableBody>
                     </Table>
-                    
+
                 </TableContainer>
                 <Grid container justify="flex-end">
                     <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
+                        type="submit"
+                        variant="contained"
+                        color="primary"
                     // className={classes.button}
-                >Save Prediction</Button>
+                    >Save Prediction</Button>
                 </Grid>
             </form>
         </div>
