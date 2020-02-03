@@ -9,7 +9,7 @@ import { leaguesList, paths } from '../../../constants'
 const useStyles = makeStyles({
     root: {
         flexGrow: 1,
-        maxWidth: 1200,
+        maxWidth: 400,
     },
 });
 

@@ -112,10 +112,8 @@ export default function SignUp({ handleOpen }) {
     const [password, setPassword] = useState('');
 
     const [isFirst, setIsFirst] = useState(true);
-
     
     const disabledSignUpButton = !(username && email && password);
-
 
     const handleChange = (e, setValue) => {setValue(e.target.value)}
 
