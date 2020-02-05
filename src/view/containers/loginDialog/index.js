@@ -8,6 +8,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {validateUser} from '../../helpers/validation/loginValidation'
 import {paths} from '../../constants'
 import {Link} from 'react-router-dom'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 export default ({open, handleClose}) => {
     const [username, setUsername] = useState('');
@@ -21,7 +23,18 @@ export default ({open, handleClose}) => {
 
 
     function handleLogin() {
-        validateUser(username, password) ? handleClose() : alert('error');
+        if(validateUser(username, password))
+        {
+            firebase.auth().signInWithEmailAndPassword(username, password).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+            });
+            handleClose()
+        } else {
+            alert('error');
+        }
     }
 
 

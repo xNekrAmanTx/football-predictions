@@ -11,12 +11,15 @@ import Header from './view/containers/header';
 import Footer from './view/containers/footer';
 import NotFound from './view/pages/notfound';
 import { paths } from './view/constants';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 function App() {
 
   const [open, setOpen] = useState(false);
   const [leagueId/* , setLeagueId */] = useState(-1);
 
+  
   function handleOpen() {
     setOpen(true);
   }
