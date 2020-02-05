@@ -1,24 +1,32 @@
 import React from 'react';
 // import LeagueList from '../../components/LeagueList'
 
-import LeagueNav from './leagueNav'
+import LeagueNavTab from './leagueNavTab'
 
-// import TopPerLeagueList from './topPerLeagueList'
+import Top10UsersPerLeagueList from './top10UsersPerLeagueList'
 import PredictionTable from "./predictionTable";
-// import TournamentList from './tournamentList'
+import { makeStyles } from '@material-ui/core';
+import TournamentTable from './tournamentTable'
 
+const useStyles = makeStyles({
+    tablesContainer: {
+        display:'flex',
+    }
+})
 
 export default function MainPage({ leagueid }) {
+    const classes = useStyles();
+
     return (
         <>
-            <h1>Main Page</h1>
+            <h1 style={{textAlign:'center'}}>Main Page</h1>
             <section>
-                <LeagueNav />
+                <LeagueNavTab />
 
-                <div className='tablesContainer'>
-                    {/* <TopPerLeagueList /> */}
+                <div className={classes.tablesContainer}>
+                    <Top10UsersPerLeagueList />
                     <PredictionTable />
-                    {/* <TournamentList /> */}
+                    <TournamentTable />
                 </div>
 
             </section>
