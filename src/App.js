@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Switch } from 'react-router-dom';
 import CustomRoute from './view/components/customRoute';
 import './App.css';
@@ -15,42 +15,44 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 function App() {
+    const [open, setOpen] = useState(false);
+    const [leagueId/* , setLeagueId */] = useState(-1);
+    const [user, setUser] = useState(firebase.auth().currentUser);
 
-  const [open, setOpen] = useState(false);
-  const [leagueId/* , setLeagueId */] = useState(-1);
+    function handleOpen() {
+        setOpen(true);
+    }
 
-  
-  function handleOpen() {
-    setOpen(true);
-  }
-  
-  function handleClose() {
-    setOpen(false)
-}
+    function handleClose() {
+        setOpen(false)
+    }
 
     function getLeagueId(leagueName) {
         // axios kam fetch
         //fetch(firebaseBaseUrl + leagueName).then(res => setLeagueId(res))
         return Promise.resolve(1)
-  }
+    }
 
-  return (
-    <div className='App'>
-      <Header open={open} handleOpen={handleOpen} handleClose={handleClose}/>
-      <main>
-        <Switch>
+    firebase.auth().onAuthStateChanged(user => setUser(user));
 
-          <CustomRoute exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
-          <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
-          <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen}/></CustomRoute>
-          <CustomRoute path={paths.rules} component={Rules} />
-          <CustomRoute component={NotFound} />
 
-        </Switch>
-      </main>
-      <Footer />
-    </div>
-  );
-}
+    return (
+        <div className='App'>
+          <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user}/>
+          <main>
+            <Switch>
+
+              <CustomRoute exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
+              <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
+              <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser}/></CustomRoute>
+              <CustomRoute path={paths.rules} component={Rules} />
+              <CustomRoute component={NotFound} />
+
+            </Switch>
+          </main>
+          <Footer />
+        </div>
+    );
+    }
 
 export default App;

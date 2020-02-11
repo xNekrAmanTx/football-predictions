@@ -68,4 +68,4 @@ export const leaguesList = {
         flag: 'FranceFlag.image',
         id: 6,//'fetch()'
     },
-}
+};
