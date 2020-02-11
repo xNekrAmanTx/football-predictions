@@ -10,18 +10,18 @@ import TournamentTable from './tournamentTable'
 
 const useStyles = makeStyles({
     tablesContainer: {
-        display:'flex',
+        display: 'flex',
     }
 })
 
-export default function MainPage({ leagueid }) {
+export default function MainPage({ leagues, leagueid }) {
     const classes = useStyles();
 
     return (
         <>
-            <h1 style={{textAlign:'center'}}>Main Page</h1>
+            <h1 style={{ textAlign: 'center' }}>Main Page</h1>
             <section>
-                <LeagueNavTab />
+                <LeagueNavTab leagues={leagues} />
 
                 <div className={classes.tablesContainer}>
                     <Top10UsersPerLeagueList />

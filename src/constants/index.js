@@ -1,4 +1,5 @@
-import { CL, EL, PL, SA, LL, BL, L1 } from '../images/leaguePics'
+import { CL, EL, PL, SA, LL, BL, L1 } from '../view/images/leaguePics'
+
 // import * as flags from '../images/countryFlags'
 
 export const paths = {
@@ -9,7 +10,7 @@ export const paths = {
     rules: '/rules'
 };
 
-export const leaguesList = {
+export let leaguesList = {
     // CL: {
     //     name: 'Champions League',
     //     country: 'Europe',
@@ -69,3 +70,4 @@ export const leaguesList = {
         id: 6,//'fetch()'
     },
 }
+

@@ -13,12 +13,10 @@ import {
     MuiThemeProvider
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { paths } from '../../constants';
-import signUp from '../../helpers/userSignUp'
-import * as validation from '../../helpers/validation/signupValidation';
+import { paths } from '../../../constants';
+import signUp from '../../../helpers/userSignUp'
+import * as validation from '../../../helpers/validation/signupValidation';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 const {validatePassword, validateUsername, validateName, validateEmail} = validation;
 
