@@ -9,11 +9,18 @@ import {validateUser} from '../../helpers/validation/loginValidation'
 import {paths} from '../../constants'
 import {Link} from 'react-router-dom'
 
+import "./login.css";
+import {withStyles} from "@material-ui/core";
+
+
+
 export default ({open, handleClose}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const dis = !(username && password);
+
+
 
     function handleChange(e, handler) {
         handler(e.target.value)
@@ -30,7 +37,7 @@ export default ({open, handleClose}) => {
                 open={open}
                 aria-labelledby="form-dialog-title"
             >
-                <DialogTitle id="form-dialog-title">Log In</DialogTitle>
+                <DialogTitle id="form-dialog-title" className="log-in">Log In</DialogTitle>
                 <DialogContent>
                     <TextField
                         onChange={(e) => handleChange(e, setUsername)}
@@ -59,3 +66,5 @@ export default ({open, handleClose}) => {
             </Dialog>
     );
 }
+
+

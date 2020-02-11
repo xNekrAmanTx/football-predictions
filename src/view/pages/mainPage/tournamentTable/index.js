@@ -1,8 +1,22 @@
 import React from 'react';
 
-import { makeStyles, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Grid } from '@material-ui/core';
+import {
+    makeStyles,
+    TableContainer,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    Paper,
+    Grid
+} from '@material-ui/core';
 
 const useStyles = makeStyles({
+    paper: {
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
+        width: "auto"
+    },
     table: {
         minWidth: 450,
     },
@@ -31,10 +45,10 @@ export default function TournamentTable() {
     const classes = useStyles();
 
     return (
-        <TableContainer square component={Paper}>
-            
+        <TableContainer square className={classes.paper}>
+
             <Table className={classes.table} aria-label='tournament table'>
-                
+
                 <TableHead>
                     <TableRow>
                         {tableHead.map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
@@ -43,13 +57,14 @@ export default function TournamentTable() {
                 <TableBody>
                     {rows.map(row => (
                         <TableRow key={row.name}>
-                            {row.datas.map((data, i) => <TableCell align={i - 1 ? 'center' : 'left'}>{data}</TableCell>)}
+                            {row.datas.map((data, i) => <TableCell
+                                align={i - 1 ? 'center' : 'left'}>{data}</TableCell>)}
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-            
+
         </TableContainer>
-        
+
     );
 }

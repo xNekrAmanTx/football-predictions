@@ -20,7 +20,7 @@ function App() {
   function handleOpen() {
     setOpen(true);
   }
-  
+
   function handleClose() {
     setOpen(false)
 }
@@ -33,11 +33,11 @@ function App() {
 
   return (
     <div className='App'>
-      <Header open={open} handleOpen={handleOpen} handleClose={handleClose}/>
-      <main>
+      <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose}/>
+      <main className="main">
         <Switch>
 
-          <CustomRoute exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
+          <CustomRoute classnam="home-route" exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
           <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen}/></CustomRoute>
           <CustomRoute path={paths.rules} component={Rules} />
@@ -45,7 +45,7 @@ function App() {
 
         </Switch>
       </main>
-      <Footer />
+      <Footer className="footer" />
     </div>
   );
 }

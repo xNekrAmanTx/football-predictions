@@ -14,31 +14,26 @@ import {
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-    table: {
+    paper: {
         minWidth: 350,
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
     },
 
     button: {
-        // position: 'absolute',
+
         alignSelf: 'flex-end',
-        // right: 0,
+
     },
 
-    // prevNextDiv: {
-    //     display: 'flex',
-    //     margin: 'auto',
-    //     width: 'fit-content'
-    // },
-
     rootDiv: {
-        // position: 'relative'
+
         display: 'flex',
         flexDirection: 'column',
     },
 }));
 
 function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points) {
-    return { id, i, firstTeam, result, secondTeam, x2, prediction, points };
+    return {id, i, firstTeam, result, secondTeam, x2, prediction, points};
 };
 
 const rows = [
@@ -61,12 +56,12 @@ function PredictionTable() {
     return (
         <div className={classes.rootDiv}>
             {/* <Paper square> */}
-                <Grid container justify="center" spacing={5} className={classes.prevNextDiv} >
-                    <Grid item >previous</Grid><Divider orientation={"vertical"} /><Grid item>next</Grid>
-                </Grid>
+            <Grid container justify="center" spacing={5} className={classes.prevNextDiv}>
+                <Grid item>previous</Grid><Divider orientation={"vertical"}/><Grid item>next</Grid>
+            </Grid>
             {/* </Paper> */}
             <form>
-                <TableContainer square component={Paper}>
+                <TableContainer square component={Paper} className={classes.paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -102,7 +97,7 @@ function PredictionTable() {
                         type="submit"
                         variant="contained"
                         color="primary"
-                    // className={classes.button}
+                        // className={classes.button}
                     >Save Prediction</Button>
                 </Grid>
             </form>

@@ -1,16 +1,33 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
-import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
+import {makeStyles, Paper, Tabs, Tab} from '@material-ui/core';
 
 import LeagueLogo from '../../../components/leagueLogo';
-import { leaguesList, paths } from '../../../constants'
+import {leaguesList, paths} from '../../../constants'
 
 const useStyles = makeStyles({
     root: {
-        flexGrow: 1,
+        backgroundColor: "transparent",
+
     },
+    tabBlock: {
+        backgroundColor: "#fff",
+        overflow: "inherit",
+    },
+    tabIndex: {
+
+        div: {
+
+        }
+    }
+
 });
+const tabIndex = {
+    gridGap: "10px",
+    display: 'grid',
+    gridTemplateColumns: "repeat(5, 1fr)",
+}
 
 export default (props) => {
     const classes = useStyles();
@@ -22,30 +39,32 @@ export default (props) => {
     };
 
     function handleTabClick(leagueName) {
-        /* getLeagueId(leagueName).then(id =>  */history.push(paths.main/* + `/${id}`*/)/* ) */;
+        /* getLeagueId(leagueName).then(id =>  */
+        history.push(paths.main/* + `/${id}`*/)/* ) */;
     }
 
     return (<Paper square className={classes.root}>
-        <Tabs
-            centered={true}
-            value={value}
-            onChange={handleChange}
-            // variant="scrollable"
-            indicatorColor="secondary"
-            textColor="secondary"
-            aria-label="leagues tab"
-        >
-            {Object.entries(leaguesList).map(([key, liga]) => (
-                <Tab
-                    onClick={() => handleTabClick(liga.name)}
-                    key={liga.id}
-                    label={liga.name}
-                    icon={<LeagueLogo src={liga.logo} alt={key} />}
-                />
-            ))}
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                textColor="secondary"
+                aria-label="leagues tab"
+                className={classes.tabBlock}
+            >
+                {Object.entries(leaguesList).map(([key, liga]) => (
+                    <Tab
+                        style={tabIndex}
+                        onClick={() => handleTabClick(liga.name)}
+                        key={liga.id}
+                        label={liga.name}
+                        icon={<LeagueLogo src={liga.logo} alt={key}
+                                          className={classes.tabIndex}
+                        />}
+                    />
+                ))}
 
-        </Tabs>
-    </Paper>
+            </Tabs>
+        </Paper>
 
     )
 }

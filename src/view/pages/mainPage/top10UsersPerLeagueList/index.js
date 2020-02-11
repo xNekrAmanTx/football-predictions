@@ -7,10 +7,9 @@ import LeagueLogo from '../../../components/leagueLogo';
 import { leaguesList, paths } from '../../../constants'
 
 const useStyles = makeStyles({
-    root: {
-        flexGrow: 1,
-        maxWidth: 400,
-    },
+    paper: {
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
+    }
 });
 
 export default (props) => {
@@ -34,12 +33,13 @@ export default (props) => {
             indicatorColor="secondary"
             textColor="secondary"
             aria-label="leagues tab"
+
         >
             {Object.entries(leaguesList).map(([key,liga]) => (
-                <Tab 
+                <Tab   className={classes.paper}
                     onClick={()=>handleTabClick(liga.name)} key={liga.id} label={liga.name} icon={<LeagueLogo src={liga.logo} alt={key}/>} />
             ))}
-            
+
         </Tabs>
     </Paper>
 
