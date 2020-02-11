@@ -1,5 +1,4 @@
 import React from 'react';
-// import LeagueList from '../../components/LeagueList'
 
 import LeagueNavTab from './leagueNavTab'
 
@@ -18,8 +17,6 @@ export default function MainPage({ leagues, leagueid }) {
     const classes = useStyles();
 
     return (
-        <>
-            <h1 style={{ textAlign: 'center' }}>Main Page</h1>
             <section>
                 <LeagueNavTab leagues={leagues} />
 
@@ -30,6 +27,5 @@ export default function MainPage({ leagues, leagueid }) {
                 </div>
 
             </section>
-        </>
     )
 }

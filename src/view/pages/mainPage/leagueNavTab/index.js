@@ -4,7 +4,7 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
 
 import LeagueLogo from '../../../components/leagueLogo';
-import { leaguesList, paths } from '../../../../constants'
+import { paths } from '../../../../constants'
 
 const useStyles = makeStyles({
     root: {
@@ -20,7 +20,6 @@ export default ({leagues}) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (e, newValue) => {
-        console.log(leaguesList, 'local')
         setValue(newValue);
     };
 

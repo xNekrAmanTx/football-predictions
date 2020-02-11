@@ -3,7 +3,6 @@ import { Switch } from 'react-router-dom';
 import CustomRoute from './view/components/customRoute';
 import './App.css';
 import Home from './view/pages/home';
-// import LogIn from './view/containers/loginDialog';
 import SignUp from './view/pages/signup/Signup';
 import Rules from './view/pages/rules';
 import MainPage from './view/pages/mainPage';
@@ -12,18 +11,20 @@ import Footer from './view/containers/footer';
 import NotFound from './view/pages/notfound';
 import { paths } from './constants';
 import getCurrentLeagues from './helpers/databaseGets/getCurrentLeagues';
-// import firebase from 'firebase/app';
-// import 'firebase/auth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 
 function App() {
-
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(firebase.auth().currentUser);
   const [leagues, setLeagues] = useState({})
   const [leagueId/* , setLeagueId */] = useState(-1);
 
-  useEffect (()=>{
-    getCurrentLeagues(setLeagues)
-  },[])
+  useEffect(() => {
+    getCurrentLeagues(setLeagues);
+    firebase.auth().onAuthStateChanged(user => setUser(user));
+  }, [])
 
   function handleOpen() {
     setOpen(true);
@@ -41,13 +42,13 @@ function App() {
 
   return (
     <div className='App'>
-      <Header open={open} handleOpen={handleOpen} handleClose={handleClose} />
+      <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
       <main>
         <Switch>
 
           <CustomRoute exact path={paths.home} render={() => <Home leagues={leagues} leagueId={leagueId} getLeagueId={getLeagueId} />} />
           <CustomRoute path={paths.main} render={() => <MainPage leagues={leagues} leagueId={leagueId} />} />
-          <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} /></CustomRoute>
+          <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} /></CustomRoute>
           <CustomRoute path={paths.rules} component={Rules} />
           <CustomRoute component={NotFound} />
 
@@ -57,5 +58,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

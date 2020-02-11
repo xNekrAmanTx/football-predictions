@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp({ handleOpen }) {
+export default function SignUp({ handleOpen, setUser }) {
     const history = useHistory();
     const classes = useStyles();
 
@@ -66,23 +66,29 @@ export default function SignUp({ handleOpen }) {
     
     const disabledSignUpButton = !(username && email && password);
 
-    const handleChange = (e, setValue) => {setValue(e.target.value)}
+    const handleChange = (e, setValue) => {setValue(e.target.value)};
 
     const handleSubmit = e => { 
         e.preventDefault(); 
         setIsFirst(false);
-        signUp(email, password).then(user => {
-            console.log(user, 'Signup');
+        signUp(email, password).then(res => {
+            console.log(res, 'Signup');
+            res.user.updateProfile({
+                displayName: username,
+            }).then(function() {
+                // setUser(null);
+                alert('Update successful');
+                let {user} = res;
+                setUser({...user});
+                console.log('Signup set')
+            }).catch(function(error) {
+                alert('not updated');
+            });
         });
-        // firebase.auth().currentUser.updateProfile({
-        //     displayName: username,
-        //   }).then(function() {
-        //     alert('Update successful');
-        //   }).catch(function(error) {
-        //     alert('not updated');
-        //   });
+        // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
+
         history.push(paths.home)
-    }
+    };
 
     return (
         <Container component="main" maxWidth="xs">

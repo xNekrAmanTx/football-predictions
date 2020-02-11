@@ -5,7 +5,7 @@ import { Typography,
 } from "@material-ui/core";
 import LeagueCard from "../../components/leagueCard";
 import {Link} from "react-router-dom";
-import {paths, leaguesList} from '../../../constants';
+import {paths} from '../../../constants';
 
 
 

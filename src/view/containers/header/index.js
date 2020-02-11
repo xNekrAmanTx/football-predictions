@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import withStyles from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles'
 import HeaderLogo from './logo';
 import HeaderButtonsContainer from './buttonsContainer'
@@ -16,42 +15,22 @@ const styles = () => ({
         color: "#1b1919",
         padding: '10px'
     }
-})
+});
 
-function Header({classes, ...restProps}) {
-    // async function getUser(){
-    //     let obj = await firebase.auth();
-    //     let user = obj.currentUser;
-    //     console.log(user);
-    //     return user;
-    // }
-    // getUser().then(res => setUser(res))
-    const [user, setUser] = useState(firebase.auth().currentUser);
-
+function Header({classes, user, ...restProps}) {
+    
     console.log('Header@ ashxatec');
     console.log(user, firebase.auth().currentUser, 'header');
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            console.log(user, 'headerStateChanged');
-            setUser(user);
-        } else {
-         // No user is signed in.
-         console.log(user, 'headerStateChanged else');
-         setUser(null);
-        }
-  });
 
     return (
         <header className={classes.header}>
             <HeaderLogo />
+
             <span>{user ? user.email : 'Guest' }</span>
+
             <HeaderButtonsContainer user={user} {...restProps}/>
         </header>
     )
 }
 
 export default withStyles(styles)(Header)
-
-// <img src='./'/>
-
-// '../../images/headerLogo'

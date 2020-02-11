@@ -12,10 +12,10 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 export default ({open, handleClose}) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const dis = !(username && password);
+    const dis = !(email && password);
 
     function handleChange(e, handler) {
         handler(e.target.value)
@@ -23,12 +23,11 @@ export default ({open, handleClose}) => {
 
 
     function handleLogin() {
-        if(validateUser(username, password))
-        {
-            firebase.auth().signInWithEmailAndPassword(username, password).catch(function(error) {
+        if(validateUser(email, password)) {
+            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
                 // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
+                let errorCode = error.code;
+                let errorMessage = error.message;
                 // ...
             });
             handleClose()
@@ -47,9 +46,9 @@ export default ({open, handleClose}) => {
                 <DialogTitle id="form-dialog-title">Log In</DialogTitle>
                 <DialogContent>
                     <TextField
-                        onChange={(e) => handleChange(e, setUsername)}
+                        onChange={(e) => handleChange(e, setEmail)}
                         margin="dense"
-                        label="Username"
+                        label="Email"
                         type="text"
                         fullWidth
                     />

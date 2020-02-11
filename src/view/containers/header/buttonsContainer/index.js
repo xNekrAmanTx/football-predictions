@@ -24,7 +24,7 @@ export default ({user, ...props}) => {
           }).catch(function(error) {
             // An error happened.
           });
-    }
+    };
 
     return (
         <div style={{display:"flex"}}>
