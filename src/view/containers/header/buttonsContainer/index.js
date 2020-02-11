@@ -4,7 +4,7 @@ import {
     Link,
     useLocation,
 } from 'react-router-dom';
-import { paths } from '../../../constants';
+import { paths } from '../../../../constants';
 import LoginDialogForm from '../../loginDialog';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -27,9 +27,9 @@ export default ({user, ...props}) => {
     };
 
     return (
-        <div className="">
+        <div style={{display:"flex"}}>
             {!user ? 
-            <div>
+            <>
             <Button
                 disabled={location.pathname === paths.signup}
                 color="primary"
@@ -42,7 +42,7 @@ export default ({user, ...props}) => {
                     Sign up
                 </Button>
             </Link>
-            </div> :
+            </> :
             <Button color="primary" onClick={handleLogout}>Log Out</Button>}
         </div>
     )

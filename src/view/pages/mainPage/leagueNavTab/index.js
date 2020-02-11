@@ -1,10 +1,10 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
 import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
 
 import LeagueLogo from '../../../components/leagueLogo';
-import { leaguesList, paths } from '../../../constants'
+import { paths } from '../../../../constants'
 
 const useStyles = makeStyles({
     root: {
@@ -12,17 +12,20 @@ const useStyles = makeStyles({
     },
 });
 
-export default (props) => {
+export default ({leagues}) => {
     const classes = useStyles();
-    const history = useHistory()
+    const history = useHistory();
+    const location = useLocation();
+    const match = useRouteMatch();
     const [value, setValue] = React.useState(0);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
     };
 
-    function handleTabClick(leagueName) {
-        /* getLeagueId(leagueName).then(id =>  */history.push(paths.main/* + `/${id}`*/)/* ) */;
+    function handleTabClick(id) {
+        history.push(paths.main + '/' + id);
+        console.log(location)
     }
 
     return (<Paper square className={classes.root}>
@@ -35,12 +38,12 @@ export default (props) => {
             textColor="secondary"
             aria-label="leagues tab"
         >
-            {Object.entries(leaguesList).map(([key, liga]) => (
+            {Object.entries(leagues).map(([id, liga]) => (
                 <Tab
-                    onClick={() => handleTabClick(liga.name)}
-                    key={liga.id}
+                    onClick={() => handleTabClick(id)}
+                    key={id}
                     label={liga.name}
-                    icon={<LeagueLogo src={liga.logo} alt={key} />}
+                    icon={<LeagueLogo src={liga.logo} alt={id} />}
                 />
             ))}
 

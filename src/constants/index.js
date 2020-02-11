@@ -1,5 +1,5 @@
-import { CL, EL, PL, SA, LL, BL, L1 } from '../images/leaguePics'
-// import * as flags from '../images/countryFlags'
+import { PL, SA, LL, BL, L1 } from '../view/images/leaguePics'
+
 
 export const paths = {
     home: '/',
@@ -9,30 +9,12 @@ export const paths = {
     rules: '/rules'
 };
 
-export const leaguesList = {
-    // CL: {
-    //     name: 'Champions League',
-    //     country: 'Europe',
-    //     logo: CL,
-    //     icon: 'CL_icon',
-    //     flag: 'EUFlag.image',
-    //     id: 0,//'fetch()'
-    // },
-    // EL: {
-    //     name: 'Europa League',
-    //     country: 'Europe',
-    //     logo: EL,
-    //     icon: 'EL_icon',
-    //     flag: 'EUFlag.image',
-    //     id: 1,//'fetch()'
-    // },
+export let leaguesList = {
     PL: {
         name: 'English PL',
         country: 'England',
         logo: PL,
         icon: 'PL_icon',
-        // logo : "https:\/\/media.api-football.com\/leagues\/2.png",
-        // flag : "https:\/\/media.api-football.com\/flags\/gb.svg",
         flag: 'EnglandFlag.image',
         id: 2,//'fetch()'
     },
@@ -68,4 +50,5 @@ export const leaguesList = {
         flag: 'FranceFlag.image',
         id: 6,//'fetch()'
     },
+
 };

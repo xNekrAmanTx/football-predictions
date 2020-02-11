@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
 import './index.css';
 import App from './App';
+import setLeaguesOfCurrentSeason from './helpers/databaseSets/setLeaguesOfCurrentSeason';
 import * as serviceWorker from './serviceWorker';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 
 var firebaseConfig = {
     apiKey: "AIzaSyBFJEhQXvZEAu84UhZ9sQcXViSDhCH_y8A",
@@ -18,6 +19,8 @@ var firebaseConfig = {
   };
 
 firebase.initializeApp(firebaseConfig);
+
+setLeaguesOfCurrentSeason();
 
 const appWithRouter = <Router> <App /> </Router>;
 

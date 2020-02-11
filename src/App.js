@@ -1,58 +1,63 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 import CustomRoute from './view/components/customRoute';
 import './App.css';
 import Home from './view/pages/home';
-// import LogIn from './view/containers/loginDialog';
 import SignUp from './view/pages/signup/Signup';
 import Rules from './view/pages/rules';
 import MainPage from './view/pages/mainPage';
 import Header from './view/containers/header';
 import Footer from './view/containers/footer';
 import NotFound from './view/pages/notfound';
-import { paths } from './view/constants';
+import { paths } from './constants';
+import getCurrentLeagues from './helpers/databaseGets/getCurrentLeagues';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+
 function App() {
-    const [open, setOpen] = useState(false);
-    const [leagueId/* , setLeagueId */] = useState(-1);
-    const [user, setUser] = useState(firebase.auth().currentUser);
+  const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(firebase.auth().currentUser);
+  const [leagues, setLeagues] = useState({})
+  const [leagueId/* , setLeagueId */] = useState(-1);
 
-    function handleOpen() {
-        setOpen(true);
-    }
-
-    function handleClose() {
-        setOpen(false)
-    }
-
-    function getLeagueId(leagueName) {
-        // axios kam fetch
-        //fetch(firebaseBaseUrl + leagueName).then(res => setLeagueId(res))
-        return Promise.resolve(1)
-    }
-
+  useEffect(() => {
+    getCurrentLeagues(setLeagues);
     firebase.auth().onAuthStateChanged(user => setUser(user));
+  }, [])
 
+  function handleOpen() {
+    setOpen(true);
+  }
 
-    return (
-        <div className='App'>
-          <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user}/>
-          <main>
-            <Switch>
+  function handleClose() {
+    setOpen(false)
+  }
 
-              <CustomRoute exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
-              <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
-              <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser}/></CustomRoute>
-              <CustomRoute path={paths.rules} component={Rules} />
-              <CustomRoute component={NotFound} />
+  function getLeagueId(leagueName) {
+    // axios kam fetch
+    //fetch(firebaseBaseUrl + leagueName).then(res => setLeagueId(res))
+    return Promise.resolve(1)
+  }
 
-            </Switch>
-          </main>
-          <Footer />
-        </div>
-    );
-    }
+  return (
+    <div className='App'>
+      <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
+      <main>
+        <Switch>
+
+          <CustomRoute exact path={paths.home} render={() => <Home leagues={leagues} leagueId={leagueId} getLeagueId={getLeagueId} />} />
+          <CustomRoute path={paths.main} render={() => <MainPage leagues={leagues} leagueId={leagueId} />} />
+          <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} /></CustomRoute>
+          <CustomRoute path={paths.rules} component={Rules} />
+          <CustomRoute component={NotFound} />
+
+        </Switch>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
 
 export default App;

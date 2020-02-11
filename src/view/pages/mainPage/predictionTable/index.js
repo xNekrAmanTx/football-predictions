@@ -11,6 +11,7 @@ import {
     Button,
     Divider,
     Grid,
+    TextField,
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -95,7 +96,12 @@ function PredictionTable() {
                                     <TableCell align="center">{row.result}</TableCell>
                                     <TableCell align="left">{row.secondTeam}</TableCell>
                                     <TableCell align="center">{row.x2}</TableCell>
-                                    <TableCell align="center">{row.prediction}</TableCell>
+                                    <TableCell align="center">
+                                        <Grid direction='row'>
+                                            <input></input>
+                                            <input></input>
+                                        </Grid>
+                                    </TableCell>
                                     <TableCell align="center">{row.points}</TableCell>
                                 </TableRow>
                             ))}

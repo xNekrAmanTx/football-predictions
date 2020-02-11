@@ -1,5 +1,4 @@
 import React from 'react';
-// import LeagueList from '../../components/LeagueList'
 
 import LeagueNavTab from './leagueNavTab'
 
@@ -10,16 +9,16 @@ import TournamentTable from './tournamentTable'
 
 const useStyles = makeStyles({
     tablesContainer: {
-        display:'flex',
+        display: 'flex',
     }
 })
 
-export default function MainPage({ leagueid }) {
+export default function MainPage({ leagues, leagueid }) {
     const classes = useStyles();
 
     return (
             <section>
-                <LeagueNavTab />
+                <LeagueNavTab leagues={leagues} />
 
                 <div className={classes.tablesContainer}>
                     <Top10UsersPerLeagueList />

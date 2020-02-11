@@ -5,8 +5,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {validateUser} from '../../helpers/validation/loginValidation'
-import {paths} from '../../constants'
+import {validateUser} from '../../../helpers/validation/loginValidation'
+import {paths} from '../../../constants'
 import {Link} from 'react-router-dom'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -38,6 +38,7 @@ export default ({open, handleClose}) => {
 
 
     return (
+            <form>
             <Dialog
                 open={open}
                 aria-labelledby="form-dialog-title"
@@ -69,5 +70,6 @@ export default ({open, handleClose}) => {
                 </DialogActions>
                 <Link onClick={handleClose} to={paths.signup}>Don't have an account? Sign up</Link>
             </Dialog>
+            </form>
     );
 }

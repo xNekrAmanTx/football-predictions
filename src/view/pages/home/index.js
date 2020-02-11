@@ -5,11 +5,11 @@ import { Typography,
 } from "@material-ui/core";
 import LeagueCard from "../../components/leagueCard";
 import {Link} from "react-router-dom";
-import {paths, leaguesList} from '../../constants';
+import {paths} from '../../../constants';
 
 
 
-export default function Home(props){
+export default function Home({leagues, ...props}){
     return (
         <>
             <Typography variant="h3">Predictor Homepage</Typography>
@@ -21,8 +21,8 @@ export default function Home(props){
             <Typography variant="h4">Leagues</Typography>
             <Divider/>
             <Box display="flex">
-                {Object.values(leaguesList).map(liga => (
-                    <LeagueCard key={liga.id} leagueName={liga.name} image={liga.logo} link={paths.main} {...props}/>
+                {Object.values(leagues).map(liga => (
+                    <LeagueCard key={liga.league_id} leagueName={liga.name} image={liga.logo} link={paths.main} {...props}/>
                     )
                 )}
             </Box>
