@@ -15,7 +15,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
     table: {
-        minWidth: 350,
+        minWidth: 500,
     },
 
     button: {
@@ -42,10 +42,16 @@ function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points
 };
 
 const rows = [
-    createData(0, '+', 237, 9.0, 37, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
-    createData(1, '+', 262, 16.0, 24, 6.0, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-    createData(2, '+', 305, 3.7, 67, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-    createData(3, '+', 356, 16.0, 49, 3.9, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(0, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(1, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(2, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(3, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(0, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(1, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(2, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(0, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(1, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(2, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
 ];
 
 // const currentLeagueThisTourMatches = (async leagueId => {

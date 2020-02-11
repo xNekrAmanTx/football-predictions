@@ -18,8 +18,6 @@ export default function MainPage({ leagueid }) {
     const classes = useStyles();
 
     return (
-        <>
-            <h1 style={{textAlign:'center'}}>Main Page</h1>
             <section>
                 <LeagueNavTab />
 
@@ -30,6 +28,5 @@ export default function MainPage({ leagueid }) {
                 </div>
 
             </section>
-        </>
     )
 }
