@@ -22,9 +22,9 @@ firebase.initializeApp(firebaseConfig);
 
 setLeaguesOfCurrentSeason();
 
-const appWithRouter = <Router> <App /> </Router>;
+const AppWithRouter = <Router> <App /> </Router>;
 
-ReactDOM.render(appWithRouter, document.getElementById('root'));
+ReactDOM.render(AppWithRouter, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

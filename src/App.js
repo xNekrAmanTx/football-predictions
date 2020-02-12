@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, useParams, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import CustomRoute from './view/components/customRoute';
 import './App.css';
 import Home from './view/pages/home';
@@ -16,13 +16,14 @@ import 'firebase/auth';
 
 
 function App() {
+
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
-  const [leagues, setLeagues] = useState({})
-  const [leagueId/* , setLeagueId */] = useState(-1);
+  const [leagues, setLeagues] = useState({});
+
 
   useEffect(() => {
-    getCurrentLeagues(setLeagues);
+    getCurrentLeagues(setLeagues) //.then(leagues=>setLeagues(leagues));
     firebase.auth().onAuthStateChanged(user => setUser(user));
   }, [])
 
@@ -34,23 +35,19 @@ function App() {
     setOpen(false)
   }
 
-  function getLeagueId(leagueName) {
-    // axios kam fetch
-    //fetch(firebaseBaseUrl + leagueName).then(res => setLeagueId(res))
-    return Promise.resolve(1)
-  }
-
   return (
     <div className='App'>
       <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
       <main>
         <Switch>
 
-          <CustomRoute exact path={paths.home} render={() => <Home leagues={leagues} leagueId={leagueId} getLeagueId={getLeagueId} />} />
-          <CustomRoute path={paths.main} render={() => <MainPage leagues={leagues} leagueId={leagueId} />} />
+          <CustomRoute exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
+
+          <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
+
           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} /></CustomRoute>
           <CustomRoute path={paths.rules} component={Rules} />
-          <CustomRoute component={NotFound} />
+          <CustomRoute render={() => <NotFound subLink='' />} />
 
         </Switch>
       </main>
