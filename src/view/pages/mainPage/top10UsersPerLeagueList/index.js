@@ -27,7 +27,7 @@ const rows = [
 
 export default () => {
     return (
-        <TableContainer component={Paper}>
+        <TableContainer square component={Paper}>
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>

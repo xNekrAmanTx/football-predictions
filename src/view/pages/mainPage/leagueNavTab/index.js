@@ -1,5 +1,5 @@
-import React from 'react'
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { useHistory, useLocation, useRouteMatch, useParams } from 'react-router-dom';
 
 import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
 
@@ -12,20 +12,27 @@ const useStyles = makeStyles({
     },
 });
 
-export default ({leagues}) => {
+export default ({ leagues/* , setValue, value */ }) => {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
     const match = useRouteMatch();
+    const { id } = useParams();
     const [value, setValue] = React.useState(0);
+
+    useEffect(() => {
+        Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(id));
+    }
+    , [leagues]);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
+        console.log(e.target)
     };
 
     function handleTabClick(id) {
         history.push(paths.main + '/' + id);
-        console.log(location)
+        console.log(match, id)
     }
 
     return (<Paper square className={classes.root}>

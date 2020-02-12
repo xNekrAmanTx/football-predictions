@@ -9,7 +9,7 @@ import {paths} from '../../../constants';
 
 
 
-export default function Home({leagues, ...props}){
+export default function Home({leagues}){
     return (
         <>
             <Typography variant="h3">Predictor Homepage</Typography>
@@ -22,7 +22,7 @@ export default function Home({leagues, ...props}){
             <Divider/>
             <Box display="flex">
                 {Object.values(leagues).map(liga => (
-                    <LeagueCard key={liga.league_id} leagueName={liga.name} image={liga.logo} link={paths.main} {...props}/>
+                    <LeagueCard key={liga.league_id} liga={liga}/>
                     )
                 )}
             </Box>

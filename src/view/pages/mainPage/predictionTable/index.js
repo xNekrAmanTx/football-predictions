@@ -11,30 +11,24 @@ import {
     Button,
     Divider,
     Grid,
-    TextField,
 } from '@material-ui/core';
+import PredictionInput from './predictionInput';
 
 const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 500,
     },
 
-    button: {
-        // position: 'absolute',
-        alignSelf: 'flex-end',
-        // right: 0,
-    },
-
     // prevNextDiv: {
-    //     display: 'flex',
-    //     margin: 'auto',
-    //     width: 'fit-content'
     // },
 
     rootDiv: {
-        // position: 'relative'
         display: 'flex',
         flexDirection: 'column',
+    },
+    
+    inputsContainer: {
+        display: 'flex',
     },
 }));
 
@@ -97,10 +91,9 @@ function PredictionTable() {
                                     <TableCell align="left">{row.secondTeam}</TableCell>
                                     <TableCell align="center">{row.x2}</TableCell>
                                     <TableCell align="center">
-                                        <Grid direction='row'>
-                                            <input></input>
-                                            <input></input>
-                                        </Grid>
+                                        <div className={classes.inputsContainer}>
+                                            <PredictionInput width={10}/> : <PredictionInput width={10}/>
+                                        </div>
                                     </TableCell>
                                     <TableCell align="center">{row.points}</TableCell>
                                 </TableRow>
@@ -114,7 +107,6 @@ function PredictionTable() {
                         type="submit"
                         variant="contained"
                         color="primary"
-                    // className={classes.button}
                     >Save Prediction</Button>
                 </Grid>
             </form>
