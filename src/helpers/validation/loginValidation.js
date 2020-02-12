@@ -1,1 +1,0 @@
-export const validateUser = (name, pas) => true;

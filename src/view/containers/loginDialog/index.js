@@ -1,59 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {validateUser} from '../../../helpers/validation/loginValidation'
 import {paths} from '../../../constants'
 import {Link} from 'react-router-dom'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-
-export default ({open, handleClose}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const dis = !(email && password);
-
-    function handleChange(e, handler) {
-        handler(e.target.value)
-    }
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 
-    function handleLogin() {
-        if(validateUser(email, password)) {
-            firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-                // Handle Errors here.
-                let errorCode = error.code;
-                let errorMessage = error.message;
-                // ...
+export default function LoginDialogForm(props) {
+    return (
+        <SnackbarProvider maxSnack={2}>
+            <LoginDialog {...props}/>
+        </SnackbarProvider>
+    );
+}
+
+function LoginDialog({open, handleClose}) {
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    function handleLogin(e) {
+        e.preventDefault();
+        let [email, password] = e.target.getElementsByTagName('input');
+        firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() =>{handleClose()}).catch(function(error) {
+            // Handle Errors here.
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            enqueueSnackbar(errorMessage, {variant: "error"});
+            console.log(errorCode, 'errorLogin', errorMessage);
             });
-            handleClose()
-        } else {
-            alert('error');
-        }
-    }
 
+    }
 
     return (
-            <form>
             <Dialog
                 open={open}
                 aria-labelledby="form-dialog-title"
             >
                 <DialogTitle id="form-dialog-title">Log In</DialogTitle>
+                <form onSubmit={handleLogin} noValidate>
                 <DialogContent>
                     <TextField
-                        onChange={(e) => handleChange(e, setEmail)}
                         margin="dense"
                         label="Email"
                         type="text"
                         fullWidth
+                        autoFocus
                     />
                     <TextField
-                        onChange={(e) => handleChange(e, setPassword)}
                         margin="dense"
                         label="Password"
                         type="password"
@@ -64,12 +63,13 @@ export default ({open, handleClose}) => {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button disabled={dis} onClick={handleLogin} color="primary">
+                    <Button type="submit" color="primary">
                         Login
                     </Button>
                 </DialogActions>
+            </form>
                 <Link onClick={handleClose} to={paths.signup}>Don't have an account? Sign up</Link>
             </Dialog>
-            </form>
+
     );
 }
