@@ -13,6 +13,7 @@ import { paths } from './constants';
 import getCurrentLeagues from './helpers/databaseGets/getCurrentLeagues';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import setFixturesFormatted from './helpers/databaseSets/setFixturesFormatted';
 
 
 function App() {
@@ -23,8 +24,13 @@ function App() {
 
 
   useEffect(() => {
-    getCurrentLeagues(setLeagues) //.then(leagues=>setLeagues(leagues));
     firebase.auth().onAuthStateChanged(user => setUser(user));
+    getCurrentLeagues()
+    .then(leagues => (setLeagues(leagues),leagues))
+    .then(leagues => Object.keys(leagues).map(ligueId => {
+      // console.log(ligueId);
+      setFixturesFormatted(ligueId);
+    } ) )
   }, [])
 
   function handleOpen() {

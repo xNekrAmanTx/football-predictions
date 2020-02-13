@@ -38,7 +38,7 @@ export default ({user, ...props}) => {
             </Button>
             <LoginDialogForm {...props}/>
             <Link to={paths.signup} style={linkStyle}>
-                <Button color="primary">
+                <Button variant="contained" color="primary">
                     Sign up
                 </Button>
             </Link>

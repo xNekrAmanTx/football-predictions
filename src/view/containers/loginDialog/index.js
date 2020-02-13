@@ -15,7 +15,7 @@ export default ({open, handleClose}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const dis = !(email && password);
+    // const dis = !(email && password);
 
     function handleChange(e, handler) {
         handler(e.target.value)
@@ -64,7 +64,7 @@ export default ({open, handleClose}) => {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button disabled={dis} onClick={handleLogin} color="primary">
+                    <Button onClick={handleLogin} color="primary">
                         Login
                     </Button>
                 </DialogActions>
