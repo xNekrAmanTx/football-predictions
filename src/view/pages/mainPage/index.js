@@ -18,15 +18,17 @@ export default function MainPage(props) {
     const classes = useStyles();
     const {id} = useParams();
 
+    const isValidId = Object.keys(props.leagues).includes(id);
+
     return (
         <section>
             <LeagueNavTab {...props} />
 
-            {Object.keys(props.leagues).includes(id) ?
+            { isValidId ?
                 <div className={classes.tablesContainer}>
-                    <Top10UsersPerLeagueList />
-                    <PredictionTable />
-                    <TournamentTable />
+                    <Top10UsersPerLeagueList leagueId={id}/>
+                    <PredictionTable leagueId={id}/>
+                    <TournamentTable leagueId={id}/>
                 </div>
                 :
                 <h1 style={{textAlign:'center'}}>There is no such league id</h1>
