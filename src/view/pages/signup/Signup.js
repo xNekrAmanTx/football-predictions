@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import {
     Avatar,
@@ -16,9 +16,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { paths } from '../../../constants';
 import signUp from '../../../helpers/userSignUp'
 import * as validation from '../../../helpers/validation/signupValidation';
+import firebase from "firebase/app";
+import 'firebase/auth';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
-
-const {validatePassword, validateUsername, validateName, validateEmail} = validation;
+const {validatePassword, validateUsername, validateEmail} = validation;
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -42,7 +44,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp({ handleOpen, setUser }) {
+export default function SignUp(props) {
+    return (
+        <SnackbarProvider maxSnack={2}>
+            <SignUpSnack {...props}/>
+        </SnackbarProvider>
+    );
+}
+
+function SignUpSnack({ handleOpen, setUser }) {
     const history = useHistory();
     const classes = useStyles();
 
@@ -57,37 +67,34 @@ export default function SignUp({ handleOpen, setUser }) {
     });
 
     const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [isFirst, setIsFirst] = useState(true);
-    
-    const disabledSignUpButton = !(username && email && password);
+    let [isTouchedUsername, setIsTouchedUsername] = useState(false);
+    let [isTouchedEmail, setIsTouchedEmail] = useState(false);
+    let [isTouchedPassword, setIsTouchedPassword] = useState(false);
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    let userNameRef = useRef();
+
+    useEffect(() => userNameRef.current && userNameRef.current.focus(), []);
+
+    const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password));
 
     const handleChange = (e, setValue) => {setValue(e.target.value)};
 
     const handleSubmit = e => { 
-        e.preventDefault(); 
-        setIsFirst(false);
+        e.preventDefault();
         signUp(email, password).then(res => {
             console.log(res, 'Signup');
-            res.user.updateProfile({
-                displayName: username,
-            }).then(function() {
-                // setUser(null);
-                alert('Update successful');
-                let {user} = res;
-                setUser({...user});
-                console.log('Signup set')
-            }).catch(function(error) {
-                alert('not updated');
-            });
+            history.push(paths.home)
+        }).catch(function (error) {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            enqueueSnackbar(errorMessage, {variant: "error"});
         });
         // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
-
-        history.push(paths.home)
     };
 
     return (
@@ -97,13 +104,14 @@ export default function SignUp({ handleOpen, setUser }) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Sign Up
                 </Typography>
                 <MuiThemeProvider theme={formLabelsTheme}>
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
+                                    inputRef={userNameRef}
                                     variant={"outlined"}
                                     required
                                     fullWidth
@@ -112,39 +120,11 @@ export default function SignUp({ handleOpen, setUser }) {
                                     name="username"
                                     autoComplete="username"
                                     size="small"
-                                    error={!isFirst && !validateUsername(username)}
-                                    autoFocus
+                                    error={isTouchedUsername && !validateUsername(username)}
                                     onChange={(e) => handleChange(e, setUsername)}
+                                    onBlur={(e) => {setIsTouchedUsername(true); console.log(e.target)}}
                                 />
-                                {!isFirst && !validateUsername(username) && <FormHelperText error>Username must contain only latin letters and digits(2-20 chars)</FormHelperText>}
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name (optional)"
-                                    size="small"
-                                    error={!isFirst && !validateName(firstName)}
-                                    onChange={(e) => handleChange(e, setFirstName)}
-                                />
-                                {!isFirst && !validateName(firstName) && <FormHelperText error>First name must contain only latin letters(2-40)</FormHelperText>}
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name (optional)"
-                                    name="lastName"
-                                    autoComplete="lname"
-                                    size="small"
-                                    error={!isFirst && !validateName(lastName)}
-                                    onChange={(e) => handleChange(e, setLastName)}
-                                />
-                                {!isFirst && !validateName(lastName) && <FormHelperText error>Last name must contain only latin letters(2-40)</FormHelperText>}
+                                {isTouchedUsername && !validateUsername(username) && <FormHelperText error>Username must contain only latin letters and digits(2-20 chars)</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -156,10 +136,11 @@ export default function SignUp({ handleOpen, setUser }) {
                                     name="email"
                                     autoComplete="email"
                                     size="small"
-                                    error={!isFirst && !validateEmail(email)}
+                                    error={isTouchedEmail && !validateEmail(email)}
                                     onChange={(e) => handleChange(e, setEmail)}
+                                    onBlur={() => {setIsTouchedEmail(true)}}
                                 />
-                                {!isFirst && !validateEmail(email) && <FormHelperText error>Email is not valid</FormHelperText>}
+                                {isTouchedEmail && !validateEmail(email) && <FormHelperText error>Email is not valid</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -172,10 +153,11 @@ export default function SignUp({ handleOpen, setUser }) {
                                     id="password"
                                     autoComplete="current-password"
                                     size="small"
-                                    error={!isFirst && !validatePassword(password)}
+                                    error={isTouchedPassword && !validatePassword(password)}
                                     onChange={(e) => handleChange(e, setPassword)}
+                                    onBlur={() => {setIsTouchedPassword(true)}}
                                 />
-                                {!isFirst && !validatePassword(password) && <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin letters and 1 digit(8 or more chars)</FormHelperText>}
+                                {isTouchedPassword && !validatePassword(password) && <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin letters and 1 digit(8 or more chars)</FormHelperText>}
                             </Grid>
                         </Grid>
                         <Button
