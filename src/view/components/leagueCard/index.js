@@ -5,14 +5,29 @@ import {paths} from '../../../constants'
 
 const useStyles = makeStyles({
     card: {
-        // maxWidth: 345,
-        // '&:hover':{
-        //     cursor:'pointer',
-        // }
+// <<<<<<< main-ui
+        maxWidth: 345,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(255, 255, 255, 0.61)",
+        '&:hover':{
+            cursor:'pointer',
+        }
+
+// =======
+//         // maxWidth: 345,
+//         // '&:hover':{
+//         //     cursor:'pointer',
+//         // }
+// >>>>>>> master
     },
-    
+
     media: {
         height: 140,
+        width: "70%",
+        backgroundSize: "contain"
     },
     link: {
         textDecoration: 'none'
@@ -38,4 +53,15 @@ function LeagueCard({liga}) {
         </Link>
     );
 }
+// <<<<<<< main-ui
+
+// LeagueCard.propTypes = {
+//     leagueName: PropTypes.string.isRequired,
+//     image: PropTypes.string.isRequired,
+//     link: PropTypes.string.isRequired,
+// };
+
+// export default LeagueCard;
+// =======
 export default LeagueCard;
+// >>>>>>> master

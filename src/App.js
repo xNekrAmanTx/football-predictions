@@ -43,21 +43,31 @@ function App() {
 
   return (
     <div className='App'>
-      <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
-      <main>
+// <<<<<<< main-ui
+//       <Header  open={open} handleOpen={handleOpen} handleClose={handleClose}/>
+//       <main>
+//         <Switch>
+
+//           <CustomRoute classnam="home-route" exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
+//           <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
+//           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen}/></CustomRoute>
+// =======
+      <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
+      <main className="main">
         <Switch>
 
-          <CustomRoute exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
+          <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
 
           <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
 
           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} /></CustomRoute>
+// >>>>>>> master
           <CustomRoute path={paths.rules} component={Rules} />
           <CustomRoute render={() => <NotFound subLink='' />} />
 
         </Switch>
       </main>
-      <Footer />
+      <Footer className="footer" />
     </div>
   );
 }

@@ -1,16 +1,7 @@
 // import React from 'react';
 // import { withStyles } from '@material-ui/core/styles'
 //
-// const styles = () => ({
-//     footer: {
-//         backgroundColor: "#a7d129",
-//         display: "flex",
-//         alignItems: "center",
-//         justifyContent: "center",
-//         width: "-webkit-fill-available",
-//         color: "#1b1919",
-//     }
-// })
+
 //
 // function Footer({classes}) {
 //     return (
@@ -29,11 +20,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {paths} from '../../../constants'
 
+
 function Copyright() {
+    const classes = useStyles();
     return (
-        <Typography variant="body2">
+        <Typography variant="body2" className={classes.copyright}>
             {'Copyright © '}
-            <Link to={paths.home}>
+            <Link to={paths.home} className={classes.link}>
                 Predictor
             </Link>{' '}
             {new Date().getFullYear()}
@@ -44,11 +37,28 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
     footer: {
-        padding: theme.spacing(3, 2),
         marginTop: 'auto',
-        backgroundColor:  theme.palette.grey[800],
-        width: '-webkit-fill-available',
+        backgroundColor:  "rgba(28, 38, 23, 0.56)",
+
+
     },
+    container: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        height: "45px"
+    },
+    copyright:{
+        color: "#fff",
+        fontSize: "16px"
+    },
+    typography: {
+        color: "#fff",
+        fontSize: "16px"
+    },
+    link: {
+        color: "rgba(252, 252, 252, 0.55)"
+    }
 }));
 
 export default function Footer() {
@@ -56,8 +66,8 @@ export default function Footer() {
 
     return (
             <footer className={classes.footer}>
-                <Container maxWidth="sm">
-                    <Typography variant="body1">Footer</Typography>
+                <Container className={classes.container}>
+                    <Typography variant="body1" className={classes.typography}>Footer</Typography>
                     <Copyright />
                 </Container>
             </footer>

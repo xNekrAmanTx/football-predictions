@@ -15,14 +15,30 @@ import {
 import PredictionInput from './predictionInput';
 
 const useStyles = makeStyles(theme => ({
-    table: {
-        minWidth: 500,
+// <<<<<<< main-ui
+    paper: {
+        minWidth: 350,
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
     },
 
-    // prevNextDiv: {
-    // },
+    button: {
+
+        alignSelf: 'flex-end',
+
+    },
 
     rootDiv: {
+
+// =======
+//     table: {
+//         minWidth: 500,
+//     },
+
+//     // prevNextDiv: {
+//     // },
+
+//     rootDiv: {
+// >>>>>>> master
         display: 'flex',
         flexDirection: 'column',
     },
@@ -33,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points) {
-    return { id, i, firstTeam, result, secondTeam, x2, prediction, points };
+    return {id, i, firstTeam, result, secondTeam, x2, prediction, points};
 };
 
 const rows = [
@@ -62,12 +78,12 @@ function PredictionTable() {
     return (
         <div className={classes.rootDiv}>
             {/* <Paper square> */}
-                <Grid container justify="center" spacing={5} className={classes.prevNextDiv} >
-                    <Grid item >previous</Grid><Divider orientation={"vertical"} /><Grid item>next</Grid>
-                </Grid>
+            <Grid container justify="center" spacing={5} className={classes.prevNextDiv}>
+                <Grid item>previous</Grid><Divider orientation={"vertical"}/><Grid item>next</Grid>
+            </Grid>
             {/* </Paper> */}
             <form>
-                <TableContainer square component={Paper}>
+                <TableContainer square component={Paper} className={classes.paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -106,7 +122,12 @@ function PredictionTable() {
                     <Button
                         type="submit"
                         variant="contained"
+// <<<<<<< main-ui
+//                         color="primary"
+//                         // className={classes.button}
+// =======
                         color="secondary"
+// >>>>>>> master
                     >Save Prediction</Button>
                 </Grid>
             </form>
