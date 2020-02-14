@@ -25,7 +25,7 @@ const rows = [
     createData("av", "user 5", 5),
 ];
 
-export default () => {
+export default function Top10UsersPerLeagueList() {
     return (
         <TableContainer square component={Paper}>
             <Table aria-label="customized table">
