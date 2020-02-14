@@ -1,4 +1,10 @@
+// <<<<<<< main-ui
+// import React from 'react';
+// //import withStyles from '@material-ui/core';
+
+// =======
 import React, { useEffect, useState } from 'react';
+// >>>>>>> master
 import { withStyles } from '@material-ui/core/styles'
 import HeaderLogo from './logo';
 import HeaderButtonsContainer from './buttonsContainer'
@@ -7,20 +13,29 @@ import 'firebase/auth';
 
 const styles = () => ({
     header: {
-        backgroundColor: "#a7d129",
+        backgroundColor: "rgba(255, 255, 255, 0.15)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         width: "-webkit-fill-available",
-        color: "#1b1919",
+        color: "#fff",
         padding: '10px'
+    },
+    MuiDialogTitle: {
+        color: "#fff",
+
     }
+// <<<<<<< main-ui
+
+// })
+// =======
 });
 
 function Header({classes, user, ...restProps}) {
     
     console.log('Header@ ashxatec');
     console.log(user, firebase.auth().currentUser, 'header');
+// >>>>>>> master
 
     return (
         <header className={classes.header}>

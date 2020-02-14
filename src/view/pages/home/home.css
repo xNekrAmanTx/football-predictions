@@ -1,0 +1,16 @@
+.box{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+}
+.league-title{
+    text-align: center;
+    color: #fff;
+    font-size: 45px !important;
+}
+
+
+h3{
+    color: #fff;
+    font-size: 35px;
+}
