@@ -18,7 +18,7 @@ const useStyles = makeStyles({
         width: "auto"
     },
     table: {
-        minWidth: 450,
+
     },
 });
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 //     matches: 25,
 //     points: 73,
 // }
-let team = [1, 'Liverpool', 25, 73]
+let team = [1, 'Liverpool', 25, 73];
 
 class Team {
     constructor(/* {position,name,matches,points} */datas = team) {
@@ -37,9 +37,9 @@ class Team {
     }
 }
 
-let tableHead = ['', 'team', 'm', 'p']
+let tableHead = ['', 'team', 'm', 'p'];
 
-const rows = Array(20).fill('').map(() => new Team())
+const rows = Array(20).fill('').map(() => new Team());
 
 export default function TournamentTable() {
     const classes = useStyles();

@@ -12,8 +12,10 @@ import {
     Divider,
     Grid,
 } from '@material-ui/core';
+import PredictionInput from './predictionInput';
 
 const useStyles = makeStyles(theme => ({
+// <<<<<<< main-ui
     paper: {
         minWidth: 350,
         backgroundColor: "rgba(255, 255, 255, 0.52)",
@@ -27,8 +29,22 @@ const useStyles = makeStyles(theme => ({
 
     rootDiv: {
 
+// =======
+//     table: {
+//         minWidth: 500,
+//     },
+
+//     // prevNextDiv: {
+//     // },
+
+//     rootDiv: {
+// >>>>>>> master
         display: 'flex',
         flexDirection: 'column',
+    },
+    
+    inputsContainer: {
+        display: 'flex',
     },
 }));
 
@@ -37,10 +53,16 @@ function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points
 };
 
 const rows = [
-    createData(0, '+', 237, 9.0, 37, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
-    createData(1, '+', 262, 16.0, 24, 6.0, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-    createData(2, '+', 305, 3.7, 67, 4.3, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-    createData(3, '+', 356, 16.0, 49, 3.9, 1, 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(0, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(1, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(2, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(3, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(4, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(5, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(6, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(7, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
+    createData(8, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
+    createData(9, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
 ];
 
 // const currentLeagueThisTourMatches = (async leagueId => {
@@ -84,7 +106,11 @@ function PredictionTable() {
                                     <TableCell align="center">{row.result}</TableCell>
                                     <TableCell align="left">{row.secondTeam}</TableCell>
                                     <TableCell align="center">{row.x2}</TableCell>
-                                    <TableCell align="center">{row.prediction}</TableCell>
+                                    <TableCell align="center">
+                                        <div className={classes.inputsContainer}>
+                                            <PredictionInput width={10}/> : <PredictionInput width={10}/>
+                                        </div>
+                                    </TableCell>
                                     <TableCell align="center">{row.points}</TableCell>
                                 </TableRow>
                             ))}
@@ -96,8 +122,12 @@ function PredictionTable() {
                     <Button
                         type="submit"
                         variant="contained"
-                        color="primary"
-                        // className={classes.button}
+// <<<<<<< main-ui
+//                         color="primary"
+//                         // className={classes.button}
+// =======
+                        color="secondary"
+// >>>>>>> master
                     >Save Prediction</Button>
                 </Grid>
             </form>

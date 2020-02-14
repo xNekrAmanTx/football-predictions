@@ -1,57 +1,5 @@
-// import React from 'react';
-// import { useForm } from 'react-hook-form';
-//
-//
-// export default function SignUp(){
-//     const { register, handleSubmit, errors } = useForm();
-//     const onSubmit = (data) => { console.log(data); };
-//     const validators = {
-//         email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-//         firstOrLastName: /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
-//     };
-//     return  (
-//         <div className="row align-items-center justify-content-center min-vh-100">
-//             <div className="sign-up-form">
-//                 <h3>REGISTRATION</h3>
-//                 <form onSubmit={handleSubmit(onSubmit)}>
-//                     <div className="form-group">
-//                         <span className="required">Username</span>
-//                         <input type="text" ref={register({ required: true })} name="username" className="form-control mt-1" placeholder="Your Username"/>
-//                         {errors.username && <span className="error">Username is required</span>}
-//                     </div>
-//                     <div className="form-group">
-//                         <span>First Name (optional)</span>
-//                         <input type="text" ref={register({pattern: validators.firstOrLastName})} name="firstname" className="form-control mt-1" placeholder="Your First Name"/>
-//                         {errors.firstname && <span className="error">First name must contain only letters and special characters</span> }
-//                     </div>
-//                     <div className="form-group">
-//                         <span>Last Name (optional)</span>
-//                         <input type="text" ref={register({pattern: validators.firstOrLastName})} name="lastname" className="form-control mt-1" placeholder="Your Last Name"/>
-//                         {errors.lastname && <span className="error">Last name must contain only letters and special characters</span> }
-//                     </div>
-//                     <div className="form-group">
-//                         <span className="required">Email</span>
-//                         <input type="text" ref={register({ required: true, pattern: validators.email })} name="email" className="form-control mt-1" placeholder="Your Email"/>
-//                         {errors.email && errors.email.type === 'required' && <span className="error">Email is required</span>}
-//                         {errors.email && errors.email.type === 'pattern' && <span className="error">Email is not valid</span>}
-//                     </div>
-//                     <div className="form-group">
-//                         <span className="required">Password</span>
-//                         <input type="password" ref={register({ required: true, minLength: 8 })} name="password" className="form-control mt-1" placeholder="Your Password"/>
-//                         {errors.password && errors.password.type === 'required' && <span className="error">Password is required</span>}
-//                         {errors.password && errors.password.type === 'minLength' && <span className="error">Password must have minimum 8 characters</span>}
-//                     </div>
-//                     <div className="form-group text-center">
-//                         <input type="submit" className="btnSubmit" value="Sign Up" />
-//                     </div>
-//                 </form>
-//              </div>
-//         </div>
-//     )
-// }
-
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import {
     Avatar,
     Button,
@@ -65,10 +13,14 @@ import {
     MuiThemeProvider
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { paths } from '../../constants';
-import * as validation from '../../helpers/validation/signupValidation'
+import { paths } from '../../../constants';
+import signUp from '../../../helpers/userSignUp'
+import * as validation from '../../../helpers/validation/signupValidation';
+import firebase from "firebase/app";
+import 'firebase/auth';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
-const {validatePassword, validateUsername, validateName, validateEmail} = validation;
+const {validatePassword, validateUsername, validateEmail} = validation;
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -92,7 +44,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignUp({ handleOpen }) {
+export default function SignUp(props) {
+    return (
+        <SnackbarProvider maxSnack={2}>
+            <SignUpSnack {...props}/>
+        </SnackbarProvider>
+    );
+}
+
+function SignUpSnack({ handleOpen, setUser }) {
+    const history = useHistory();
     const classes = useStyles();
 
     const formLabelsTheme = createMuiTheme({
@@ -106,18 +67,35 @@ export default function SignUp({ handleOpen }) {
     });
 
     const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [isFirst, setIsFirst] = useState(true);
-    
-    const disabledSignUpButton = !(username && email && password);
+    let [isTouchedUsername, setIsTouchedUsername] = useState(false);
+    let [isTouchedEmail, setIsTouchedEmail] = useState(false);
+    let [isTouchedPassword, setIsTouchedPassword] = useState(false);
 
-    const handleChange = (e, setValue) => {setValue(e.target.value)}
+    const { enqueueSnackbar } = useSnackbar();
 
-    const handleSubmit = e => { setIsFirst(false); e.preventDefault() };
+    let userNameRef = useRef();
+
+    useEffect(() => userNameRef.current && userNameRef.current.focus(), []);
+
+    const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password));
+
+    const handleChange = (e, setValue) => {setValue(e.target.value)};
+
+    const handleSubmit = e => { 
+        e.preventDefault();
+        signUp(email, password).then(res => {
+            console.log(res, 'Signup');
+            history.push(paths.home)
+        }).catch(function (error) {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            enqueueSnackbar(errorMessage, {variant: "error"});
+        });
+        // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -126,13 +104,14 @@ export default function SignUp({ handleOpen }) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Sign Up
                 </Typography>
                 <MuiThemeProvider theme={formLabelsTheme}>
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
+                                    inputRef={userNameRef}
                                     variant={"outlined"}
                                     required
                                     fullWidth
@@ -141,39 +120,11 @@ export default function SignUp({ handleOpen }) {
                                     name="username"
                                     autoComplete="username"
                                     size="small"
-                                    error={!isFirst && !validateUsername(username)}
-                                    autoFocus
+                                    error={isTouchedUsername && !validateUsername(username)}
                                     onChange={(e) => handleChange(e, setUsername)}
+                                    onBlur={(e) => {setIsTouchedUsername(true); console.log(e.target)}}
                                 />
-                                {!isFirst && !validateUsername(username) && <FormHelperText error>Username must contain only latin letters and digits(2-20 chars)</FormHelperText>}
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="fname"
-                                    name="firstName"
-                                    variant="outlined"
-                                    fullWidth
-                                    id="firstName"
-                                    label="First Name (optional)"
-                                    size="small"
-                                    error={!isFirst && !validateName(firstName)}
-                                    onChange={(e) => handleChange(e, setFirstName)}
-                                />
-                                {!isFirst && !validateName(firstName) && <FormHelperText error>First name must contain only latin letters(2-40)</FormHelperText>}
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    variant="outlined"
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name (optional)"
-                                    name="lastName"
-                                    autoComplete="lname"
-                                    size="small"
-                                    error={!isFirst && !validateName(lastName)}
-                                    onChange={(e) => handleChange(e, setLastName)}
-                                />
-                                {!isFirst && !validateName(lastName) && <FormHelperText error>Last name must contain only latin letters(2-40)</FormHelperText>}
+                                {isTouchedUsername && !validateUsername(username) && <FormHelperText error>Username must contain only latin letters and digits(2-20 chars)</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -185,10 +136,11 @@ export default function SignUp({ handleOpen }) {
                                     name="email"
                                     autoComplete="email"
                                     size="small"
-                                    error={!isFirst && !validateEmail(email)}
+                                    error={isTouchedEmail && !validateEmail(email)}
                                     onChange={(e) => handleChange(e, setEmail)}
+                                    onBlur={() => {setIsTouchedEmail(true)}}
                                 />
-                                {!isFirst && !validateEmail(email) && <FormHelperText error>Email is not valid</FormHelperText>}
+                                {isTouchedEmail && !validateEmail(email) && <FormHelperText error>Email is not valid</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -201,10 +153,11 @@ export default function SignUp({ handleOpen }) {
                                     id="password"
                                     autoComplete="current-password"
                                     size="small"
-                                    error={!isFirst && !validatePassword(password)}
+                                    error={isTouchedPassword && !validatePassword(password)}
                                     onChange={(e) => handleChange(e, setPassword)}
+                                    onBlur={() => {setIsTouchedPassword(true)}}
                                 />
-                                {!isFirst && !validatePassword(password) && <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin letters and 1 digit(8 or more chars)</FormHelperText>}
+                                {isTouchedPassword && !validatePassword(password) && <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin letters and 1 digit(8 or more chars)</FormHelperText>}
                             </Grid>
                         </Grid>
                         <Button

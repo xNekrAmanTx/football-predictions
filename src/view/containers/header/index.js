@@ -1,9 +1,15 @@
-import React from 'react';
-//import withStyles from '@material-ui/core';
+// <<<<<<< main-ui
+// import React from 'react';
+// //import withStyles from '@material-ui/core';
 
+// =======
+import React, { useEffect, useState } from 'react';
+// >>>>>>> master
 import { withStyles } from '@material-ui/core/styles'
 import HeaderLogo from './logo';
 import HeaderButtonsContainer from './buttonsContainer'
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const styles = () => ({
     header: {
@@ -19,20 +25,27 @@ const styles = () => ({
         color: "#fff",
 
     }
+// <<<<<<< main-ui
 
-})
+// })
+// =======
+});
 
-function Header({classes, ...restProps}) {
+function Header({classes, user, ...restProps}) {
+    
+    console.log('Header@ ashxatec');
+    console.log(user, firebase.auth().currentUser, 'header');
+// >>>>>>> master
+
     return (
         <header className={classes.header}>
             <HeaderLogo />
-            <HeaderButtonsContainer {...restProps}/>
+
+            <span>{user ? user.email : 'Guest' }</span>
+
+            <HeaderButtonsContainer user={user} {...restProps}/>
         </header>
     )
 }
 
 export default withStyles(styles)(Header)
-
-// <img src='./'/>
-
-// '../../images/headerLogo'

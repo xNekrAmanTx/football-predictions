@@ -2,7 +2,7 @@ import React from 'react'
 import logo from  '../../../images/logoBalls/headerLogo.png';
 import './index.css';
 import { withRouter } from 'react-router-dom';
-import {paths} from '../../../constants'
+import {paths} from '../../../../constants'
 
 
 const HeaderLogo = ({history}) => (

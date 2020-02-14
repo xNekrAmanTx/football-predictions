@@ -4,6 +4,7 @@ import {
     Link,
     useLocation,
 } from 'react-router-dom';
+// <<<<<<< main-ui
 import {paths} from '../../../constants';
 import LoginDialogForm from '../../loginDialog';
 // import {Link} from "react-router-dom";
@@ -31,12 +32,19 @@ import {makeStyles} from '@material-ui/core/styles';
 //     }
 //
 // });
+// =======
+import { paths } from '../../../../constants';
+import LoginDialogForm from '../../loginDialog';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+// >>>>>>> master
 
 const linkStyle = {
     textDecoration: 'none',
     color: "#fff"
 };
 
+// <<<<<<< main-ui
 const buttonStyle = {
     color: "#4e5569",
     backgroundColor: "#f6f7fb"
@@ -50,12 +58,26 @@ const blockStyle = {
 }
 
 
-export default (props) => {
+// export default (props) => {
 
 
+// =======
+export default ({user, ...props}) => {
+    
+// >>>>>>> master
     const location = useLocation();
 
+    const handleLogout = () => {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log(firebase.auth().currentUser, user.email, 'logout')
+          }).catch(function(error) {
+            // An error happened.
+          });
+    };
+
     return (
+// <<<<<<< main-ui
         <div style={blockStyle}>
             <Typography variant="body2">Home</Typography>
 
@@ -65,21 +87,31 @@ export default (props) => {
                     About </Typography>
             </Link>
 
+// =======
+//         <div style={blockStyle}>
+            {!user ? 
+            <>
+// >>>>>>> master
             <Button
                 style={buttonStyle}
                 disabled={location.pathname === paths.signup}
                 color="primary"
-                onClick={props.handleOpen}
-            >
-                Log In
+                onClick={props.handleOpen}>
+                    Log In
             </Button>
             <LoginDialogForm {...props}/>
             <Link to={paths.signup} style={linkStyle}>
+// <<<<<<< main-ui
                 <Button color="primary"
                         style={buttonStyle}>
+// =======
+//                 <Button variant="contained" color="primary">
+// >>>>>>> master
                     Sign up
                 </Button>
             </Link>
+            </> :
+            <Button color="primary" onClick={handleLogout}>Log Out</Button>}
         </div>
     )
 }
