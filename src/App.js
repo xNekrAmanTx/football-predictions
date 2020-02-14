@@ -10,10 +10,10 @@ import Header from './view/containers/header';
 import Footer from './view/containers/footer';
 import NotFound from './view/pages/notfound';
 import { paths } from './constants';
-import getCurrentLeagues from './helpers/databaseGets/getCurrentLeagues';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import setFixturesFormatted from './helpers/databaseSets/setFixturesFormatted';
+import getCurrentLeagues from './helpers/databaseSetsGets/getCurrentLeagues';
 
 
 function App() {
