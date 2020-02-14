@@ -5,6 +5,8 @@ import PredictionTable from '../../pages/mainPage/predictionTable';
 import Top10UsersPerLeagueList from '../../pages/mainPage/top10UsersPerLeagueList';
 import TournamentTable from '../../pages/mainPage/tournamentTable';
 
+import getCurrentRound from '../../../helpers/databaseSetsGets/getCurrentRound'
+
 const useStyles = makeStyles({
     tablesContainer: {
         display: "flex",
@@ -12,20 +14,21 @@ const useStyles = makeStyles({
     }
 });
 
-export default (props) => {
+export default ({leagueId}) => {
     const classes = useStyles();
-    const [currentRound, setCurrentRound] = useState(1);
-    
+    const [round, setRound] = useState(0);
 
     useEffect(() => {
-
-    }, [])
+            getCurrentRound(leagueId)
+                .then(round => (setRound(round), round))
+                .then(console.log)
+    }, [leagueId])
 
     return (
         < div className={classes.tablesContainer} >
-            <Top10UsersPerLeagueList {...props} />
-            <PredictionTable {...props} />
-            <TournamentTable {...props} />
+            <Top10UsersPerLeagueList round={round} leagueId={leagueId} />
+            <PredictionTable round={round} leagueId={leagueId} />
+            <TournamentTable round={round} leagueId={leagueId} />
         </div >
     )
 }
