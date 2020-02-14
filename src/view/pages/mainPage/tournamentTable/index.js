@@ -15,10 +15,16 @@ import {
 const useStyles = makeStyles({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        width: "auto"
+        // width: "auto"
+        maxWidth: 'fit-content'
     },
-    table: {
+    rootDiv: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
 
+    roundPaper: {
+        backgroundColor: "rgba(255, 255, 255, 0.75)",
     },
 });
 
@@ -45,10 +51,14 @@ export default function TournamentTable() {
     const classes = useStyles();
 
     return (
+        <div className={classes.rootDiv}>
+        <Paper square className={classes.roundPaper}>
+            <Grid container justify="center" className={classes.prevNextDiv}>
+                <Grid item>Tournament Table</Grid>
+            </Grid>
+        </Paper>
         <TableContainer square className={classes.paper}>
-
             <Table className={classes.table} aria-label='tournament table'>
-
                 <TableHead>
                     <TableRow>
                         {tableHead.map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
@@ -63,8 +73,7 @@ export default function TournamentTable() {
                     ))}
                 </TableBody>
             </Table>
-
         </TableContainer>
-
+        </div>
     );
 }

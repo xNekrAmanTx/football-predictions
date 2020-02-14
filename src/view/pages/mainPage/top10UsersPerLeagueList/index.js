@@ -1,51 +1,3 @@
-// <<<<<<< main-ui
-// import React from 'react'
-// import { useHistory } from 'react-router-dom';
-
-// import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
-
-// import LeagueLogo from '../../../components/leagueLogo';
-// import { leaguesList, paths } from '../../../constants'
-
-// const useStyles = makeStyles({
-//     paper: {
-//         backgroundColor: "rgba(255, 255, 255, 0.52)",
-//     }
-// });
-
-// export default (props) => {
-//     const classes = useStyles();
-//     const history = useHistory()
-//     const [value, setValue] = React.useState(0);
-
-//     const handleChange = (e, newValue) => {
-//         setValue(newValue);
-//     };
-
-//     function handleTabClick(leagueName){
-//         /* getLeagueId(leagueName).then(id =>  */history.push(paths.main/* + `/${id}`*/)/* ) */;
-//     }
-
-//     return (<Paper square className={classes.root}>
-//         <Tabs
-//             value={value}
-//             onChange={handleChange}
-//             variant="fullWidth"
-//             indicatorColor="secondary"
-//             textColor="secondary"
-//             aria-label="leagues tab"
-
-//         >
-//             {Object.entries(leaguesList).map(([key,liga]) => (
-//                 <Tab   className={classes.paper}
-//                     onClick={()=>handleTabClick(liga.name)} key={liga.id} label={liga.name} icon={<LeagueLogo src={liga.logo} alt={key}/>} />
-//             ))}
-
-//         </Tabs>
-//     </Paper>
-
-//     )
-// =======
 import React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -55,31 +7,56 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
+import {Grid, makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+// <<<<<<< main-ui
+    paper : {
+        backgroundColor : "rgba(255, 255, 255, 0.52)",
+        maxWidth: 'fit-content',
+    },
+
+    roundPaper: {
+        backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+
+    rootDiv: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+}));
 
 function createData(avatar, user, point) {
     return { avatar, user, point };
-// >>>>>>> master
 }
 
 const rows = [
-    createData("av", "user 1", 25),
-    createData("av", "user 2", 20),
-    createData("av", "user 3", 15),
-    createData("av", "user 4", 10),
-    createData("av", "user 5", 5),
-    createData("av", "user 1", 25),
-    createData("av", "user 2", 20),
-    createData("av", "user 3", 15),
-    createData("av", "user 4", 10),
-    createData("av", "user 5", 5),
+    createData("av", "user1", 25),
+    createData("av", "user2", 20),
+    createData("av", "user3", 15),
+    createData("av", "user4", 10),
+    createData("av", "user5", 5),
+    createData("av", "user1", 25),
+    createData("av", "user2", 20),
+    createData("av", "user3", 15),
+    createData("av", "user4", 10),
+    createData("av", "user5", 5),
 ];
 
 export default () => {
+    const classes = useStyles();
     return (
-        <TableContainer square component={Paper}>
+        <div className={classes.rootDiv}>
+            <Paper square className={classes.roundPaper}>
+                <Grid container justify="center" className={classes.prevNextDiv}>
+                    <Grid item>Top 10 Users</Grid>
+                </Grid>
+            </Paper>
+        <TableContainer square component={Paper} className={classes.paper}>
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>
+                        <TableCell align="center"/>
                         <TableCell align="center" colSpan={2}>
                             users
                         </TableCell>
@@ -89,6 +66,7 @@ export default () => {
                 <TableBody>
                     {rows.map(row => (
                         <TableRow key={row.user}>
+                            <TableCell align="center">1</TableCell>
                             <TableCell align="right"><Avatar alt="Av" src={row.avatar}/></TableCell>
                             <TableCell align="left">{row.user}</TableCell>
                             <TableCell align="center">{row.point}</TableCell>
@@ -97,5 +75,6 @@ export default () => {
                 </TableBody>
             </Table>
         </TableContainer>
+        </div>
     );
 }

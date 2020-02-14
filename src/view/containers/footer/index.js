@@ -45,17 +45,17 @@ const useStyles = makeStyles(theme => ({
     container: {
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         height: "45px"
     },
     copyright:{
         color: "#fff",
-        fontSize: "16px"
+        fontSize: "16px",
     },
-    typography: {
-        color: "#fff",
-        fontSize: "16px"
-    },
+    // typography: {
+    //     color: "#fff",
+    //     fontSize: "16px"
+    // },
     link: {
         color: "rgba(252, 252, 252, 0.55)"
     }
@@ -67,8 +67,7 @@ export default function Footer() {
     return (
             <footer className={classes.footer}>
                 <Container className={classes.container}>
-                    <Typography variant="body1" className={classes.typography}>Footer</Typography>
-                    <Copyright />
+                    <Copyright className = {classes.copyright} />
                 </Container>
             </footer>
     );

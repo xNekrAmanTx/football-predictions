@@ -78,6 +78,7 @@ function SignUpSnack({ handleOpen, setUser }) {
 
     let userNameRef = useRef();
 
+
     useEffect(() => userNameRef.current && userNameRef.current.focus(), []);
 
     const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password));
@@ -86,10 +87,14 @@ function SignUpSnack({ handleOpen, setUser }) {
 
     const handleSubmit = e => { 
         e.preventDefault();
-        signUp(email, password).then(res => {
-            console.log(res, 'Signup');
-            history.push(paths.home)
-        }).catch(function (error) {
+        signUp(username, email, password)
+            .then(() =>
+            firebase.database().ref('users/' + username).set({
+                email: email,
+                avatar : username[0].toUpperCase(),
+            }))
+            .then(() => history.push(paths.home))
+            .catch(function (error) {
             let errorCode = error.code;
             let errorMessage = error.message;
             enqueueSnackbar(errorMessage, {variant: "error"});

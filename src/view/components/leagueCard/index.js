@@ -5,7 +5,6 @@ import {paths} from '../../../constants'
 
 const useStyles = makeStyles({
     card: {
-// <<<<<<< main-ui
         maxWidth: 345,
         display: "flex",
         flexDirection: "column",
@@ -15,13 +14,6 @@ const useStyles = makeStyles({
         '&:hover':{
             cursor:'pointer',
         }
-
-// =======
-//         // maxWidth: 345,
-//         // '&:hover':{
-//         //     cursor:'pointer',
-//         // }
-// >>>>>>> master
     },
 
     media: {
@@ -53,15 +45,4 @@ function LeagueCard({liga}) {
         </Link>
     );
 }
-// <<<<<<< main-ui
-
-// LeagueCard.propTypes = {
-//     leagueName: PropTypes.string.isRequired,
-//     image: PropTypes.string.isRequired,
-//     link: PropTypes.string.isRequired,
-// };
-
-// export default LeagueCard;
-// =======
 export default LeagueCard;
-// >>>>>>> master
