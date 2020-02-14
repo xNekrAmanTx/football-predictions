@@ -5,13 +5,12 @@ import PredictionTable from '../../pages/mainPage/predictionTable';
 import Top10UsersPerLeagueList from '../../pages/mainPage/top10UsersPerLeagueList';
 import TournamentTable from '../../pages/mainPage/tournamentTable';
 
-
-
 const useStyles = makeStyles({
     tablesContainer: {
-        display: 'flex',
+        display: "flex",
+        justifyContent: "space-between",
     }
-})
+});
 
 export default (props) => {
     const classes = useStyles();

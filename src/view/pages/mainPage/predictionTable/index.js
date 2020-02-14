@@ -9,18 +9,24 @@ import {
     Paper,
     makeStyles,
     Button,
-    Divider,
     Grid,
 } from '@material-ui/core';
 import PredictionInput from './predictionInput';
 
 const useStyles = makeStyles(theme => ({
-    table: {
-        minWidth: 500,
+// <<<<<<< main-ui
+    paper: {
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
+        maxWidth: 'fit-content'
     },
 
-    // prevNextDiv: {
-    // },
+    roundPaper: {
+        backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+
+    button: {
+        alignSelf: 'flex-end',
+    },
 
     rootDiv: {
         display: 'flex',
@@ -33,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points) {
-    return { id, i, firstTeam, result, secondTeam, x2, prediction, points };
+    return {id, i, firstTeam, result, secondTeam, x2, prediction, points};
 };
 
 const rows = [
@@ -61,13 +67,15 @@ function PredictionTable() {
     // const [currentMatches, setCurrentMatches] = useState([])
     return (
         <div className={classes.rootDiv}>
-            {/* <Paper square> */}
-                <Grid container justify="center" spacing={5} className={classes.prevNextDiv} >
-                    <Grid item >previous</Grid><Divider orientation={"vertical"} /><Grid item>next</Grid>
-                </Grid>
-            {/* </Paper> */}
+            <Paper square className={classes.roundPaper}>
+            <Grid container justify="space-between" spacing={5} className={classes.prevNextDiv}>
+                <Grid item>{'<previous'}</Grid>
+                <Grid item>{'currentRound#'}</Grid>
+                <Grid item>{'next>'}</Grid>
+            </Grid>
+            </Paper>
             <form>
-                <TableContainer square component={Paper}>
+                <TableContainer square component={Paper} className={classes.paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -106,7 +114,6 @@ function PredictionTable() {
                     <Button
                         type="submit"
                         variant="contained"
-                        color="secondary"
                     >Save Prediction</Button>
                 </Grid>
             </form>

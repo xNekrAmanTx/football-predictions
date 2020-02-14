@@ -28,10 +28,9 @@ function App() {
     getCurrentLeagues()
     .then(leagues => (setLeagues(leagues),leagues))
     .then(leagues => Object.keys(leagues).map(ligueId => {
-      // console.log(ligueId);
       setFixturesFormatted(ligueId);
     } ) )
-  }, [])
+  }, []);
 
   function handleOpen() {
     setOpen(true);
@@ -43,11 +42,11 @@ function App() {
 
   return (
     <div className='App'>
-      <Header open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
-      <main>
+      <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
+      <main className="main">
         <Switch>
 
-          <CustomRoute exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
+          <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
 
           <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
 
@@ -57,7 +56,7 @@ function App() {
 
         </Switch>
       </main>
-      <Footer />
+      <Footer className="footer" />
     </div>
   );
 }

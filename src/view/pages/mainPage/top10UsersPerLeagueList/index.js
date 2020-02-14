@@ -7,30 +7,57 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
+import {Grid, makeStyles} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => ({
+    paper : {
+        backgroundColor : "rgba(255, 255, 255, 0.52)",
+        maxWidth: 'fit-content',
+    },
+
+    roundPaper: {
+        backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+
+    rootDiv: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+}));
 
 function createData(avatar, user, point) {
     return { avatar, user, point };
 }
 
 const rows = [
-    createData("av", "user 1", 25),
-    createData("av", "user 2", 20),
-    createData("av", "user 3", 15),
-    createData("av", "user 4", 10),
-    createData("av", "user 5", 5),
-    createData("av", "user 1", 25),
-    createData("av", "user 2", 20),
-    createData("av", "user 3", 15),
-    createData("av", "user 4", 10),
-    createData("av", "user 5", 5),
+    createData("av", "user1", 25),
+    createData("av", "user2", 20),
+    createData("av", "user3", 15),
+    createData("av", "user4", 10),
+    createData("av", "user5", 5),
+    createData("av", "user1", 25),
+    createData("av", "user2", 20),
+    createData("av", "user3", 15),
+    createData("av", "user4", 10),
+    createData("av", "user5", 5),
 ];
 
-export default function Top10UsersPerLeagueList() {
+
+export default () => {
+    const classes = useStyles();
+
     return (
-        <TableContainer square component={Paper}>
+        <div className={classes.rootDiv}>
+            <Paper square className={classes.roundPaper}>
+                <Grid container justify="center" className={classes.prevNextDiv}>
+                    <Grid item>Top 10 Users</Grid>
+                </Grid>
+            </Paper>
+        <TableContainer square component={Paper} className={classes.paper}>
             <Table aria-label="customized table">
                 <TableHead>
                     <TableRow>
+                        <TableCell align="center"/>
                         <TableCell align="center" colSpan={2}>
                             users
                         </TableCell>
@@ -40,6 +67,7 @@ export default function Top10UsersPerLeagueList() {
                 <TableBody>
                     {rows.map(row => (
                         <TableRow key={row.user}>
+                            <TableCell align="center">1</TableCell>
                             <TableCell align="right"><Avatar alt="Av" src={row.avatar}/></TableCell>
                             <TableCell align="left">{row.user}</TableCell>
                             <TableCell align="center">{row.point}</TableCell>
@@ -48,5 +76,6 @@ export default function Top10UsersPerLeagueList() {
                 </TableBody>
             </Table>
         </TableContainer>
+        </div>
     );
 }

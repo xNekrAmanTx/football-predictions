@@ -1,16 +1,25 @@
 import React, { useEffect } from 'react'
 import { useHistory, useLocation, useRouteMatch, useParams } from 'react-router-dom';
-
-import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
-
+import {makeStyles, Paper, Tabs, Tab} from '@material-ui/core';
 import LeagueLogo from '../../../components/leagueLogo';
-import { paths } from '../../../../constants'
+import { paths } from '../../../../constants';
 
 const useStyles = makeStyles({
     root: {
-        flexGrow: 1,
+        backgroundColor: "transparent",
+
+    },
+    tabBlock: {
+        backgroundColor: "#fff",
+        overflow: "inherit",
     },
 });
+
+const tabIndex = {
+    gridGap: "10px",
+    display: 'grid',
+    gridTemplateColumns: "repeat(5, 1fr)",
+};
 
 export default ({ leagues/* , setValue, value */ }) => {
     const classes = useStyles();
@@ -47,16 +56,19 @@ export default ({ leagues/* , setValue, value */ }) => {
         >
             {Object.entries(leagues).map(([id, liga]) => (
                 <Tab
+                    style={tabIndex}
                     onClick={() => handleTabClick(id)}
                     key={id}
                     label={liga.name}
-                    icon={<LeagueLogo src={liga.logo} alt={id} />}
+                    icon={<LeagueLogo 
+                        src={liga.logo} 
+                        alt={id} 
+                        className={classes.tabIndex}
+                    />}
                 />
             ))}
-
         </Tabs>
     </Paper>
-
     )
 }
 

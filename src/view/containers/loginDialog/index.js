@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { SnackbarProvider, useSnackbar } from 'notistack';
-
+import "./login.css";
 
 export default function LoginDialogForm(props) {
     return (
@@ -19,7 +19,6 @@ export default function LoginDialogForm(props) {
         </SnackbarProvider>
     );
 }
-
 
 function LoginDialog({ open, handleClose }) {
 
@@ -74,3 +73,5 @@ function LoginDialog({ open, handleClose }) {
 
     );
 }
+
+
