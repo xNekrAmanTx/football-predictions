@@ -28,10 +28,9 @@ function App() {
     getCurrentLeagues()
     .then(leagues => (setLeagues(leagues),leagues))
     .then(leagues => Object.keys(leagues).map(ligueId => {
-      // console.log(ligueId);
       setFixturesFormatted(ligueId);
     } ) )
-  }, [])
+  }, []);
 
   function handleOpen() {
     setOpen(true);
@@ -43,15 +42,6 @@ function App() {
 
   return (
     <div className='App'>
-// <<<<<<< main-ui
-//       <Header  open={open} handleOpen={handleOpen} handleClose={handleClose}/>
-//       <main>
-//         <Switch>
-
-//           <CustomRoute classnam="home-route" exact path={paths.home} render={()=><Home leagueId={leagueId} getLeagueId={getLeagueId}/>} />
-//           <CustomRoute path={paths.main /*+ `/${leagueId}`*/} render={()=><MainPage leagueId={leagueId}/>} />
-//           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen}/></CustomRoute>
-// =======
       <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
       <main className="main">
         <Switch>
@@ -61,7 +51,6 @@ function App() {
           <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
 
           <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} /></CustomRoute>
-// >>>>>>> master
           <CustomRoute path={paths.rules} component={Rules} />
           <CustomRoute render={() => <NotFound subLink='' />} />
 

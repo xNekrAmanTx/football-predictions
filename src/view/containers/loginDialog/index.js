@@ -10,18 +10,7 @@ import { Link } from 'react-router-dom'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { SnackbarProvider, useSnackbar } from 'notistack';
-
-// <<<<<<< main-ui
 import "./login.css";
-import {withStyles} from "@material-ui/core";
-
-
-
-// export default ({open, handleClose}) => {
-//     const [username, setUsername] = useState('');
-//     const [password, setPassword] = useState('');
-// =======
-// >>>>>>> master
 
 export default function LoginDialogForm(props) {
     return (
@@ -30,15 +19,6 @@ export default function LoginDialogForm(props) {
         </SnackbarProvider>
     );
 }
-
-// <<<<<<< main-ui
-
-
-//     function handleChange(e, handler) {
-//         handler(e.target.value)
-//     }
-// =======
-// >>>>>>> master
 
 function LoginDialog({ open, handleClose }) {
 
@@ -58,20 +38,12 @@ function LoginDialog({ open, handleClose }) {
     }
 
     return (
-// <<<<<<< main-ui
-//             <Dialog
-//                 open={open}
-//                 aria-labelledby="form-dialog-title"
-//             >
-//                 <DialogTitle id="form-dialog-title" className="log-in">Log In</DialogTitle>
-// =======
         <Dialog
             open={open}
             aria-labelledby="form-dialog-title"
         >
             <DialogTitle id="form-dialog-title">Log In</DialogTitle>
             <form onSubmit={handleLogin} noValidate>
-// >>>>>>> master
                 <DialogContent>
                     <TextField
                         margin="dense"
