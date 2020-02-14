@@ -10,7 +10,6 @@ import Avatar from "@material-ui/core/Avatar";
 import {Grid, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-// <<<<<<< main-ui
     paper : {
         backgroundColor : "rgba(255, 255, 255, 0.52)",
         maxWidth: 'fit-content',
@@ -43,8 +42,10 @@ const rows = [
     createData("av", "user5", 5),
 ];
 
+
 export default () => {
     const classes = useStyles();
+
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundPaper}>
