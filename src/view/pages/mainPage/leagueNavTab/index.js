@@ -32,7 +32,7 @@ export default ({ leagues/* , setValue, value */ }) => {
     useEffect(() => {
         Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(id));
     }
-    , [leagues]);
+    , [leagues, id]);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
