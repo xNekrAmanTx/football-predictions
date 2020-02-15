@@ -20,21 +20,20 @@ export default function LoginDialogForm(props) {
     );
 }
 
-function LoginDialog({ open, handleClose }) {
+function LoginDialog({ open, handleClose, setIsLoading }) {
 
     const { enqueueSnackbar } = useSnackbar();
 
     function handleLogin(e) {
         e.preventDefault();
         let [email, password] = e.target.getElementsByTagName('input');
-        firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => { handleClose() }).catch(function (error) {
+        firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => handleClose()).catch(function (error) {
             // Handle Errors here.
             let errorCode = error.code;
             let errorMessage = error.message;
             enqueueSnackbar(errorMessage, { variant: "error" });
             // console.log(errorCode, 'errorLogin', errorMessage);
-        });
-
+        })
     }
 
     return (
