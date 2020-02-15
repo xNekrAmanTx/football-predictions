@@ -13,6 +13,7 @@ import { paths } from './constants';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import setFixturesFormatted from './helpers/databaseSets/setFixturesFormatted';
+import Loading from "./view/components/Loading";
 import getCurrentLeagues from './helpers/databaseSetsGets/getCurrentLeagues';
 
 
@@ -21,16 +22,16 @@ function App() {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
   const [leagues, setLeagues] = useState({});
-
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => setUser(user));
-    getCurrentLeagues()
-    .then(leagues => (setLeagues(leagues),leagues))
-    .then(leagues => Object.keys(leagues).map(ligueId => {
-      setFixturesFormatted(ligueId);
-    } ) )
-  }, []);
+      new Promise(resolve => {
+          firebase.auth().onAuthStateChanged(user => {setUser(user)});
+          getCurrentLeagues()
+              .then(leagues => (setLeagues(leagues), leagues))
+              .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(() => resolve());
+      }).then(() => {setIsLoading(false); console.log(leagues)})
+      }, [user, isLoading]);
 
   function handleOpen() {
     setOpen(true);
@@ -41,23 +42,23 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} />
-      <main className="main">
-        <Switch>
+      !isLoading ?
+          <div className='App'>
+            <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} setIsLoading={setIsLoading}/>
+            <main className="main">
+              <Switch>
+                <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
+                <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
+                <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} setIsLoading={setIsLoading}/></CustomRoute>
+                <CustomRoute path={paths.rules} component={Rules} />
+                <CustomRoute render={() => <NotFound subLink='' />} />
+              </Switch>
+            </main>
+            <Footer className="footer" />
+          </div>
+          :
+          <Loading/>
 
-          <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
-
-          <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
-
-          <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} /></CustomRoute>
-          <CustomRoute path={paths.rules} component={Rules} />
-          <CustomRoute render={() => <NotFound subLink='' />} />
-
-        </Switch>
-      </main>
-      <Footer className="footer" />
-    </div>
   );
 }
 

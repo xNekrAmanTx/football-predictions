@@ -53,29 +53,29 @@ export default () => {
                     <Grid item>Top 10 Users</Grid>
                 </Grid>
             </Paper>
-        <TableContainer square component={Paper} className={classes.paper}>
-            <Table aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center"/>
-                        <TableCell align="center" colSpan={2}>
-                            users
-                        </TableCell>
-                        <TableCell align="center">points</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.user}>
-                            <TableCell align="center">1</TableCell>
-                            <TableCell align="right"><Avatar alt="Av" src={row.avatar}/></TableCell>
-                            <TableCell align="left">{row.user}</TableCell>
-                            <TableCell align="center">{row.point}</TableCell>
+            <TableContainer square component={Paper} className={classes.paper}>
+                <Table aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center"/>
+                            <TableCell align="center" colSpan={2}>
+                                users
+                            </TableCell>
+                            <TableCell align="center">points</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map(row => (
+                            <TableRow key={row.user}>
+                                <TableCell align="center">1</TableCell>
+                                <TableCell align="right"><Avatar alt="Av" src={row.avatar}/></TableCell>
+                                <TableCell align="left">{row.user}</TableCell>
+                                <TableCell align="center">{row.point}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </div>
     );
 }

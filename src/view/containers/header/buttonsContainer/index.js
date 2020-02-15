@@ -15,7 +15,6 @@ const linkStyle = {
     color: "#fff"
 };
 
-// <<<<<<< main-ui
 const buttonStyle = {
     color: "#4e5569",
     backgroundColor: "#f6f7fb"
