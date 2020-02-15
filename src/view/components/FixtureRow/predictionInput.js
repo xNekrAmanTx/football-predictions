@@ -9,10 +9,10 @@ const useStyles = makeStyles({
         WebkitAppearance: 'none',
     },
 
-})
+});
 
 export default () => {
-    const classes = useStyles()
+    const classes = useStyles();
 
     return <input className={classes.inputNum} type='number' min='0'/>;
 }
