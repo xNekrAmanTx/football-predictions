@@ -13,7 +13,7 @@ import {
     Checkbox,
 } from '@material-ui/core';
 import PredictionInput from './predictionInput';
-import getFixturesOfCurrentLeagueAndRound from '../../../../helpers/databaseSetsGets/getFixturesOfCurrentLeagueAndRound';
+import getFixturesOfCurrentLeagueAndRound from '../../../../helpers/databaseGets/getFixturesOfCurrentLeagueAndRound';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -21,8 +21,12 @@ const useStyles = makeStyles(theme => ({
         maxWidth: 'fit-content'
     },
 
-    roundPaper: {
+    roundCaption: {
         backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+
+    clickable: {
+        cursor:'pointer',
     },
 
     button: {
@@ -39,39 +43,19 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-// function createData(id, i, firstTeam, result, secondTeam, x2, prediction, points) {
-//     return { id, i, firstTeam, result, secondTeam, x2, prediction, points };
-// };
 
-// const rows = [
-//     createData(0, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
-//     createData(1, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-//     createData(2, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-//     createData(3, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 2), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-//     createData(4, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
-//     createData(5, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-//     createData(6, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-//     createData(7, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`) -->
-//     createData(8, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-//     createData(9, '+', 'liverpool', '1-0', 'tottenham', 'x2', '2-0', 1), //fetch(`...leagues/:?leagueId=${leagueId}/?roundId:${roundId}`)
-// ];
-
-// const currentLeagueThisTourMatches = (async leagueId => {
-//     let gamesIds = await fetch(`.../leagues:?leagueId=${leagueId}/currentTour`)
-//     let curMatches = await Promise.all(gamesIds.map(matchId => fetch(`...fixtures:?matchId=${matchId}`)))
-//     return curMatches;
-// })()
-
-function PredictionTable({ leagueId, round }) {
+function PredictionTable({ leagueId, round, setRound }) {
     const classes = useStyles();
 
     const [rows, setRows] = useState({})
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = useState(false)
 
     useEffect(() => {
         round && getFixturesOfCurrentLeagueAndRound(leagueId, round)
-            .then(matches => setRows(Object.values(matches).sort((m1,m2) => m1.event_timestamp - m2.event_timestamp)))
-    },[leagueId, round])
+            .then(matches => setRows(Object.values(matches).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp)))
+    }, [leagueId, round])
+
+    const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
 
     const handleChange = e => {
         setChecked(e.target.checked);
@@ -81,14 +65,13 @@ function PredictionTable({ leagueId, round }) {
         e.preventDefault();
     }
 
-    // const [currentMatches, setCurrentMatches] = useState([])
     return (
         <div className={classes.rootDiv}>
-            <Paper square className={classes.roundPaper}>
-                <Grid container justify="space-between" spacing={5} className={classes.prevNextDiv}>
-                    <Grid item>{'<previous'}</Grid>
-                    <Grid item>{'currentRound#'}</Grid>
-                    <Grid item>{'next>'}</Grid>
+            <Paper square className={classes.roundCaption}>
+                <Grid container justify="space-between" className={classes.prevNextDiv}>
+                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>{'<previous'}</Grid>
+                    <Grid item>{`Round ${round}`}</Grid>
+                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>{'next>'}</Grid>
                 </Grid>
             </Paper>
             <form onSubmit={handleSubmit}>

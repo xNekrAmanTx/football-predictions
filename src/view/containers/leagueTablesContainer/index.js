@@ -27,7 +27,7 @@ export default ({leagueId}) => {
     return (
         < div className={classes.tablesContainer} >
             <Top10UsersPerLeagueList round={round} leagueId={leagueId} />
-            <PredictionTable round={round} leagueId={leagueId} />
+            <PredictionTable setRound={setRound} round={round} leagueId={leagueId} />
             <TournamentTable round={round} leagueId={leagueId} />
         </div >
     )
