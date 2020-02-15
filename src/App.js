@@ -10,11 +10,11 @@ import Header from './view/containers/header';
 import Footer from './view/containers/footer';
 import NotFound from './view/pages/notfound';
 import { paths } from './constants';
-import getCurrentLeagues from './helpers/databaseGets/getCurrentLeagues';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import setFixturesFormatted from './helpers/databaseSets/setFixturesFormatted';
 import Loading from "./view/components/Loading";
+import getCurrentLeagues from './helpers/databaseSetsGets/getCurrentLeagues';
 
 
 function App() {
@@ -31,7 +31,6 @@ function App() {
               .then(leagues => (setLeagues(leagues), leagues))
               .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(() => resolve());
       }).then(() => {setIsLoading(false); console.log(leagues)})
-      //console.log(isLoading, 'isload');
       }, [user, isLoading]);
 
   function handleOpen() {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
 import './index.css';
 import App from './App';
-import setLeaguesOfCurrentSeason from './helpers/databaseSets/setLeaguesOfCurrentSeason';
+
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
 
@@ -20,7 +20,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-setLeaguesOfCurrentSeason();
+
 
 const AppWithRouter = <Router> <App /> </Router>;
 

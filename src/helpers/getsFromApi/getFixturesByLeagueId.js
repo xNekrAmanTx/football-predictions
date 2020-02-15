@@ -1,12 +1,10 @@
 import fetchFromApi from "../fetchFromApi";
 
-export default async (leagueId) => {
+export default async leagueId => {
 
-    const data = await fetchFromApi(`https://api-football-v1.p.rapidapi.com/v2/fixtures/league/${leagueId}?timezone=Asia\/Yerevan`)
+    const data = await fetchFromApi(`https://api-football-v1.p.rapidapi.com/v2/fixtures/league/${leagueId}?timezone=Asia\/Yerevan`);
 
-    // "https://api-football-v1.p.rapidapi.com/v2/fixtures/league/524?timezone=Asia%2FYerevan"
-
-    console.log(data)
+    // console.log(data)
 
     const leagueRounds = {};
     for (let i = 1; i <= /* getRoundsAvailableForLeague(leaguId) */ 38; i++) {
