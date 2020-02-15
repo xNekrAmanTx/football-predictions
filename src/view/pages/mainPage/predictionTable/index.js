@@ -14,7 +14,6 @@ import {
 import PredictionInput from './predictionInput';
 
 const useStyles = makeStyles(theme => ({
-// <<<<<<< main-ui
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
         maxWidth: 'fit-content'

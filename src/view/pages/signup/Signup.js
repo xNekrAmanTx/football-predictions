@@ -52,7 +52,7 @@ export default function SignUp(props) {
     );
 }
 
-function SignUpSnack({ handleOpen, setUser }) {
+function SignUpSnack({ handleOpen, setIsLoading }) {
     const history = useHistory();
     const classes = useStyles();
 
@@ -85,20 +85,20 @@ function SignUpSnack({ handleOpen, setUser }) {
 
     const handleChange = (e, setValue) => {setValue(e.target.value)};
 
-    const handleSubmit = e => { 
+    const handleSubmit = e => {
         e.preventDefault();
         signUp(username, email, password)
-            .then(() =>
-            firebase.database().ref('users/' + username).set({
-                email: email,
-                avatar : username[0].toUpperCase(),
-            }))
-            .then(() => history.push(paths.home))
+            .then(() => {
+                firebase.database().ref('users/' + username).set({
+                    email: email,
+                    avatar : username[0].toUpperCase(),
+            })})
+            .then(() => { history.push(paths.home);})
             .catch(function (error) {
             let errorCode = error.code;
             let errorMessage = error.message;
             enqueueSnackbar(errorMessage, {variant: "error"});
-        });
+        })
         // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
     };
 
