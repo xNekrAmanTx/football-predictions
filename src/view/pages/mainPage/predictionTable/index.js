@@ -12,8 +12,10 @@ import {
     Grid,
     Checkbox,
 } from '@material-ui/core';
-import PredictionInput from './predictionInput';
+import FixtureRow from '../../../components/FixtureRow';
 import getFixturesOfCurrentLeagueAndRound from '../../../../helpers/databaseGets/getFixturesOfCurrentLeagueAndRound';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -47,31 +49,46 @@ const useStyles = makeStyles(theme => ({
 function PredictionTable({ leagueId, round, setRound }) {
     const classes = useStyles();
 
-    const [rows, setRows] = useState({})
-    const [checked, setChecked] = useState(false)
+    const [rows, setRows] = useState({});
+    const [value, setValue] = useState(0);
+    const [info, setInfo] = useState([]);
 
     useEffect(() => {
         round && getFixturesOfCurrentLeagueAndRound(leagueId, round)
             .then(matches => setRows(Object.values(matches).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp)))
-    }, [leagueId, round])
+    }, [leagueId, round]);
 
     const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
 
-    const handleChange = e => {
-        setChecked(e.target.checked);
-    };
-
     const handleSubmit = e => {
         e.preventDefault();
-    }
+    };
 
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundCaption}>
-                <Grid container justify="space-between" className={classes.prevNextDiv}>
-                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>{'<previous'}</Grid>
+                <Grid container justify="space-between" className={classes.prevNextDiv} alignItems='center'>
+                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
+                        <Button
+                            component='span'
+                            color="secondary"
+                            size="small"
+                            startIcon={<NavigateBeforeIcon/>}
+                        >
+                            previous round
+                        </Button>
+                    </Grid>
                     <Grid item>{`Round ${round}`}</Grid>
-                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>{'next>'}</Grid>
+                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>
+                        <Button
+                            component='span'
+                            color="primary"
+                            size="small"
+                            endIcon={<NavigateNextIcon/>}
+                        >
+                            next round
+                        </Button>
+                    </Grid>
                 </Grid>
             </Paper>
             <form onSubmit={handleSubmit}>
@@ -79,7 +96,7 @@ function PredictionTable({ leagueId, round, setRound }) {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">i</TableCell>
+                                <TableCell align="center"/>
                                 <TableCell align="right">First Team</TableCell>
                                 <TableCell align="center">Result</TableCell>
                                 <TableCell align="left">Second Team</TableCell>
@@ -90,28 +107,7 @@ function PredictionTable({ leagueId, round, setRound }) {
                         </TableHead>
                         <TableBody>
                             {Object.keys(rows)[0] && rows.map(row => (
-                                <TableRow key={row.fixture_id}>
-                                    <TableCell component="th" scope="row" align="center">
-                                        i
-                                    </TableCell>
-                                    <TableCell align="right">{row.homeTeam.team_name}</TableCell>
-                                    <TableCell align="center">{row.statusShort === 'FT' ? row.score.fulltime : '?'}</TableCell>
-                                    <TableCell align="left">{row.awayTeam.team_name}</TableCell>
-                                    <TableCell align="center">
-                                        <Checkbox
-                                            checked={checked}
-                                            onChange={handleChange}
-                                            value={checked}
-                                            color='primary'
-                                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                                        /></TableCell>
-                                    <TableCell align="center">
-                                        <div className={classes.inputsContainer}>
-                                            <PredictionInput width={10} /> : <PredictionInput width={10} />
-                                        </div>
-                                    </TableCell>
-                                    <TableCell align="center">0</TableCell>
-                                </TableRow>
+                                <FixtureRow row={row} value={value} setValue={setValue} info={info} setInfo={setInfo}/>
                             ))}
                         </TableBody>
                     </Table>
