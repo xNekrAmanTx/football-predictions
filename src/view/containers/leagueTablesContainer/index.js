@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default ({leagueId}) => {
+export default ({leagueId, user}) => {
     const classes = useStyles();
     const [round, setRound] = useState(0);
 
@@ -27,7 +27,7 @@ export default ({leagueId}) => {
     return (
         < div className={classes.tablesContainer} >
             <Top10UsersPerLeagueList round={round} leagueId={leagueId} />
-            <PredictionTable setRound={setRound} round={round} leagueId={leagueId} />
+            <PredictionTable setRound={setRound} round={round} leagueId={leagueId} user={user} />
             <TournamentTable round={round} leagueId={leagueId} />
         </div >
     )

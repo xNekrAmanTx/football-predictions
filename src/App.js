@@ -29,7 +29,7 @@ function App() {
           firebase.auth().onAuthStateChanged(user => {setUser(user)});
           getCurrentLeagues()
               .then(leagues => (setLeagues(leagues), leagues))
-              .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(() => resolve());
+              .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(resolve);
       }).then(() => {setIsLoading(false); console.log(leagues)})
       }, [user, isLoading]);
 
@@ -48,7 +48,7 @@ function App() {
             <main className="main">
               <Switch>
                 <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
-                <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* value={value} setValue={setValue} */ leagues={leagues} />} />)}
+                <CustomRoute path={paths.main + '/:id'} render={() => <MainPage user={user} leagues={leagues} />} />)}
                 <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} setIsLoading={setIsLoading}/></CustomRoute>
                 <CustomRoute path={paths.rules} component={Rules} />
                 <CustomRoute render={() => <NotFound subLink='' />} />
