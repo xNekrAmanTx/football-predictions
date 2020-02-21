@@ -14,20 +14,21 @@ const useStyles = makeStyles({
     }
 });
 
-export default ({leagueId, user}) => {
+export default ({useForceUpdate, leagueId, user }) => {
     const classes = useStyles();
     const [round, setRound] = useState(0);
 
     useEffect(() => {
-            getCurrentRound(leagueId)
-                .then(round => (setRound(round), round))
-                .then(console.log)
+        getCurrentRound(leagueId)
+            .then(round => (setRound(round), round))
+            .then(console.log)
+        return ()=>setRound(0);
     }, [leagueId])
 
     return (
         < div className={classes.tablesContainer} >
             <Top10UsersPerLeagueList round={round} leagueId={leagueId} />
-            <PredictionTable setRound={setRound} round={round} leagueId={leagueId} user={user} />
+            <PredictionTable useForceUpdate={useForceUpdate} setRound={setRound} round={round} leagueId={leagueId} user={user} />
             <TournamentTable round={round} leagueId={leagueId} />
         </div >
     )

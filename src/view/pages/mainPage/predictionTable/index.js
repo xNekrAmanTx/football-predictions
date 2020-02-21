@@ -15,8 +15,8 @@ import FixtureRow from '../../../components/FixtureRow';
 import getFixturesOfCurrentLeagueAndRound from '../../../../helpers/databaseGets/getFixturesOfCurrentLeagueAndRound';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
+
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -46,19 +46,21 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function setPredictions(username, leagueId, roundId, fixtureId, x2, homeGoals, awayGoals) {
-    firebase.database().ref(`/users/${username}/predictions/${leagueId}/${roundId}/${fixtureId}`).set({x2:x2,homeGoals:homeGoals,awayGoals:awayGoals})
-}
-
 function PredictionTable({ user, leagueId, round, setRound }) {
     const classes = useStyles();
 
     const [fixtures, setFixtures] = useState([]);
     const [checkboxValue, setCheckboxValue] = useState(0);
 
+    const handler = snapshot => {
+        setFixtures(Object.values(snapshot.val() || fixtures).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp))
+    }
+
     useEffect(() => {
-        round && getFixturesOfCurrentLeagueAndRound(leagueId, round)
-            .then(matches => setFixtures(Object.values(matches).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp)))
+        round && getFixturesOfCurrentLeagueAndRound(handler,leagueId, round)
+        // return () => {
+        //     setCheckboxValue(0)
+        // }
     }, [leagueId, round]);
 
     const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
@@ -68,9 +70,9 @@ function PredictionTable({ user, leagueId, round, setRound }) {
         fixtures.map(fixture => {
             let id = fixture.fixture_id;
             let matchRow = document.getElementById(id);
-            let x2 = id === checkboxValue ? 2 : 1;
+            let x2 = id;
             let [home, away] = [...matchRow.querySelectorAll('input[type=number]')].map(inp => inp.value);
-            home && away && setPredictions(user.displayName, leagueId, round, id, x2, home, away);
+            home && away && setUserPrediction(user.displayName, leagueId, round, id, x2, home, away);
         });
     };
 
@@ -102,8 +104,8 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                 </Grid>
             </Paper>
             <form onSubmit={handleSubmit}>
-                <TableContainer square component={Paper} className={classes.paper}>
-                    <Table className={classes.table} aria-label="simple table">
+                <TableContainer /* component={Paper} */ className={classes.paper}>
+                    <Table /* className={classes.table} */ aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center" />
@@ -118,12 +120,15 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                         <TableBody>
                             {fixtures.map(fixture => (
                                 <FixtureRow
+                                    key={fixture.fixture_id}
                                     fixture={fixture}
                                     checkboxValue={checkboxValue}
                                     setCheckboxValue={setCheckboxValue}
-                                    // info={info}
-                                    // setInfo={setInfo} 
-                                    />
+                                    user={user}
+                                    leagueId={leagueId}
+                                    roundId={round}
+
+                                />
                             ))}
                         </TableBody>
                     </Table>
