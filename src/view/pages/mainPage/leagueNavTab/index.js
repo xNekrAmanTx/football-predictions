@@ -49,7 +49,6 @@ export default ({ leagues/* , setValue, value */ }) => {
             centered={true}
             value={value}
             onChange={handleChange}
-            // variant="scrollable"
             indicatorColor="secondary"
             textColor="secondary"
             aria-label="leagues tab"

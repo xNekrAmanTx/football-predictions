@@ -35,11 +35,11 @@ const rows = [
     createData("av", "user3", 15),
     createData("av", "user4", 10),
     createData("av", "user5", 5),
-    createData("av", "user1", 25),
-    createData("av", "user2", 20),
-    createData("av", "user3", 15),
-    createData("av", "user4", 10),
-    createData("av", "user5", 5),
+    createData("av", "user6", 25),
+    createData("av", "user7", 20),
+    createData("av", "user8", 15),
+    createData("av", "user9", 10),
+    createData("av", "user10", 5),
 ];
 
 
@@ -53,7 +53,7 @@ export default () => {
                     <Grid item>Top 10 Users</Grid>
                 </Grid>
             </Paper>
-            <TableContainer square component={Paper} className={classes.paper}>
+            <TableContainer component={Paper} className={classes.paper}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>

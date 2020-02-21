@@ -11,8 +11,17 @@ const useStyles = makeStyles({
 
 });
 
-export default () => {
+export default ({ value, setValue }) => {
     const classes = useStyles();
 
-    return <input className={classes.inputNum} type='number' min='0'/>;
+    return (
+        <input
+            type='number'
+            min='0'
+            className={classes.inputNum}
+            value={value}
+            onChange={(e)=>{setValue(e.target.value)}}
+            width={10}
+        />
+    )
 }
