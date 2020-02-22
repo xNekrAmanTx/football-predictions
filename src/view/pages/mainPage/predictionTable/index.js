@@ -138,13 +138,13 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                     </Table>
 
                 </TableContainer>
-                <Grid container justify="flex-end">
+                {user ? <Grid container justify="flex-end">
                     <Button
-                        disabled={!user}
+                        // disabled={}
                         type="submit"
                         variant="contained"
                     >Save Prediction</Button>
-                </Grid>
+                </Grid> : <Grid component='h3' justify='center'> Please sign in to predict </Grid>}
             </form>
         </div>
     );
