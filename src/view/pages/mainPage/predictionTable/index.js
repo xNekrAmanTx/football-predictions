@@ -51,13 +51,14 @@ function PredictionTable({ user, leagueId, round, setRound }) {
 
     const [fixtures, setFixtures] = useState([]);
     const [checkboxValue, setCheckboxValue] = useState(0);
+    const [roundsCount, setRoundsCount] = useState(0);
 
     const handler = snapshot => {
         setFixtures(Object.values(snapshot.val() || fixtures).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp))
     }
 
     useEffect(() => {
-        round && getFixturesOfCurrentLeagueAndRound(handler,leagueId, round)
+        round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
         // return () => {
         //     setCheckboxValue(0)
         // }
@@ -70,9 +71,10 @@ function PredictionTable({ user, leagueId, round, setRound }) {
         fixtures.map(fixture => {
             let id = fixture.fixture_id;
             let matchRow = document.getElementById(id);
-            let x2 = id;
-            let [home, away] = [...matchRow.querySelectorAll('input[type=number]')].map(inp => inp.value);
-            home && away && setUserPrediction(user.displayName, leagueId, round, id, x2, home, away);
+            let x2 = checkboxValue === id;
+            let [home, away] = matchRow.querySelectorAll('input[type=number]');
+            [home, away] = [home.value, away.value];
+            home && away && setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0);
         });
     };
 
@@ -104,7 +106,7 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                 </Grid>
             </Paper>
             <form onSubmit={handleSubmit}>
-                <TableContainer /* component={Paper} */ className={classes.paper}>
+                <TableContainer component={Paper} className={classes.paper}>
                     <Table /* className={classes.table} */ aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -112,9 +114,11 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                                 <TableCell align="right">First Team</TableCell>
                                 <TableCell align="center">Result</TableCell>
                                 <TableCell align="left">Second Team</TableCell>
-                                <TableCell align="center">x2</TableCell>
-                                <TableCell align="center">Prediction</TableCell>
-                                <TableCell align="center">Points</TableCell>
+                                {user && <>
+                                    <TableCell align="center">x2</TableCell>
+                                    <TableCell align="center">Prediction</TableCell>
+                                    <TableCell align="center">Points</TableCell>
+                                </>}
                             </TableRow>
                         </TableHead>
                         <TableBody>

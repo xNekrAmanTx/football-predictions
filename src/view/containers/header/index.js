@@ -29,7 +29,7 @@ function Header({classes, user, ...restProps}) {
         <header className={classes.header}>
             <HeaderLogo />
 
-            <span>{user ? user.email : 'Guest' }</span>
+            <span>{user ? user.displayName : 'Guest' }</span>
 
             <HeaderButtonsContainer user={user} {...restProps}/>
         </header>

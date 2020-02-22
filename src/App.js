@@ -24,8 +24,6 @@ function App() {
   const [leagues, setLeagues] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const useForceUpdate = useState()[1]
-
   useEffect(() => {
       new Promise(resolve => {
           firebase.auth().onAuthStateChanged(user => {setUser(user)});
@@ -50,7 +48,7 @@ function App() {
             <main className="main">
               <Switch>
                 <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
-                <CustomRoute path={paths.main + '/:id'} render={() => <MainPage useForceUpdate={useForceUpdate} user={user} leagues={leagues} />} />)}
+                <CustomRoute path={paths.main + '/:id'} render={() => <MainPage user={user} leagues={leagues} />} />)}
                 <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} setIsLoading={setIsLoading}/></CustomRoute>
                 <CustomRoute path={paths.rules} component={Rules} />
                 <CustomRoute render={() => <NotFound subLink='' />} />

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useHistory, useLocation, useRouteMatch, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {makeStyles, Paper, Tabs, Tab} from '@material-ui/core';
 import LeagueLogo from '../../../components/leagueLogo';
 import { paths } from '../../../../constants';
@@ -21,18 +21,15 @@ const tabIndex = {
     gridTemplateColumns: "repeat(5, 1fr)",
 };
 
-export default ({ leagues/* , setValue, value */ }) => {
+export default ({ leagues, leagueId }) => {
     const classes = useStyles();
     const history = useHistory();
-    const location = useLocation();
-    const match = useRouteMatch();
-    const { id } = useParams();
     const [value, setValue] = React.useState(0);
 
     useEffect(() => {
-        Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(id));
+        Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(leagueId));
     }
-    , [leagues, id]);
+    , [leagues, leagueId]);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -41,7 +38,6 @@ export default ({ leagues/* , setValue, value */ }) => {
 
     function handleTabClick(id) {
         history.push(paths.main + '/' + id);
-        console.log(match, id)
     }
 
     return (<Paper square className={classes.root}>
