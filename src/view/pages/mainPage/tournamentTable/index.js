@@ -57,7 +57,7 @@ export default function TournamentTable() {
                 <Grid item>Tournament Table</Grid>
             </Grid>
         </Paper>
-        <TableContainer square className={classes.paper}>
+        <TableContainer className={classes.paper}>
             <Table className={classes.table} aria-label='tournament table'>
                 <TableHead>
                     <TableRow>
