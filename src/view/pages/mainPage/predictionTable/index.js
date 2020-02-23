@@ -72,8 +72,7 @@ function PredictionTable({ user, leagueId, round, setRound }) {
             let id = fixture.fixture_id;
             let matchRow = document.getElementById(id);
             let x2 = checkboxValue === id;
-            let [home, away] = matchRow.querySelectorAll('input[type=number]');
-            [home, away] = [home.value, away.value];
+            let [home, away] = [...matchRow.querySelectorAll('input[type=number]')].map(inp => inp.value);
             home && away && setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0);
         });
     };

@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 
 });
 
-export default ({ value, setValue }) => {
+export default ({ prediction, setPrediction, which }) => {
     const classes = useStyles();
 
     return (
@@ -19,8 +19,12 @@ export default ({ value, setValue }) => {
             type='number'
             min='0'
             className={classes.inputNum}
-            value={value}
-            onChange={(e)=>{setValue(e.target.value)}}
+            value={prediction[which]}
+            onChange={(e) => {
+                const newPrediction = {...prediction};
+                newPrediction[which] = e.target.value;
+                setPrediction(newPrediction);
+            }}
             width={10}
         />
     )
