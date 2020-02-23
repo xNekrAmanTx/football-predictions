@@ -10,44 +10,54 @@ import {
 } from "@material-ui/core";
 import PredictionInput from './predictionInput';
 import InfoIcon from '@material-ui/icons/Info';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import getUserPrediction from '../../../helpers/databaseGets/getUserPrediction';
 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     inputsContainer: {
         display: 'flex',
     },
-}));
+});
 
 export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue }) => {
     const classes = useStyles();
+    const fixId = fixture.fixture_id;
     const [info, setInfo] = useState(false);
-    const [predictionHome, setPredictionHome] = useState('');
-    const [predictionAway, setPredictionAway] = useState('');
-    const [predictionPoints, setPredictionPoints] = useState(0);
+
+    const [prediction, setPrediction] = useState({
+        home: '',
+        away: '',
+        points: 0,
+    });
 
     useEffect(() => {
-        user && firebase.database().ref(`/users/${user.displayName}/predictions/${leagueId}/${roundId}/${fixture.fixture_id}`).on('value', snap => {
-            let pred = snap.val();
-            if (pred) {
-                pred.x2 && setCheckboxValue(fixture.fixture_id);
-                setPredictionHome(pred.homeGoals);
-                setPredictionAway(pred.awayGoals);
-            }
-            return () => {
-                setCheckboxValue(false);
-                setPredictionHome('');
-                setPredictionAway('');
-            }
-        })
+        user && getUserPrediction(user.displayName, leagueId, roundId, fixId)
+            .then(pred => {
+                if (pred) {
+                    pred.x2 && setCheckboxValue(fixId);
+                    setPrediction({
+                        home: pred.homeGoals,
+                        away: pred.awayGoals,
+                        points: pred.points,
+                    })
+                }
+            })
+
+        return () => {
+            setCheckboxValue(false);
+            setPrediction({
+                home: '',
+                away: '',
+                points: 0,
+            })
+        }
     }, [])
 
     const isFinished = fixture.statusShort === 'FT';
     const isNotStarted = fixture.statusShort === 'NS';
 
     function handleCheckboxChange() {
-        setCheckboxValue(fixture.fixture_id)
+        setCheckboxValue(fixId)
     }
 
     function handleInfoClick() {
@@ -55,9 +65,9 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
     }
 
     return (<>
-        <TableRow key={fixture.fixture_id} id={fixture.fixture_id}>
+        <TableRow key={fixId} id={fixId}>
             <TableCell component="th" scope="row" align="center">
-                <IconButton onClick={handleInfoClick} value={fixture.fixture_id}>
+                <IconButton onClick={handleInfoClick} value={fixId}>
                     <InfoIcon />
                 </IconButton>
             </TableCell>
@@ -67,10 +77,10 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
             {user && <>
                 <TableCell align="center">
                     <Checkbox
-                        disabled={!isNotStarted || !predictionHome || !predictionAway}
-                        checked={fixture.fixture_id === checkboxValue}
+                        disabled={!isNotStarted || !prediction.home || !prediction.away}
+                        checked={fixId === checkboxValue}
                         onChange={handleCheckboxChange}
-                        value={fixture.fixture_id}
+                        value={fixId}
                         color='secondary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
@@ -78,11 +88,11 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                 <TableCell align="center">
                     {isNotStarted ?
                         <div className={classes.inputsContainer}>
-                            <PredictionInput value={predictionHome} setValue={setPredictionHome} />
+                            <PredictionInput prediction={prediction} setPrediction={setPrediction} which='home' />
                             {` - `}
-                            <PredictionInput value={predictionAway} setValue={setPredictionAway} />
+                            <PredictionInput prediction={prediction} setPrediction={setPrediction} which='away' />
                         </div>
-                        : `${predictionHome || '-'} : ${predictionAway || '-'}`}
+                        : `${prediction.home || '-'} : ${prediction.away || '-'}`}
                 </TableCell>
                 <TableCell align="center">{0}</TableCell>
             </>}
