@@ -15,23 +15,43 @@ import 'firebase/auth';
 import setFixturesFormatted from './helpers/databaseSets/setFixturesFormatted';
 import Loading from "./view/components/Loading";
 import getCurrentLeagues from './helpers/databaseSetsGets/getCurrentLeagues';
+import getUsers from './helpers/databaseGets/getUsers';
+import { calculateRoundPoints } from './helpers/calculatePoints';
 
 
 function App() {
 
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(firebase.auth().currentUser);
-  const [leagues, setLeagues] = useState({});
+  const [users, setUsers] = useState([]);
+  const [leagues, setLeagues] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-      new Promise(resolve => {
-          firebase.auth().onAuthStateChanged(user => {setUser(user)});
-          getCurrentLeagues()
-              .then(leagues => (setLeagues(leagues), leagues))
-              .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(resolve);
-      }).then(() => {setIsLoading(false); console.log(leagues)})
-      }, [user]);
+    new Promise(resolve => {
+      firebase.auth().onAuthStateChanged(user => { setUser(user) });
+      getCurrentLeagues()
+        .then(leagues => (setLeagues(Object.values(leagues)), leagues))
+        .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(resolve);
+    }).then(() => { setIsLoading(false); console.log(leagues) })
+  }, [user]);
+
+  useEffect(() => {
+    leagues.length && getUsers().then(users => (setUsers(users), users))
+      .then(users => Object.entries(users).filter(([username, user]) => user.predictions).forEach(([predictorName, predictor]) => {
+        Object.entries(predictor.predictions).forEach(([leagueId, league]) => Object.entries(league).forEach(([roundId, round]) => {
+          Object.entries(round).forEach(([fixtureId, fixture]) => {
+            firebase.database().ref(`/fixturesPerLeaguePerRound/${leagueId}/${roundId}/${fixtureId}`).on('value', snap => {
+              snap.exists() && snap.val().statusShort === 'FT' &&
+                firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
+                .set(calculateRoundPoints(snap.val().score.fulltime, fixture.homeGoals + '-' + fixture.awayGoals, fixture.x2)).then(points => console.log(points, 'points'))
+            })
+          })
+        })
+        )
+      }))
+
+  }, [leagues])
 
   function handleOpen() {
     setOpen(true);
@@ -42,22 +62,22 @@ function App() {
   }
 
   return (
-      !isLoading ?
-          <div className='App'>
-            <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} setIsLoading={setIsLoading}/>
-            <main className="main">
-              <Switch>
-                <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
-                <CustomRoute path={paths.main + '/:id'} render={() => <MainPage user={user} leagues={leagues} />} />)}
-                <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} setIsLoading={setIsLoading}/></CustomRoute>
-                <CustomRoute path={paths.rules} component={Rules} />
-                <CustomRoute render={() => <NotFound subLink='' />} />
-              </Switch>
-            </main>
-            <Footer className="footer" />
-          </div>
-          :
-          <Loading/>
+    !isLoading ?
+      <div className='App'>
+        <Header className='header' open={open} handleOpen={handleOpen} handleClose={handleClose} user={user} setIsLoading={setIsLoading} />
+        <main className="main">
+          <Switch>
+            <CustomRoute className="home-route" exact path={[paths.home, paths.main]} render={() => <Home leagues={leagues} />} />
+            <CustomRoute path={paths.main + '/:id'} render={() => <MainPage user={user} leagues={leagues} />} />
+            <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} setIsLoading={setIsLoading} /></CustomRoute>
+            <CustomRoute path={paths.rules} component={Rules} />
+            <CustomRoute render={() => <NotFound subLink='' />} />
+          </Switch>
+        </main>
+        <Footer className="footer" />
+      </div>
+      :
+      <Loading />
 
   );
 }

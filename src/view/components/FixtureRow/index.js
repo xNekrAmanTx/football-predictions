@@ -38,7 +38,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                     setPrediction({
                         home: pred.homeGoals,
                         away: pred.awayGoals,
-                        points: pred.points,
+                        points: pred.fixturePoints,
                     })
                 }
             })
@@ -94,7 +94,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                         </div>
                         : `${prediction.home || '-'} : ${prediction.away || '-'}`}
                 </TableCell>
-                <TableCell align="center">{0}</TableCell>
+                <TableCell align="center">{prediction.points}</TableCell>
             </>}
         </TableRow>
         {info

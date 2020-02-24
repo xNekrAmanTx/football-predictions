@@ -27,7 +27,7 @@ export default ({ leagues, leagueId }) => {
     const [value, setValue] = React.useState(0);
 
     useEffect(() => {
-        Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(leagueId));
+        leagues.length && setValue(leagues.map(liga=>liga.league_id).indexOf(leagueId));
     }
     , [leagues, leagueId]);
 
@@ -37,6 +37,7 @@ export default ({ leagues, leagueId }) => {
     };
 
     function handleTabClick(id) {
+        console.log(leagues, id)
         history.push(paths.main + '/' + id);
     }
 
@@ -49,15 +50,15 @@ export default ({ leagues, leagueId }) => {
             textColor="secondary"
             aria-label="leagues tab"
         >
-            {Object.entries(leagues).map(([id, liga]) => (
+            {leagues.map(liga => (
                 <Tab
                     style={tabIndex}
-                    onClick={() => handleTabClick(id)}
-                    key={id}
+                    onClick={() => handleTabClick(liga.league_id)}
+                    key={liga.league_id}
                     label={liga.name}
                     icon={<LeagueLogo 
                         src={liga.logo} 
-                        alt={id} 
+                        alt={liga.league_id} 
                         className={classes.tabIndex}
                     />}
                 />

@@ -5,9 +5,10 @@ import LeagueTablesContainer from '../../containers/leagueTablesContainer';
 
 
 export default function MainPage(props) {
-    const { id } = useParams();
-
-    const isValidId = Object.keys(props.leagues).includes(id);
+    let { id } = useParams();
+    id = +id;
+    
+    const isValidId = props.leagues.map(liga => liga.league_id).includes(id);
 
     return (
         <section>

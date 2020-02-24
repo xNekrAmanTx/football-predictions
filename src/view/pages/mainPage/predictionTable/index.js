@@ -53,6 +53,8 @@ function PredictionTable({ user, leagueId, round, setRound }) {
     const [checkboxValue, setCheckboxValue] = useState(0);
     const [roundsCount, setRoundsCount] = useState(0);
 
+    const areAllStarted = fixtures.every(fix => fix.statusShort !== 'NS')
+
     const handler = snapshot => {
         setFixtures(Object.values(snapshot.val() || fixtures).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp))
     }
@@ -139,7 +141,7 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                 </TableContainer>
                 {user ? <Grid container justify="flex-end">
                     <Button
-                        // disabled={}
+                        disabled={areAllStarted}
                         type="submit"
                         variant="contained"
                     >Save Prediction</Button>

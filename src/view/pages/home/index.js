@@ -9,7 +9,7 @@ export default function Home({leagues}){
     return (
         <>
             <Box className="box">
-                {Object.values(leagues).map(liga => (
+                {leagues.map(liga => (
                     <LeagueCard key={liga.league_id} liga={liga}/>
                     )
                 )}
