@@ -11,11 +11,11 @@ import {
     Button,
     Grid,
 } from '@material-ui/core';
-import FixtureRow from '../../../components/FixtureRow';
-import getFixturesOfCurrentLeagueAndRound from '../../../../helpers/databaseGets/getFixturesOfCurrentLeagueAndRound';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+
 import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
+import FixtureRow from '../../../components/FixtureRow';
 
 
 const useStyles = makeStyles(theme => ({
@@ -46,23 +46,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function PredictionTable({ user, leagueId, round, setRound }) {
+function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
     const classes = useStyles();
 
-    const [fixtures, setFixtures] = useState([]);
     const [checkboxValue, setCheckboxValue] = useState(0);
     const [roundsCount, setRoundsCount] = useState(0);
 
-    const handler = snapshot => {
-        setFixtures(Object.values(snapshot.val() || fixtures).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp))
-    }
-
-    useEffect(() => {
-        round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
-        // return () => {
-        //     setCheckboxValue(0)
-        // }
-    }, [leagueId, round]);
+    const areAllStarted = fixtures.every(fix => fix.statusShort !== 'NS')
 
     const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
 
@@ -139,7 +129,7 @@ function PredictionTable({ user, leagueId, round, setRound }) {
                 </TableContainer>
                 {user ? <Grid container justify="flex-end">
                     <Button
-                        // disabled={}
+                        disabled={areAllStarted}
                         type="submit"
                         variant="contained"
                     >Save Prediction</Button>

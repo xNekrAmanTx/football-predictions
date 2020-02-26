@@ -30,18 +30,20 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
         points: 0,
     });
 
-    useEffect(() => {
-        user && getUserPrediction(user.displayName, leagueId, roundId, fixId)
-            .then(pred => {
-                if (pred) {
-                    pred.x2 && setCheckboxValue(fixId);
-                    setPrediction({
-                        home: pred.homeGoals,
-                        away: pred.awayGoals,
-                        points: pred.points,
-                    })
-                }
+    const predictionHandler = snapshot => {
+        let pred = snapshot.val();
+        if (pred) {
+            pred.x2 && setCheckboxValue(fixId);
+            setPrediction({
+                home: pred.homeGoals,
+                away: pred.awayGoals,
+                points: pred.fixturePoints,
             })
+        }
+    }
+
+    useEffect(() => {
+        user && getUserPrediction(predictionHandler, user.displayName, leagueId, roundId, fixId)
 
         return () => {
             setCheckboxValue(false);
@@ -94,7 +96,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                         </div>
                         : `${prediction.home || '-'} : ${prediction.away || '-'}`}
                 </TableCell>
-                <TableCell align="center">{0}</TableCell>
+                <TableCell align="center">{prediction.points}</TableCell>
             </>}
         </TableRow>
         {info
