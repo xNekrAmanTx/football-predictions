@@ -1,6 +1,6 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
-import getLeaguesOfCurrentSeason from '../getsFromApi/getLeaguesOfCurrentSeason'
+import firebase from 'firebase/app';
+import 'firebase/database';
+import getLeaguesOfCurrentSeason from '../getsFromApi/getLeaguesOfCurrentSeason';
 
 
 export default () =>
