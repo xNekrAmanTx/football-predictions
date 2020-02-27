@@ -33,7 +33,7 @@ export default ({user, ...props}) => {
     const handleLogout = () => {
         firebase.auth().signOut().then(function() {
             // Sign-out successful.
-            console.log(firebase.auth().currentUser, user.email, 'logout')
+            // console.log(firebase.auth().currentUser, user.email, 'logout')
           }).catch(function(error) {
             // An error happened.
           });

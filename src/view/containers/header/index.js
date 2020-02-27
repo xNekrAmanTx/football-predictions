@@ -23,8 +23,8 @@ const styles = () => ({
 
 function Header({classes, user, ...restProps}) {
     
-    console.log('Header@ ashxatec');
-    console.log(user, firebase.auth().currentUser, 'header');
+    // console.log('Header@ ashxatec');
+    // console.log(user, firebase.auth().currentUser, 'header');
     return (
         <header className={classes.header}>
             <HeaderLogo />

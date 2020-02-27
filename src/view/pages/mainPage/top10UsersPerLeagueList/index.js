@@ -35,7 +35,7 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
     // error()
     useEffect(() => {
 
-        round && getUsers().then(users => (setUsers(users = Object.entries(users).filter(([username, user]) => user.predictions)), console.log(users), users))
+        round && getUsers().then(users => (setUsers(users = Object.entries(users).filter(([username, user]) => user.predictions)), /*console.log(users),*/ users))
             .then(users => {
                 users.forEach(([predictorName, predictor]) => {
                     Object.entries(predictor.predictions).forEach(([leagueId, league]) => {
@@ -50,7 +50,7 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
 
                         Object.entries(league).forEach(([roundId, round]) => {
 
-                            console.log(round, 'round');
+                            // console.log(round, 'round');
                             firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}`).on('value', snap => {
                                 firebase.database().ref(`points/roundPoints/${predictorName}/${leagueId}/${roundId}`)
                                     .set(Object.values(snap.val()).reduce((sum, fix) => {
@@ -60,10 +60,12 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
 
                             Object.entries(round).forEach(([fixtureId, fixture]) => {
                                 firebase.database().ref(`/fixturesPerLeaguePerRound/${leagueId}/${roundId}/${fixtureId}`).on('value', snap => {
-                                    snap.exists() && snap.val().statusShort === 'FT' &&
-                                        firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
-                                            .set(calculateMatchPoints(snap.val().score.fulltime, fixture.homeGoals + '-' + fixture.awayGoals, fixture.x2)).then(points => console.log(points, 'points'))
-                                })
+                                    console.log(snap.val().statusShort, "status");
+                                    snap.exists() && snap.val().statusShort === 'FT' &&  firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
+                                    .set(calculateMatchPoints(snap.val().score.fulltime, fixture.homeGoals + '-' + fixture.awayGoals, fixture.x2)).then(points => console.log(points, 'points'))
+                                        // firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
+                                        //     .on('value', snapshot => console.log(snapshot.val(), 'points') )
+                            })
 
                             })
                         })
@@ -80,12 +82,12 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
                     )
                 ))
                     .then(arrOfUsers => {
-                        console.log(arrOfUsers, 'arrOfUsers');
+                        // console.log(arrOfUsers, 'arrOfUsers');
                         round && setTop10OfRound(arrOfUsers.sort((user1, user2) => user2.points - user1.points).slice(0, 10))
                     })
             })
-    }, [leagueId, round])
-
+    }, [fixtures])
+// error()
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundPaper}>
