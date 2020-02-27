@@ -10,9 +10,9 @@ import Avatar from "@material-ui/core/Avatar";
 import {Grid, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-    paper : {
-        backgroundColor : "rgba(255, 255, 255, 0.52)",
-        maxWidth: 'fit-content',
+    paper: {
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
+        width: "100%"
     },
 
     roundPaper: {
@@ -22,11 +22,11 @@ const useStyles = makeStyles(theme => ({
     rootDiv: {
         display: 'flex',
         flexDirection: 'column',
-    },
+    }
 }));
 
 function createData(avatar, user, point) {
-    return { avatar, user, point };
+    return {avatar, user, point};
 }
 
 const rows = [
@@ -42,6 +42,9 @@ const rows = [
     createData("av", "user5", 5),
 ];
 
+const tableCell = {
+    padding: "3px"
+};
 
 export default () => {
     const classes = useStyles();
@@ -57,20 +60,20 @@ export default () => {
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center"/>
-                            <TableCell align="center" colSpan={2}>
+                            <TableCell align="center" className="tableCell"/>
+                            <TableCell align="center" colSpan={2} className="tableCell">
                                 users
                             </TableCell>
-                            <TableCell align="center">points</TableCell>
+                            <TableCell align="center" className="tableCell">points</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.map(row => (
                             <TableRow key={row.user}>
-                                <TableCell align="center">1</TableCell>
-                                <TableCell align="right"><Avatar alt="Av" src={row.avatar}/></TableCell>
-                                <TableCell align="left">{row.user}</TableCell>
-                                <TableCell align="center">{row.point}</TableCell>
+                                <TableCell align="center" className="tableCell" style={tableCell}>1</TableCell>
+                                <TableCell align="right" className="tableCell"><Avatar alt="Av" src={row.avatar}/></TableCell>
+                                <TableCell align="left" className="tableCell">{row.user}</TableCell>
+                                <TableCell align="center" className="tableCell">{row.point}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
