@@ -17,6 +17,16 @@ const useStyles = makeStyles({
     inputsContainer: {
         display: 'flex',
     },
+    right:{
+        display:'flex',
+        justifyContent:'flex-end',
+        alignItems:'center',
+    },
+    left:{
+        display:'flex',
+        justifyContent:'flex-start',
+        alignItems:'center',
+    }
 });
 
 export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue, fixtures }) => {
@@ -74,9 +84,21 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                     <InfoIcon />
                 </IconButton>
             </TableCell>
-            <TableCell align="right">{fixture.homeTeam.team_name}</TableCell>
+            <TableCell align="right">
+                <div className={classes.right}>
+                    {fixture.homeTeam.team_name}
+                    &nbsp;
+                    <img src={fixture.homeTeam.logo} alt={fixture.homeTeam.team_id} width="30" height="30" />
+                </div>
+            </TableCell>
             <TableCell align="center"><span>{isFinished ? fixture.goalsHomeTeam + ' : ' + fixture.goalsAwayTeam : '- : -'}</span></TableCell>
-            <TableCell align="left">{fixture.awayTeam.team_name}</TableCell>
+            <TableCell align="left">
+            <div className={classes.left}>
+                    <img src={fixture.awayTeam.logo} alt={fixture.awayTeam.team_id} width="30" height="30" />
+                    &nbsp;
+                    {fixture.awayTeam.team_name}
+                </div>
+            </TableCell>
             {user && <>
                 <TableCell align="center">
                     <Checkbox
