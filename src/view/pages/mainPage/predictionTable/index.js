@@ -1,4 +1,4 @@
-import React, { useState, useEffect }/* , { useState } */ from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Table,
     TableBody,
@@ -28,10 +28,6 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "rgba(255, 255, 255, 0.75)",
     },
 
-    table:{
-        whiteSpace: 'noWrap',
-    },
-
     clickable: {
         cursor: 'pointer',
     },
@@ -47,6 +43,10 @@ const useStyles = makeStyles(theme => ({
 
     inputsContainer: {
         display: 'flex',
+    },
+
+    table: {
+        whiteSpace: 'noWrap',
     },
 
     textCenter: {

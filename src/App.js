@@ -5,6 +5,7 @@ import './App.css';
 import Home from './view/pages/home';
 import SignUp from './view/pages/signup/Signup';
 import Rules from './view/pages/rules';
+import Top from './view/pages/top';
 import MainPage from './view/pages/mainPage';
 import Header from './view/containers/header';
 import Footer from './view/containers/footer';
@@ -59,6 +60,7 @@ function App() {
             <CustomRoute path={paths.main + '/:id'} render={() => <MainPage /* users={users} */ user={user} leagues={leagues} />} />
             <CustomRoute path={paths.signup}><SignUp handleOpen={handleOpen} setUser={setUser} setIsLoading={setIsLoading} /></CustomRoute>
             <CustomRoute path={paths.rules} component={Rules} />
+            <CustomRoute path={paths.top} component={Top} />
             <CustomRoute render={() => <NotFound subLink='' />} />
           </Switch>
         </main>
