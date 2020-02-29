@@ -26,7 +26,7 @@ export default (props) => {
     useEffect(() => {
         getCurrentRound(leagueId)
             .then(round => (setRound(round), round))
-            .then(console.log)
+            // .then(console.log)
         return () => setRound(0);
     }, [leagueId])
 

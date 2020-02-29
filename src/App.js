@@ -33,7 +33,7 @@ function App() {
       getCurrentLeagues()
         .then(leagues => (setLeagues(Object.values(leagues)), leagues))
         .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(resolve);
-    }).then(() => { setIsLoading(false); console.log(leagues) })
+    }).then(() => { setIsLoading(false);})
   }, [user]);
 
   // useEffect(() => {
