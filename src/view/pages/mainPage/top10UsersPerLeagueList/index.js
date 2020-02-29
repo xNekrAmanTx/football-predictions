@@ -50,7 +50,6 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
 
                         Object.entries(league).forEach(([roundId, round]) => {
 
-                            // console.log(round, 'round');
                             firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}`).on('value', snap => {
                                 firebase.database().ref(`points/roundPoints/${predictorName}/${leagueId}/${roundId}`)
                                     .set(Object.values(snap.val()).reduce((sum, fix) => {
@@ -60,12 +59,9 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
 
                             Object.entries(round).forEach(([fixtureId, fixture]) => {
                                 firebase.database().ref(`/fixturesPerLeaguePerRound/${leagueId}/${roundId}/${fixtureId}`).on('value', snap => {
-                                    console.log(snap.val().statusShort, "status");
-                                    snap.exists() && snap.val().statusShort === 'FT' &&  firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
-                                    .set(calculateMatchPoints(snap.val().score.fulltime, fixture.homeGoals + '-' + fixture.awayGoals, fixture.x2)).then(points => console.log(points, 'points'))
-                                        // firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
-                                        //     .on('value', snapshot => console.log(snapshot.val(), 'points') )
-                            })
+                                    snap.exists() && snap.val().statusShort === 'FT' && firebase.database().ref(`/users/${predictorName}/predictions/${leagueId}/${roundId}/${fixtureId}/fixturePoints`)
+                                        .set(calculateMatchPoints(snap.val().score.fulltime, fixture.homeGoals + '-' + fixture.awayGoals, fixture.x2))
+                                })
 
                             })
                         })
@@ -75,10 +71,10 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
             })
             .then(users => {
                 let roundTop = users.filter(([username, user]) => user.predictions[leagueId] && user.predictions[leagueId][round]);
-                Promise.all(roundTop.map(([username, user]) => 
+                Promise.all(roundTop.map(([username, user]) =>
                     new Promise(resolve =>
                         firebase.database().ref(`/points/roundPoints/${username}/${leagueId}/${round}`).once('value')
-                            .then(snap => resolve({ ...user, points : snap.val() || 0, username }))
+                            .then(snap => resolve({ ...user, points: snap.val() || 0, username }))
                     )
                 ))
                     .then(arrOfUsers => {
@@ -87,7 +83,7 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
                     })
             })
     }, [fixtures])
-// error()
+    // error()
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundPaper}>
@@ -95,14 +91,12 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
                     <Grid item>Top 10 Users</Grid>
                 </Grid>
             </Paper>
-            <TableContainer component={Paper} className={classes.paper}>
+            <TableContainer square component={Paper} className={classes.paper}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             <TableCell align="center" />
-                            <TableCell align="center" colSpan={2}>
-                                users
-                            </TableCell>
+                            <TableCell align="center" colSpan={2}>users</TableCell>
                             <TableCell align="center">points</TableCell>
                         </TableRow>
                     </TableHead>
@@ -110,7 +104,7 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
                         {top10OfRound.map((user, i) => (
                             <TableRow key={user.username}>
                                 <TableCell align="center">{i + 1}</TableCell>
-                                <TableCell align="right"><Avatar alt="Av" src={user.avatar} /></TableCell>
+                                <TableCell align="right"><Avatar>{user.avatar}</Avatar></TableCell>
                                 <TableCell align="left">{user.username}</TableCell>
                                 <TableCell align="center">{user.points}</TableCell>
                             </TableRow>

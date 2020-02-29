@@ -10,7 +10,6 @@ import {
     TableCell,
     Paper,
     Grid,
-    SvgIcon,
 } from '@material-ui/core';
 
 import getTournamentTable from '../../../../helpers/databaseSetsGets/getTournamentTable';

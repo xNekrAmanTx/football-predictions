@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue }) => {
+export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue, fixtures }) => {
     const classes = useStyles();
     const fixId = fixture.fixture_id;
     const [info, setInfo] = useState(false);
@@ -46,7 +46,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
         user && getUserPrediction(predictionHandler, user.displayName, leagueId, roundId, fixId)
 
         return () => {
-            setCheckboxValue(false);
+            setCheckboxValue(0);
             setPrediction({
                 home: '',
                 away: '',
@@ -59,7 +59,8 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
     const isNotStarted = fixture.statusShort === 'NS';
 
     function handleCheckboxChange() {
-        setCheckboxValue(fixId)
+        if (checkboxValue && fixtures.find(fix => fix.fixture_id === checkboxValue).statusShort === 'FT') return;
+        setCheckboxValue(fixId);
     }
 
     function handleInfoClick() {
