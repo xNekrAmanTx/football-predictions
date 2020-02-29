@@ -1,4 +1,4 @@
-import React, { useState, useEffect }/* , { useState } */ from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Table,
     TableBody,
@@ -47,7 +47,11 @@ const useStyles = makeStyles(theme => ({
 
     table: {
         whiteSpace: 'noWrap',
-    }
+    },
+
+    textCenter: {
+        textAlign: 'center',
+    },
 }));
 
 function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
@@ -71,6 +75,10 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
         });
     };
 
+    // const handleCheckboxValue = e => {
+
+    // }
+
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundCaption}>
@@ -78,7 +86,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
                         <Button
                             component='span'
-                            color="secondary"
+                            color="primary"
                             size="small"
                             startIcon={<NavigateBeforeIcon />}
                         >
@@ -99,8 +107,8 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                 </Grid>
             </Paper>
             <form onSubmit={handleSubmit}>
-                <TableContainer component={Paper} className={classes.paper}>
-                    <Table className={classes.table}  aria-label="simple table">
+                <TableContainer square component={Paper} className={classes.paper}>
+                    <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center" />
@@ -117,6 +125,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                         <TableBody>
                             {fixtures.map(fixture => (
                                 <FixtureRow
+                                    fixtures={fixtures}
                                     key={fixture.fixture_id}
                                     fixture={fixture}
                                     checkboxValue={checkboxValue}
@@ -137,7 +146,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                         type="submit"
                         variant="contained"
                     >Save Prediction</Button>
-                </Grid> : <Grid component='h3' justify='center'> Please sign in to predict </Grid>}
+                </Grid> : <Grid className={classes.textCenter} component='h3' justify='center'> Please sign in to predict </Grid>}
             </form>
         </div>
     );
