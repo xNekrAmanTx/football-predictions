@@ -75,6 +75,10 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
         });
     };
 
+    // const handleCheckboxValue = e => {
+
+    // }
+
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundCaption}>
@@ -82,7 +86,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
                         <Button
                             component='span'
-                            color="secondary"
+                            color="primary"
                             size="small"
                             startIcon={<NavigateBeforeIcon />}
                         >
@@ -103,7 +107,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                 </Grid>
             </Paper>
             <form onSubmit={handleSubmit}>
-                <TableContainer component={Paper} className={classes.paper}>
+                <TableContainer square component={Paper} className={classes.paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -121,6 +125,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                         <TableBody>
                             {fixtures.map(fixture => (
                                 <FixtureRow
+                                    fixtures={fixtures}
                                     key={fixture.fixture_id}
                                     fixture={fixture}
                                     checkboxValue={checkboxValue}
