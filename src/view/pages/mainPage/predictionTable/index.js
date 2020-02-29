@@ -28,6 +28,10 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "rgba(255, 255, 255, 0.75)",
     },
 
+    table:{
+        whiteSpace: 'noWrap',
+    },
+
     clickable: {
         cursor: 'pointer',
     },
@@ -43,6 +47,10 @@ const useStyles = makeStyles(theme => ({
 
     inputsContainer: {
         display: 'flex',
+    },
+
+    textCenter: {
+        textAlign: 'center',
     },
 }));
 
@@ -96,7 +104,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
             </Paper>
             <form onSubmit={handleSubmit}>
                 <TableContainer component={Paper} className={classes.paper}>
-                    <Table /* className={classes.table} */ aria-label="simple table">
+                    <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center" />
@@ -133,7 +141,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                         type="submit"
                         variant="contained"
                     >Save Prediction</Button>
-                </Grid> : <Grid component='h3' justify='center'> Please sign in to predict </Grid>}
+                </Grid> : <Grid className={classes.textCenter} component='h3' justify='center'> Please sign in to predict </Grid>}
             </form>
         </div>
     );
