@@ -3,6 +3,7 @@ export const paths = {
     main: '/leagues',
 
     signup: '/signup',
-    rules: '/rules'
+    rules: '/rules',
+    top: '/top',
 };
 

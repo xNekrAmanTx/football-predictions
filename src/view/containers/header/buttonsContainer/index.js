@@ -41,7 +41,7 @@ export default ({user, ...props}) => {
 
     return (
         <div style={blockStyle}>
-            <Link to={paths.rules} style={linkStyle}>
+            <Link to={paths.top} style={linkStyle}>
                 <Typography variant="body2">Top Users</Typography>
             </Link>
             <Link to={paths.rules} style={linkStyle}>

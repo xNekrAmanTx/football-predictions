@@ -44,6 +44,10 @@ const useStyles = makeStyles(theme => ({
     inputsContainer: {
         display: 'flex',
     },
+
+    table: {
+        whiteSpace: 'noWrap',
+    }
 }));
 
 function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
@@ -96,7 +100,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
             </Paper>
             <form onSubmit={handleSubmit}>
                 <TableContainer component={Paper} className={classes.paper}>
-                    <Table /* className={classes.table} */ aria-label="simple table">
+                    <Table className={classes.table}  aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center" />
