@@ -57,9 +57,10 @@ export default function TournamentTable({ leagueId }) {
                         {standings.map(team => (
                             <TableRow key={team.team_id}>
                                 <TableCell align='center'>{team.rank}</TableCell>
-                                <TableCell align='left'>
+                                <TableCell >
                                     <Grid container alignItems="center">
                                         <img src={team.logo} alt={team.team_id} width="30" height="30" />
+                                        &nbsp;
                                         {team.teamName}
                                     </Grid>
                                 </TableCell>
