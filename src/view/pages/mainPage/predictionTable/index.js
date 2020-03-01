@@ -16,6 +16,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
 import FixtureRow from '../../../components/FixtureRow';
+import getRoundsNumber from '../../../../helpers/databaseGets/getRoundsNumber';
 
 
 const useStyles = makeStyles(theme => ({
@@ -62,7 +63,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
 
     const areAllStarted = fixtures.every(fix => fix.statusShort !== 'NS')
 
-    const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
+    const handleRoundChangeCLick = dif => round + dif > 0 && round + dif <= roundsCount && setRound(round + dif);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -75,6 +76,10 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
         });
     };
 
+    useEffect(() => {
+        getRoundsNumber(leagueId).then(roundsNumber => setRoundsCount(roundsNumber))
+    }, [leagueId])
+
     // const handleCheckboxValue = e => {
 
     // }
@@ -85,6 +90,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                 <Grid container justify="space-between" className={classes.prevNextDiv} alignItems='center'>
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
                         <Button
+                            disabled={round === 1}
                             component='span'
                             color="primary"
                             size="small"
@@ -96,6 +102,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                     <Grid item>{`Round ${round}`}</Grid>
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>
                         <Button
+                            disabled={round === roundsCount}
                             component='span'
                             color="primary"
                             size="small"
