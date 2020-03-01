@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
         maxWidth: 'fit-content',
+        minWidth: '15rem',
     },
 
     roundPaper: {

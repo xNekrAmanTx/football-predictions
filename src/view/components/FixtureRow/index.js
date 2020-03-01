@@ -17,16 +17,20 @@ const useStyles = makeStyles({
     inputsContainer: {
         display: 'flex',
     },
-    right:{
-        display:'flex',
-        justifyContent:'flex-end',
-        alignItems:'center',
+    right: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
-    left:{
-        display:'flex',
-        justifyContent:'flex-start',
-        alignItems:'center',
-    }
+    left: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    overflow: {
+        maxWidth: 100,
+        textOverflow: 'elipsis',
+    },
 });
 
 export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue, fixtures }) => {
@@ -53,9 +57,11 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
     }
 
     useEffect(() => {
-        user && getUserPrediction(predictionHandler, user.displayName, leagueId, roundId, fixId)
+        let canselled = false;
+        !canselled && user && getUserPrediction(predictionHandler, user.displayName, leagueId, roundId, fixId)
 
         return () => {
+            canselled = true;
             setCheckboxValue(0);
             setPrediction({
                 home: '',
@@ -93,7 +99,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
             </TableCell>
             <TableCell align="center"><span>{isFinished ? fixture.goalsHomeTeam + ' : ' + fixture.goalsAwayTeam : '- : -'}</span></TableCell>
             <TableCell align="left">
-            <div className={classes.left}>
+                <div className={classes.left}>
                     <img src={fixture.awayTeam.logo} alt={fixture.awayTeam.team_id} width="30" height="30" />
                     &nbsp;
                     {fixture.awayTeam.team_name}
@@ -128,9 +134,9 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                 <TableCell />
                 <TableCell colSpan={3}>
                     <Paper>
-                        <Typography color="textSecondary">
-                            Match start:
-                            </Typography>
+                        <Typography color="textSecondary" className={classes.overflow}>
+                            {`Match start: ${new Date(fixture.event_date)}`}
+                        </Typography>
                     </Paper>
                 </TableCell>
                 {user && <TableCell colSpan={3} />}

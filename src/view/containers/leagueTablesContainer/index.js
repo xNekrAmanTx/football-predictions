@@ -24,10 +24,13 @@ export default (props) => {
     const [fixtures, setFixtures] = useState([]);
 
     useEffect(() => {
-        getCurrentRound(leagueId)
+        /* let canselled = false;
+        !canselled &&  */getCurrentRound(leagueId)
             .then(round => (setRound(round), round))
-            // .then(console.log)
-        return () => setRound(0);
+        return () => {
+            // canselled = true;
+            setRound(0);
+        };
     }, [leagueId])
 
     const handler = snapshot => {
@@ -35,7 +38,11 @@ export default (props) => {
     }
 
     useEffect(() => {
-        round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
+        let canselled = false;
+        !canselled && round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
+        return () => {
+            canselled = true;
+        }
     }, [leagueId, round]);
 
     return (

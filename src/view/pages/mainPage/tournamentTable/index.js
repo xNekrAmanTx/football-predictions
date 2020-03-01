@@ -50,7 +50,7 @@ export default function TournamentTable({ leagueId }) {
                 <Table className={classes.table} aria-label='tournament table'>
                     <TableHead>
                         <TableRow>
-                            {['', 'team', 'm', 'p'].map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
+                            {['', 'team', 'm', 'p'].map((str, i) => <TableCell key={i} align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
