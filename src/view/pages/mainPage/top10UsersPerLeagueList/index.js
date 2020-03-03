@@ -10,8 +10,12 @@ import { calculateMatchPoints } from "../../../../helpers/calculatePoints";
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        maxWidth: 'fit-content',
-        minWidth: '15rem',
+// <<<<<<< table-ui
+        width: "100%"
+// =======
+//         maxWidth: 'fit-content',
+//         minWidth: '15rem',
+// >>>>>>> master
     },
 
     roundPaper: {
@@ -22,6 +26,13 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
     },
+  
+    avatar: {
+        width: "30px",
+        height: "30px",
+        margin: "5px 0"
+    },
+  
     /* noFocus:{
         '&:active': {
             outline: 'none',
@@ -31,6 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default ({ round, leagueId, fixtures/* , users */ }) => {
+
     const classes = useStyles();
 
 
@@ -116,20 +128,25 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center" />
-                            <TableCell align="center" colSpan={2}>user</TableCell>
-                            <TableCell align="center">points</TableCell>
+
+                            <TableCell align="center" className="tableCell" padding="none"/>
+                            <TableCell align="center" colSpan={2} className="tableCell" padding="none">
+                                user
+                            </TableCell>
+                            <TableCell align="center" className="tableCell" padding="none">points</TableCell>
+
                         </TableRow>
                     </TableHead>
 
 
                     <TableBody>
+
                         {top10.map((user, i) => (
                             <TableRow key={user.username}>
-                                <TableCell align="center">{i + 1}</TableCell>
-                                <TableCell align="right"><Avatar>{user.avatar}</Avatar></TableCell>
-                                <TableCell align="left">{user.username}</TableCell>
-                                <TableCell align="center">{user.points}</TableCell>
+                                <TableCell align="center" className="tableCell" padding="none">{i + 1}</TableCell>
+                                <TableCell align="right" className="tableCell" padding="none"><Avatar>{user.avatar}</Avatar></TableCell>
+                                <TableCell align="left" className="tableCell" padding="none">{user.username}</TableCell>
+                                <TableCell align="center" className="tableCell" padding="none">{user.points}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

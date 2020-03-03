@@ -16,6 +16,11 @@ import getUserPrediction from '../../../helpers/databaseGets/getUserPrediction';
 const useStyles = makeStyles({
     inputsContainer: {
         display: 'flex',
+// <<<<<<< table-ui
+//         justifyContent: "center",
+//     }
+// }));
+// =======
     },
     right: {
         display: 'flex',
@@ -32,6 +37,7 @@ const useStyles = makeStyles({
         textOverflow: 'elipsis',
     },
 });
+// >>>>>>> master
 
 export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue, fixtures }) => {
     const classes = useStyles();
@@ -84,6 +90,44 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
     }
 
     return (<>
+// <<<<<<< table-ui
+//                 <TableRow key={row.fixture_id}>
+//                     <TableCell component="th" scope="row" align="center" className={classes.tableCell} padding="none">
+//                         <IconButton onClick={handleInfoClick} value={row.fixture_id}>
+//                             <InfoIcon/>
+//                         </IconButton>
+//                     </TableCell>
+//                     <TableCell align="right" padding="none">{row.homeTeam.team_name}</TableCell>
+//                     <TableCell align="center" padding="none"><span>{row.statusShort === 'FT' ? row.goalsHomeTeam + ' : ' + row.goalsAwayTeam : '- : -'}</span></TableCell>
+//                     <TableCell align="left" padding="none">{row.awayTeam.team_name}</TableCell>
+//                     <TableCell align="center" padding="none">
+//                         <Checkbox
+//                             checked={row.fixture_id == value}
+//                             onChange={handleCheckboxChange}
+//                             value={row.fixture_id}
+//                             color='secondary'
+//                             inputProps={{ 'aria-label': 'primary checkbox' }}
+//                         /></TableCell>
+//                     <TableCell align="center" padding="none">
+//                         {row.statusShort !== 'FT' ?
+//                         <div className={classes.inputsContainer}>
+//                             <PredictionInput width={10} /> : <PredictionInput width={10} />
+//                         </div> : '- : -'}
+//                     </TableCell>
+//                     <TableCell align="center" padding="none">0</TableCell>
+//                 </TableRow>
+//         {info.includes(row.fixture_id) &&
+//         <TableRow>
+//             <TableCell/>
+//             <TableCell colSpan={5} padding="none">
+//                         <Paper>
+//                             <Typography color="textSecondary">
+//                                 Match start:
+//                             </Typography>
+//                         </Paper>
+//             </TableCell>
+//             <TableCell padding="none"/>
+// =======
         <TableRow key={fixId} id={fixId}>
             <TableCell component="th" scope="row" align="center">
                 <IconButton onClick={handleInfoClick} value={fixId}>
@@ -140,6 +184,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                     </Paper>
                 </TableCell>
                 {user && <TableCell colSpan={3} />}
+{*/>>>>>>> master/*}
             </TableRow>}
     </>
     );

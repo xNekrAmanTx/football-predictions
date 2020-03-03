@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
     Table,
     TableBody,
@@ -22,7 +23,8 @@ import getRoundsNumber from '../../../../helpers/databaseGets/getRoundsNumber';
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        maxWidth: 'fit-content'
+        maxHeight: "335px",
+        marginBottom: "20px"
     },
 
     roundCaption: {
@@ -55,7 +57,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+
 function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
+
     const classes = useStyles();
 
     const [checkboxValue, setCheckboxValue] = useState(0);
@@ -104,7 +108,6 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                         <Button
                             disabled={round === roundsCount}
                             component='span'
-                            color="primary"
                             size="small"
                             endIcon={<NavigateNextIcon />}
                         >
@@ -118,15 +121,17 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" />
-                                <TableCell align="right">First Team</TableCell>
-                                <TableCell align="center">Result</TableCell>
-                                <TableCell align="left">Second Team</TableCell>
+
+                                <TableCell align="center" padding="none"/>
+                                <TableCell align="right" padding="none">First Team</TableCell>
+                                <TableCell align="center" padding="none">Result</TableCell>
+                                <TableCell align="left" padding="none">Second Team</TableCell>
                                 {user && <>
-                                    <TableCell align="center">x2</TableCell>
-                                    <TableCell align="center">Prediction</TableCell>
-                                    <TableCell align="center">Points</TableCell>
+                                    <TableCell align="center" padding="none">x2</TableCell>
+                                    <TableCell align="center" padding="none">Prediction</TableCell>
+                                    <TableCell align="center" padding="none">Points</TableCell>
                                 </>}
+
                             </TableRow>
                         </TableHead>
                         <TableBody>

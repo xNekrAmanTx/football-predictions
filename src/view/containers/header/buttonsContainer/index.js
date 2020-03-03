@@ -47,7 +47,7 @@ export default ({user, ...props}) => {
             <Link to={paths.rules} style={linkStyle}>
                 <Typography variant="body2">Rules</Typography>
             </Link>
-            {!user ? 
+            {!user ?
             <>
             <Button
                 style={buttonStyle}
@@ -58,13 +58,13 @@ export default ({user, ...props}) => {
             </Button>
             <LoginDialogForm {...props}/>
             <Link to={paths.signup} style={linkStyle}>
-                <Button color="primary"
+                <Button
                         style={buttonStyle}>
                     Sign up
                 </Button>
             </Link>
             </> :
-            <Button color="primary" onClick={handleLogout}>Log Out</Button>}
+            <Button onClick={handleLogout}>Log Out</Button>}
         </div>
     )
 }

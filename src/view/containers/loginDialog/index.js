@@ -41,7 +41,7 @@ function LoginDialog({ open, handleClose, setIsLoading }) {
             open={open}
             aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">Log In</DialogTitle>
+            <DialogTitle id="form-dialog-title" className="title">Log In</DialogTitle>
             <form onSubmit={handleLogin} noValidate>
                 <DialogContent>
                     <TextField
@@ -67,7 +67,7 @@ function LoginDialog({ open, handleClose, setIsLoading }) {
                     </Button>
                 </DialogActions>
             </form>
-            <Link onClick={handleClose} to={paths.signup}>Don't have an account? Sign up</Link>
+            <Link onClick={handleClose} to={paths.signup} className="link">Don't have an account?  Sign up</Link>
         </Dialog>
 
     );
