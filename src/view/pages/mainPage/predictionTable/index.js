@@ -1,4 +1,4 @@
-import React, { useState, useEffect }/* , { useState } */ from 'react';
+import React, {useState, useEffect}/* , { useState } */ from 'react';
 import {
     Table,
     TableBody,
@@ -20,7 +20,8 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        maxWidth: 'fit-content'
+        maxHeight: "335px",
+        marginBottom: "20px"
     },
 
     roundCaption: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
 
     clickable: {
-        cursor:'pointer',
+        cursor: 'pointer',
     },
 
     button: {
@@ -42,11 +43,11 @@ const useStyles = makeStyles(theme => ({
 
     inputsContainer: {
         display: 'flex',
-    },
+    }
 }));
 
 
-function PredictionTable({ leagueId, round, setRound }) {
+function PredictionTable({leagueId, round, setRound}) {
     const classes = useStyles();
 
     const [rows, setRows] = useState({});
@@ -71,7 +72,6 @@ function PredictionTable({ leagueId, round, setRound }) {
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
                         <Button
                             component='span'
-                            color="secondary"
                             size="small"
                             startIcon={<NavigateBeforeIcon/>}
                         >
@@ -82,7 +82,6 @@ function PredictionTable({ leagueId, round, setRound }) {
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>
                         <Button
                             component='span'
-                            color="primary"
                             size="small"
                             endIcon={<NavigateNextIcon/>}
                         >
@@ -96,13 +95,13 @@ function PredictionTable({ leagueId, round, setRound }) {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center"/>
-                                <TableCell align="right">First Team</TableCell>
-                                <TableCell align="center">Result</TableCell>
-                                <TableCell align="left">Second Team</TableCell>
-                                <TableCell align="center">x2</TableCell>
-                                <TableCell align="center">Prediction</TableCell>
-                                <TableCell align="center">Points</TableCell>
+                                <TableCell align="center" padding="none"/>
+                                <TableCell align="right" padding="none">First Team</TableCell>
+                                <TableCell align="center" padding="none">Result</TableCell>
+                                <TableCell align="left" padding="none">Second Team</TableCell>
+                                <TableCell align="center" padding="none">x2</TableCell>
+                                <TableCell align="center" padding="none">Prediction</TableCell>
+                                <TableCell align="center" padding="none">Points</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

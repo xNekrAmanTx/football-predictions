@@ -15,8 +15,6 @@ import {
 const useStyles = makeStyles({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        // width: "auto"
-        maxWidth: 'fit-content'
     },
     rootDiv: {
         display: 'flex',
@@ -61,14 +59,14 @@ export default function TournamentTable() {
             <Table className={classes.table} aria-label='tournament table'>
                 <TableHead>
                     <TableRow>
-                        {tableHead.map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
+                        {tableHead.map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'} padding="none">{str}</TableCell>)}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map(row => (
                         <TableRow key={row.name}>
                             {row.datas.map((data, i) => <TableCell
-                                align={i - 1 ? 'center' : 'left'}>{data}</TableCell>)}
+                                align={i - 1 ? 'center' : 'left'} padding="none">{data}</TableCell>)}
                         </TableRow>
                     ))}
                 </TableBody>

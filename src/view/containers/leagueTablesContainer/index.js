@@ -10,8 +10,11 @@ import getCurrentRound from '../../../helpers/databaseSetsGets/getCurrentRound'
 const useStyles = makeStyles({
     tablesContainer: {
         display: "grid",
-        gridTemplateColumns: "1fr 2fr 1fr",
+        gridTemplateColumns: "0.5fr 2fr 0.5fr",
         gridGap: "20px"
+    },
+    td:{
+        padding: 0,
     }
 });
 

@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     link: {
         textDecoration: 'none'
     }
+
 });
 
 function LeagueCard({liga}) {

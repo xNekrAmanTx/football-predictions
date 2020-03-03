@@ -7,6 +7,7 @@ const useStyles = makeStyles({
         width: '2em',
         textAlign: 'center',
         WebkitAppearance: 'none',
+        outline: "none"
     },
 
 });

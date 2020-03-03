@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, {useState, useRef, useEffect} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import {
     Avatar,
     Button,
@@ -13,23 +13,24 @@ import {
     MuiThemeProvider
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { paths } from '../../../constants';
+import {paths} from '../../../constants';
 import signUp from '../../../helpers/userSignUp'
 import * as validation from '../../../helpers/validation/signupValidation';
 import firebase from "firebase/app";
 import 'firebase/auth';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import {SnackbarProvider, useSnackbar} from 'notistack';
 
 const {validatePassword, validateUsername, validateEmail} = validation;
 
 const useStyles = makeStyles(theme => ({
     paper: {
         margin: theme.spacing(1),
-        padding: theme.spacing(1),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: 'white',
+        padding: "20px",
+        borderRadius: "15px"
     },
     avatar: {
         margin: theme.spacing(1),
@@ -42,6 +43,10 @@ const useStyles = makeStyles(theme => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    link: {
+        textDecoration: "none",
+        color: "#3f51b5",
+    }
 }));
 
 export default function SignUp(props) {
@@ -52,7 +57,7 @@ export default function SignUp(props) {
     );
 }
 
-function SignUpSnack({ handleOpen, setIsLoading }) {
+function SignUpSnack({handleOpen, setIsLoading}) {
     const history = useHistory();
     const classes = useStyles();
 
@@ -74,7 +79,7 @@ function SignUpSnack({ handleOpen, setIsLoading }) {
     let [isTouchedEmail, setIsTouchedEmail] = useState(false);
     let [isTouchedPassword, setIsTouchedPassword] = useState(false);
 
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
 
     let userNameRef = useRef();
 
@@ -83,7 +88,9 @@ function SignUpSnack({ handleOpen, setIsLoading }) {
 
     const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password));
 
-    const handleChange = (e, setValue) => {setValue(e.target.value)};
+    const handleChange = (e, setValue) => {
+        setValue(e.target.value)
+    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -91,22 +98,25 @@ function SignUpSnack({ handleOpen, setIsLoading }) {
             .then(() => {
                 firebase.database().ref('users/' + username).set({
                     email: email,
-                    avatar : username[0].toUpperCase(),
-            })})
-            .then(() => { history.push(paths.home);})
+                    avatar: username[0].toUpperCase(),
+                })
+            })
+            .then(() => {
+                history.push(paths.home);
+            })
             .catch(function (error) {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            enqueueSnackbar(errorMessage, {variant: "error"});
-        })
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                enqueueSnackbar(errorMessage, {variant: "error"});
+            })
         // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className={classes.container}>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign Up
@@ -127,9 +137,14 @@ function SignUpSnack({ handleOpen, setIsLoading }) {
                                     size="small"
                                     error={isTouchedUsername && !validateUsername(username)}
                                     onChange={(e) => handleChange(e, setUsername)}
-                                    onBlur={(e) => {setIsTouchedUsername(true); console.log(e.target)}}
+                                    onBlur={(e) => {
+                                        setIsTouchedUsername(true);
+                                        console.log(e.target)
+                                    }}
                                 />
-                                {isTouchedUsername && !validateUsername(username) && <FormHelperText error>Username must contain only latin letters and digits(2-20 chars)</FormHelperText>}
+                                {isTouchedUsername && !validateUsername(username) &&
+                                <FormHelperText error>Username must contain only latin letters and digits(2-20
+                                    chars)</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -143,9 +158,12 @@ function SignUpSnack({ handleOpen, setIsLoading }) {
                                     size="small"
                                     error={isTouchedEmail && !validateEmail(email)}
                                     onChange={(e) => handleChange(e, setEmail)}
-                                    onBlur={() => {setIsTouchedEmail(true)}}
+                                    onBlur={() => {
+                                        setIsTouchedEmail(true)
+                                    }}
                                 />
-                                {isTouchedEmail && !validateEmail(email) && <FormHelperText error>Email is not valid</FormHelperText>}
+                                {isTouchedEmail && !validateEmail(email) &&
+                                <FormHelperText error>Email is not valid</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -160,26 +178,29 @@ function SignUpSnack({ handleOpen, setIsLoading }) {
                                     size="small"
                                     error={isTouchedPassword && !validatePassword(password)}
                                     onChange={(e) => handleChange(e, setPassword)}
-                                    onBlur={() => {setIsTouchedPassword(true)}}
+                                    onBlur={() => {
+                                        setIsTouchedPassword(true)
+                                    }}
                                 />
-                                {isTouchedPassword && !validatePassword(password) && <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin letters and 1 digit(8 or more chars)</FormHelperText>}
+                                {isTouchedPassword && !validatePassword(password) &&
+                                <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin
+                                    letters and 1 digit(8 or more chars)</FormHelperText>}
                             </Grid>
                         </Grid>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            color="primary"
                             className={classes.submit}
                             disabled={disabledSignUpButton}
                         >
                             Sign Up
-                    </Button>
+                        </Button>
                         <Grid container justify="flex-end">
                             <Grid item>
-                                <Link onClick={handleOpen} to={paths.home} >
+                                <Link onClick={handleOpen} to={paths.home} className={classes.link}>
                                     Already have an account? Log in
-                            </Link>
+                                </Link>
                             </Grid>
                         </Grid>
                     </form>

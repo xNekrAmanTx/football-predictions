@@ -22,6 +22,11 @@ const useStyles = makeStyles(theme => ({
     rootDiv: {
         display: 'flex',
         flexDirection: 'column',
+    },
+    avatar: {
+        width: "30px",
+        height: "30px",
+        margin: "5px 0"
     }
 }));
 
@@ -42,10 +47,6 @@ const rows = [
     createData("av", "user5", 5),
 ];
 
-const tableCell = {
-    padding: "3px"
-};
-
 export default () => {
     const classes = useStyles();
 
@@ -60,20 +61,20 @@ export default () => {
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center" className="tableCell"/>
-                            <TableCell align="center" colSpan={2} className="tableCell">
+                            <TableCell align="center" className="tableCell" padding="none"/>
+                            <TableCell align="center" colSpan={2} className="tableCell" padding="none">
                                 users
                             </TableCell>
-                            <TableCell align="center" className="tableCell">points</TableCell>
+                            <TableCell align="center" className="tableCell" padding="none">points</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.map(row => (
                             <TableRow key={row.user}>
-                                <TableCell align="center" className="tableCell" style={tableCell}>1</TableCell>
-                                <TableCell align="right" className="tableCell"><Avatar alt="Av" src={row.avatar}/></TableCell>
-                                <TableCell align="left" className="tableCell">{row.user}</TableCell>
-                                <TableCell align="center" className="tableCell">{row.point}</TableCell>
+                                <TableCell align="center" className="tableCell" padding="none">1</TableCell>
+                                <TableCell align="right" className="tableCell" padding="none"><Avatar alt="Av" src={row.avatar} className={classes.avatar}/></TableCell>
+                                <TableCell align="left" className="tableCell" padding="none">{row.user}</TableCell>
+                                <TableCell align="center" className="tableCell" padding="none">{row.point}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
