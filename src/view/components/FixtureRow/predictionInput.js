@@ -12,8 +12,26 @@ const useStyles = makeStyles({
 
 });
 
-export default () => {
+export default ({ prediction, setPrediction, which }) => {
     const classes = useStyles();
 
-    return <input className={classes.inputNum} type='number' min='0'/>;
+// <<<<<<< table-ui
+//     return <input className={classes.inputNum} type='number' min='0'/>;
+// }
+// =======
+    return (
+        <input
+            type='number'
+            min='0'
+            className={classes.inputNum}
+            value={prediction[which]}
+            onChange={(e) => {
+                const newPrediction = {...prediction};
+                newPrediction[which] = e.target.value;
+                setPrediction(newPrediction);
+            }}
+            width={10}
+        />
+    )
 }
+// >>>>>>> master

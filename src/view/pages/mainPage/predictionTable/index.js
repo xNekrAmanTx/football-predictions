@@ -1,4 +1,5 @@
-import React, {useState, useEffect}/* , { useState } */ from 'react';
+import React, { useState, useEffect } from 'react';
+
 import {
     Table,
     TableBody,
@@ -10,12 +11,14 @@ import {
     makeStyles,
     Button,
     Grid,
-    Checkbox,
 } from '@material-ui/core';
-import FixtureRow from '../../../components/FixtureRow';
-import getFixturesOfCurrentLeagueAndRound from '../../../../helpers/databaseGets/getFixturesOfCurrentLeagueAndRound';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+
+import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
+import FixtureRow from '../../../components/FixtureRow';
+import getRoundsNumber from '../../../../helpers/databaseGets/getRoundsNumber';
+
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -43,27 +46,47 @@ const useStyles = makeStyles(theme => ({
 
     inputsContainer: {
         display: 'flex',
-    }
+    },
+
+    table: {
+        whiteSpace: 'noWrap',
+    },
+
+    textCenter: {
+        textAlign: 'center',
+    },
 }));
 
 
-function PredictionTable({leagueId, round, setRound}) {
+function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
+
     const classes = useStyles();
 
-    const [rows, setRows] = useState({});
-    const [value, setValue] = useState(0);
-    const [info, setInfo] = useState([]);
+    const [checkboxValue, setCheckboxValue] = useState(0);
+    const [roundsCount, setRoundsCount] = useState(0);
 
-    useEffect(() => {
-        round && getFixturesOfCurrentLeagueAndRound(leagueId, round)
-            .then(matches => setRows(Object.values(matches).sort((m1, m2) => m1.event_timestamp - m2.event_timestamp)))
-    }, [leagueId, round]);
+    const areAllStarted = fixtures.every(fix => fix.statusShort !== 'NS')
 
-    const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
+    const handleRoundChangeCLick = dif => round + dif > 0 && round + dif <= roundsCount && setRound(round + dif);
 
     const handleSubmit = e => {
         e.preventDefault();
+        fixtures.map(fixture => {
+            let id = fixture.fixture_id;
+            let matchRow = document.getElementById(id);
+            let x2 = checkboxValue === id;
+            let [home, away] = [...matchRow.querySelectorAll('input[type=number]')].map(inp => inp.value);
+            home && away && setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0);
+        });
     };
+
+    useEffect(() => {
+        getRoundsNumber(leagueId).then(roundsNumber => setRoundsCount(roundsNumber))
+    }, [leagueId])
+
+    // const handleCheckboxValue = e => {
+
+    // }
 
     return (
         <div className={classes.rootDiv}>
@@ -71,9 +94,11 @@ function PredictionTable({leagueId, round, setRound}) {
                 <Grid container justify="space-between" className={classes.prevNextDiv} alignItems='center'>
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
                         <Button
+                            disabled={round === 1}
                             component='span'
+                            color="primary"
                             size="small"
-                            startIcon={<NavigateBeforeIcon/>}
+                            startIcon={<NavigateBeforeIcon />}
                         >
                             previous round
                         </Button>
@@ -81,9 +106,10 @@ function PredictionTable({leagueId, round, setRound}) {
                     <Grid item>{`Round ${round}`}</Grid>
                     <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>
                         <Button
+                            disabled={round === roundsCount}
                             component='span'
                             size="small"
-                            endIcon={<NavigateNextIcon/>}
+                            endIcon={<NavigateNextIcon />}
                         >
                             next round
                         </Button>
@@ -95,29 +121,44 @@ function PredictionTable({leagueId, round, setRound}) {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
+
                                 <TableCell align="center" padding="none"/>
                                 <TableCell align="right" padding="none">First Team</TableCell>
                                 <TableCell align="center" padding="none">Result</TableCell>
                                 <TableCell align="left" padding="none">Second Team</TableCell>
-                                <TableCell align="center" padding="none">x2</TableCell>
-                                <TableCell align="center" padding="none">Prediction</TableCell>
-                                <TableCell align="center" padding="none">Points</TableCell>
+                                {user && <>
+                                    <TableCell align="center" padding="none">x2</TableCell>
+                                    <TableCell align="center" padding="none">Prediction</TableCell>
+                                    <TableCell align="center" padding="none">Points</TableCell>
+                                </>}
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {Object.keys(rows)[0] && rows.map(row => (
-                                <FixtureRow row={row} value={value} setValue={setValue} info={info} setInfo={setInfo}/>
+                            {fixtures.map(fixture => (
+                                <FixtureRow
+                                    fixtures={fixtures}
+                                    key={fixture.fixture_id}
+                                    fixture={fixture}
+                                    checkboxValue={checkboxValue}
+                                    setCheckboxValue={setCheckboxValue}
+                                    user={user}
+                                    leagueId={leagueId}
+                                    roundId={round}
+
+                                />
                             ))}
                         </TableBody>
                     </Table>
 
                 </TableContainer>
-                <Grid container justify="flex-end">
+                {user ? <Grid container justify="flex-end">
                     <Button
+                        disabled={areAllStarted}
                         type="submit"
                         variant="contained"
                     >Save Prediction</Button>
-                </Grid>
+                </Grid> : <Grid className={classes.textCenter} component='h3' justify='center'> Please sign in to predict </Grid>}
             </form>
         </div>
     );

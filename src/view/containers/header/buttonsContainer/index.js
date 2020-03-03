@@ -33,7 +33,7 @@ export default ({user, ...props}) => {
     const handleLogout = () => {
         firebase.auth().signOut().then(function() {
             // Sign-out successful.
-            console.log(firebase.auth().currentUser, user.email, 'logout')
+            // console.log(firebase.auth().currentUser, user.email, 'logout')
           }).catch(function(error) {
             // An error happened.
           });
@@ -41,7 +41,7 @@ export default ({user, ...props}) => {
 
     return (
         <div style={blockStyle}>
-            <Link to={paths.rules} style={linkStyle}>
+            <Link to={paths.top} style={linkStyle}>
                 <Typography variant="body2">Top Users</Typography>
             </Link>
             <Link to={paths.rules} style={linkStyle}>

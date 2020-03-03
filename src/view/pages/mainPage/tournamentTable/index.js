@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
     makeStyles,
@@ -9,8 +9,10 @@ import {
     TableRow,
     TableCell,
     Paper,
-    Grid
+    Grid,
 } from '@material-ui/core';
+
+import getTournamentTable from '../../../../helpers/databaseSetsGets/getTournamentTable';
 
 const useStyles = makeStyles({
     paper: {
@@ -26,52 +28,67 @@ const useStyles = makeStyles({
     },
 });
 
-
-// let teamObj = {
-//     position: 1,
-//     name: 'Liverpool',
-//     matches: 25,
-//     points: 73,
-// }
-let team = [1, 'Liverpool', 25, 73];
-
-class Team {
-    constructor(/* {position,name,matches,points} */datas = team) {
-        this.datas = datas;
-    }
-}
-
-let tableHead = ['', 'team', 'm', 'p'];
-
-const rows = Array(20).fill('').map(() => new Team());
-
-export default function TournamentTable() {
+export default function TournamentTable({ leagueId }) {
     const classes = useStyles();
+
+    const [standings, setStandings] = useState([]);
+
+    useEffect(() => {
+        getTournamentTable(leagueId).then(standings => setStandings(standings))
+    }, [leagueId])
 
     return (
         <div className={classes.rootDiv}>
-        <Paper square className={classes.roundPaper}>
-            <Grid container justify="center" className={classes.prevNextDiv}>
-                <Grid item>Tournament Table</Grid>
-            </Grid>
-        </Paper>
-        <TableContainer square className={classes.paper}>
-            <Table className={classes.table} aria-label='tournament table'>
-                <TableHead>
-                    <TableRow>
-                        {tableHead.map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'} padding="none">{str}</TableCell>)}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.name}>
-                            {row.datas.map((data, i) => <TableCell
-                                align={i - 1 ? 'center' : 'left'} padding="none">{data}</TableCell>)}
+// <<<<<<< table-ui
+//         <Paper square className={classes.roundPaper}>
+//             <Grid container justify="center" className={classes.prevNextDiv}>
+//                 <Grid item>Tournament Table</Grid>
+//             </Grid>
+//         </Paper>
+//         <TableContainer square className={classes.paper}>
+//             <Table className={classes.table} aria-label='tournament table'>
+//                 <TableHead>
+//                     <TableRow>
+//                         {tableHead.map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'} padding="none">{str}</TableCell>)}
+//                     </TableRow>
+//                 </TableHead>
+//                 <TableBody>
+//                     {rows.map(row => (
+//                         <TableRow key={row.name}>
+//                             {row.datas.map((data, i) => <TableCell
+//                                 align={i - 1 ? 'center' : 'left'} padding="none">{data}</TableCell>)}
+// =======
+            <Paper square className={classes.roundPaper}>
+                <Grid container justify="center" className={classes.prevNextDiv}>
+                    <Grid item>Tournament Table</Grid>
+                </Grid>
+            </Paper>
+            <TableContainer className={classes.paper}>
+                <Table className={classes.table} aria-label='tournament table'>
+                    <TableHead>
+                        <TableRow>
+                            {['', 'team', 'm', 'p'].map((str, i) => <TableCell key={i} align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
+// >>>>>>> master
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {standings.map(team => (
+                            <TableRow key={team.team_id}>
+                                <TableCell align='center'>{team.rank}</TableCell>
+                                <TableCell >
+                                    <Grid container alignItems="center">
+                                        <img src={team.logo} alt={team.team_id} width="30" height="30" />
+                                        &nbsp;
+                                        {team.teamName}
+                                    </Grid>
+                                </TableCell>
+                                <TableCell align='center'>{team.all.matchsPlayed}</TableCell>
+                                <TableCell align='center'>{team.points}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </div>
     );
 }

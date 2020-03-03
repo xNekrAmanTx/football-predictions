@@ -7,14 +7,14 @@ import './home.css';
 
 export default function Home({leagues}){
     return (
-        <>
+        <div className="home">
             <Box className="box">
-                {Object.values(leagues).map(liga => (
+                {leagues.map(liga => (
                     <LeagueCard key={liga.league_id} liga={liga}/>
                     )
                 )}
             </Box>
             <Typography className="league-title">Leagues</Typography>
-        </>
+        </div>
     );
 }

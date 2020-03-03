@@ -6,6 +6,7 @@ import Top10UsersPerLeagueList from '../../pages/mainPage/top10UsersPerLeagueLis
 import TournamentTable from '../../pages/mainPage/tournamentTable';
 
 import getCurrentRound from '../../../helpers/databaseSetsGets/getCurrentRound'
+import getFixturesOfCurrentLeagueAndRound from '../../../helpers/databaseGets/getFixturesOfCurrentLeagueAndRound';
 
 const useStyles = makeStyles({
     tablesContainer: {
@@ -18,21 +19,55 @@ const useStyles = makeStyles({
     }
 });
 
-export default ({leagueId}) => {
+export default (props) => {
+
+    const { user, leagueId, users } = props;
+
     const classes = useStyles();
     const [round, setRound] = useState(0);
+    const [fixtures, setFixtures] = useState([]);
 
     useEffect(() => {
-        getCurrentRound(leagueId)
+// <<<<<<< table-ui
+//         getCurrentRound(leagueId)
+//             .then(round => (setRound(round), round))
+//             .then(console.log)
+// =======
+        /* let canselled = false;
+        !canselled &&  */getCurrentRound(leagueId)
             .then(round => (setRound(round), round))
-            .then(console.log)
+        return () => {
+            // canselled = true;
+            setRound(0);
+        };
+// >>>>>>> master
     }, [leagueId])
 
+    const handler = snapshot => {
+        setFixtures(Object.values(snapshot.val() || fixtures).filter(el => typeof el === 'object').sort((m1, m2) => m1.event_timestamp - m2.event_timestamp))
+    }
+
+    useEffect(() => {
+        let canselled = false;
+        !canselled && round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
+        return () => {
+            canselled = true;
+        }
+    }, [leagueId, round]);
+
     return (
-        < div className={classes.tablesContainer}>
-            <Top10UsersPerLeagueList round={round} leagueId={leagueId}/>
-            <PredictionTable setRound={setRound} round={round} leagueId={leagueId}/>
-            <TournamentTable round={round} leagueId={leagueId}/>
-        </div>
+// <<<<<<< table-ui
+//         < div className={classes.tablesContainer}>
+//             <Top10UsersPerLeagueList round={round} leagueId={leagueId}/>
+//             <PredictionTable setRound={setRound} round={round} leagueId={leagueId}/>
+//             <TournamentTable round={round} leagueId={leagueId}/>
+//         </div>
+// =======
+        < div className={classes.tablesContainer} >
+            <Top10UsersPerLeagueList users={users} round={round} leagueId={leagueId} fixtures={fixtures} />
+            <PredictionTable setRound={setRound} round={round} leagueId={leagueId} user={user} fixtures={fixtures} />
+            <TournamentTable round={round} leagueId={leagueId} />
+        </div >
+// >>>>>>> master
     )
 }

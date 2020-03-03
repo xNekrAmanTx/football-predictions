@@ -1,5 +1,10 @@
-import React, {useEffect} from 'react'
-import {useHistory, useLocation, useRouteMatch, useParams} from 'react-router-dom';
+// <<<<<<< table-ui
+// import React, {useEffect} from 'react'
+// import {useHistory, useLocation, useRouteMatch, useParams} from 'react-router-dom';
+// =======
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom';
+// >>>>>>> master
 import {makeStyles, Paper, Tabs, Tab} from '@material-ui/core';
 import LeagueLogo from '../../../components/leagueLogo';
 import {paths} from '../../../../constants';
@@ -24,20 +29,32 @@ const tabIndex = {
     margin: "10px"
 };
 
+// <<<<<<< table-ui
 
 
-export default ({leagues/* , setValue, value */}) => {
+// export default ({leagues/* , setValue, value */}) => {
+//     const classes = useStyles();
+//     const history = useHistory();
+//     const location = useLocation();
+//     const match = useRouteMatch();
+//     const {id} = useParams();
+//     const [value, setValue] = React.useState(0);
+
+//     useEffect(() => {
+//             Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(id));
+//         }
+//         , [leagues, id]);
+// =======
+export default ({ leagues, leagueId }) => {
     const classes = useStyles();
     const history = useHistory();
-    const location = useLocation();
-    const match = useRouteMatch();
-    const {id} = useParams();
     const [value, setValue] = React.useState(0);
 
     useEffect(() => {
-            Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(id));
-        }
-        , [leagues, id]);
+        leagues.length && setValue(leagues.map(liga=>liga.league_id).indexOf(leagueId));
+    }
+    , [leagues, leagueId]);
+// >>>>>>> master
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -45,35 +62,61 @@ export default ({leagues/* , setValue, value */}) => {
     };
 
     function handleTabClick(id) {
+        console.log(leagues, id)
         history.push(paths.main + '/' + id);
-        console.log(match, id)
     }
 
     return (<Paper square className={classes.root}>
-            <Tabs
-                centered={true}
-                value={value}
-                onChange={handleChange}
-                // variant="scrollable"
-                indicatorColor="secondary"
-                textColor="secondary"
-                aria-label="leagues tab"
-            >
-                {Object.entries(leagues).map(([id, liga]) => (
-                    <Tab
-                        style={tabIndex}
-                        onClick={() => handleTabClick(id)}
-                        key={id}
-                        label={liga.name}
-                        icon={<LeagueLogo
-                            src={liga.logo}
-                            alt={id}
-                        />}
-                        className="tabIndex"
-                    />
-                ))}
-            </Tabs>
-        </Paper>
+// <<<<<<< table-ui
+//             <Tabs
+//                 centered={true}
+//                 value={value}
+//                 onChange={handleChange}
+//                 // variant="scrollable"
+//                 indicatorColor="secondary"
+//                 textColor="secondary"
+//                 aria-label="leagues tab"
+//             >
+//                 {Object.entries(leagues).map(([id, liga]) => (
+//                     <Tab
+//                         style={tabIndex}
+//                         onClick={() => handleTabClick(id)}
+//                         key={id}
+//                         label={liga.name}
+//                         icon={<LeagueLogo
+//                             src={liga.logo}
+//                             alt={id}
+//                         />}
+//                         className="tabIndex"
+//                     />
+//                 ))}
+//             </Tabs>
+//         </Paper>
+// =======
+        <Tabs
+            centered={true}
+            value={value}
+            onChange={handleChange}
+            indicatorColor="secondary"
+            textColor="secondary"
+            aria-label="leagues tab"
+        >
+            {leagues.map(liga => (
+                <Tab
+                    style={tabIndex}
+                    onClick={() => handleTabClick(liga.league_id)}
+                    key={liga.league_id}
+                    label={liga.name}
+                    icon={<LeagueLogo 
+                        src={liga.logo} 
+                        alt={liga.league_id} 
+                        className={classes.tabIndex}
+                    />}
+                />
+            ))}
+        </Tabs>
+    </Paper>
+// >>>>>>> master
     )
 }
 

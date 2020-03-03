@@ -20,7 +20,7 @@ import firebase from "firebase/app";
 import 'firebase/auth';
 import {SnackbarProvider, useSnackbar} from 'notistack';
 
-const {validatePassword, validateUsername, validateEmail} = validation;
+const { validatePassword, validateUsername, validateEmail } = validation;
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 export default function SignUp(props) {
     return (
         <SnackbarProvider maxSnack={2}>
-            <SignUpSnack {...props}/>
+            <SignUpSnack {...props} />
         </SnackbarProvider>
     );
 }
@@ -88,26 +88,27 @@ function SignUpSnack({handleOpen, setIsLoading}) {
 
     const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password));
 
-    const handleChange = (e, setValue) => {
-        setValue(e.target.value)
-    };
+    const handleChange = (e, setValue) => { setValue(e.target.value) };
 
     const handleSubmit = e => {
         e.preventDefault();
         signUp(username, email, password)
+        // .then(res => console.log(res, 'after create'))
+            .then(cred => cred.user.updateProfile({
+                displayName: username,
+            }))  
             .then(() => {
                 firebase.database().ref('users/' + username).set({
                     email: email,
                     avatar: username[0].toUpperCase(),
                 })
             })
-            .then(() => {
-                history.push(paths.home);
-            })
+
+            .then(() => { history.push(paths.home); })
             .catch(function (error) {
                 let errorCode = error.code;
                 let errorMessage = error.message;
-                enqueueSnackbar(errorMessage, {variant: "error"});
+                enqueueSnackbar(errorMessage, { variant: "error" })
             })
         // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
     };
@@ -137,10 +138,7 @@ function SignUpSnack({handleOpen, setIsLoading}) {
                                     size="small"
                                     error={isTouchedUsername && !validateUsername(username)}
                                     onChange={(e) => handleChange(e, setUsername)}
-                                    onBlur={(e) => {
-                                        setIsTouchedUsername(true);
-                                        console.log(e.target)
-                                    }}
+                                    onBlur={(e) => { setIsTouchedUsername(true); console.log(e.target) }}
                                 />
                                 {isTouchedUsername && !validateUsername(username) &&
                                 <FormHelperText error>Username must contain only latin letters and digits(2-20
@@ -158,9 +156,7 @@ function SignUpSnack({handleOpen, setIsLoading}) {
                                     size="small"
                                     error={isTouchedEmail && !validateEmail(email)}
                                     onChange={(e) => handleChange(e, setEmail)}
-                                    onBlur={() => {
-                                        setIsTouchedEmail(true)
-                                    }}
+                                    onBlur={() => { setIsTouchedEmail(true) }}
                                 />
                                 {isTouchedEmail && !validateEmail(email) &&
                                 <FormHelperText error>Email is not valid</FormHelperText>}
@@ -178,9 +174,7 @@ function SignUpSnack({handleOpen, setIsLoading}) {
                                     size="small"
                                     error={isTouchedPassword && !validatePassword(password)}
                                     onChange={(e) => handleChange(e, setPassword)}
-                                    onBlur={() => {
-                                        setIsTouchedPassword(true)
-                                    }}
+                                    onBlur={() => { setIsTouchedPassword(true) }}
                                 />
                                 {isTouchedPassword && !validatePassword(password) &&
                                 <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin
