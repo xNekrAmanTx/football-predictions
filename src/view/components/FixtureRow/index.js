@@ -16,11 +16,7 @@ import getUserPrediction from '../../../helpers/databaseGets/getUserPrediction';
 const useStyles = makeStyles({
     inputsContainer: {
         display: 'flex',
-// <<<<<<< table-ui
-//         justifyContent: "center",
-//     }
-// }));
-// =======
+        justifyContent: "center",
     },
     right: {
         display: 'flex',
@@ -37,7 +33,7 @@ const useStyles = makeStyles({
         textOverflow: 'elipsis',
     },
 });
-// >>>>>>> master
+
 
 export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxValue, fixtures }) => {
     const classes = useStyles();
@@ -90,59 +86,62 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
     }
 
     return (<>
-// <<<<<<< table-ui
-//                 <TableRow key={row.fixture_id}>
-//                     <TableCell component="th" scope="row" align="center" className={classes.tableCell} padding="none">
-//                         <IconButton onClick={handleInfoClick} value={row.fixture_id}>
-//                             <InfoIcon/>
-//                         </IconButton>
-//                     </TableCell>
-//                     <TableCell align="right" padding="none">{row.homeTeam.team_name}</TableCell>
-//                     <TableCell align="center" padding="none"><span>{row.statusShort === 'FT' ? row.goalsHomeTeam + ' : ' + row.goalsAwayTeam : '- : -'}</span></TableCell>
-//                     <TableCell align="left" padding="none">{row.awayTeam.team_name}</TableCell>
-//                     <TableCell align="center" padding="none">
-//                         <Checkbox
-//                             checked={row.fixture_id == value}
-//                             onChange={handleCheckboxChange}
-//                             value={row.fixture_id}
-//                             color='secondary'
-//                             inputProps={{ 'aria-label': 'primary checkbox' }}
-//                         /></TableCell>
-//                     <TableCell align="center" padding="none">
-//                         {row.statusShort !== 'FT' ?
-//                         <div className={classes.inputsContainer}>
-//                             <PredictionInput width={10} /> : <PredictionInput width={10} />
-//                         </div> : '- : -'}
-//                     </TableCell>
-//                     <TableCell align="center" padding="none">0</TableCell>
-//                 </TableRow>
-//         {info.includes(row.fixture_id) &&
-//         <TableRow>
-//             <TableCell/>
-//             <TableCell colSpan={5} padding="none">
-//                         <Paper>
-//                             <Typography color="textSecondary">
-//                                 Match start:
-//                             </Typography>
-//                         </Paper>
-//             </TableCell>
-//             <TableCell padding="none"/>
-// =======
+        {/* <<<<<<< table-ui */}
+        {/*                 <TableRow key={row.fixture_id}>
+                    <TableCell component="th" scope="row" align="center" className={classes.tableCell} padding="none">
+                        <IconButton onClick={handleInfoClick} value={row.fixture_id}>
+                            <InfoIcon/>
+                        </IconButton>
+                    </TableCell>
+                    <TableCell align="right" padding="none">{row.homeTeam.team_name}</TableCell>
+                    <TableCell align="center" padding="none"><span>{row.statusShort === 'FT' ? row.goalsHomeTeam + ' : ' + row.goalsAwayTeam : '- : -'}</span></TableCell>
+                    <TableCell align="left" padding="none">{row.awayTeam.team_name}</TableCell>
+                    <TableCell align="center" padding="none">
+                        <Checkbox
+                            checked={row.fixture_id == value}
+                            onChange={handleCheckboxChange}
+                            value={row.fixture_id}
+                            color='secondary'
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                        /></TableCell>
+                    <TableCell align="center" padding="none">
+                        {row.statusShort !== 'FT' ?
+                        <div className={classes.inputsContainer}>
+                            <PredictionInput width={10} /> : <PredictionInput width={10} />
+                        </div> : '- : -'}
+                    </TableCell>
+                    <TableCell align="center" padding="none">0</TableCell>
+                </TableRow>
+        {info.includes(row.fixture_id) &&
+        <TableRow>
+            <TableCell/>
+            <TableCell colSpan={5} padding="none">
+                        <Paper>
+                            <Typography color="textSecondary">
+                                Match start:
+                            </Typography>
+                        </Paper>
+            </TableCell>
+            <TableCell padding="none"/>
+======= */}
         <TableRow key={fixId} id={fixId}>
-            <TableCell component="th" scope="row" align="center">
+            <TableCell component="th" scope="row" align="center" padding="none">
                 <IconButton onClick={handleInfoClick} value={fixId}>
                     <InfoIcon />
                 </IconButton>
             </TableCell>
-            <TableCell align="right">
+            <TableCell align="right" padding="none">
                 <div className={classes.right}>
                     {fixture.homeTeam.team_name}
                     &nbsp;
                     <img src={fixture.homeTeam.logo} alt={fixture.homeTeam.team_id} width="30" height="30" />
                 </div>
             </TableCell>
-            <TableCell align="center"><span>{isFinished ? fixture.goalsHomeTeam + ' : ' + fixture.goalsAwayTeam : '- : -'}</span></TableCell>
-            <TableCell align="left">
+            <TableCell align="center" padding="none">
+                <span>
+                    {isFinished ? fixture.goalsHomeTeam + ' : ' + fixture.goalsAwayTeam : '- : -'}
+                </span></TableCell>
+            <TableCell align="left" padding="none">
                 <div className={classes.left}>
                     <img src={fixture.awayTeam.logo} alt={fixture.awayTeam.team_id} width="30" height="30" />
                     &nbsp;
@@ -150,7 +149,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                 </div>
             </TableCell>
             {user && <>
-                <TableCell align="center">
+                <TableCell align="center" padding="none">
                     <Checkbox
                         disabled={!isNotStarted || !prediction.home || !prediction.away}
                         checked={fixId === checkboxValue}
@@ -160,7 +159,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="center" padding="none">
                     {isNotStarted ?
                         <div className={classes.inputsContainer}>
                             <PredictionInput prediction={prediction} setPrediction={setPrediction} which='home' />
@@ -168,8 +167,8 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                             <PredictionInput prediction={prediction} setPrediction={setPrediction} which='away' />
                         </div>
                         : `${prediction.home || '-'} : ${prediction.away || '-'}`}
-                </TableCell>
-                <TableCell align="center">{prediction.points}</TableCell>
+                </TableCell >
+                <TableCell padding="none" align="center">{prediction.points}</TableCell>
             </>}
         </TableRow>
         {info
@@ -184,7 +183,6 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                     </Paper>
                 </TableCell>
                 {user && <TableCell colSpan={3} />}
-{*/>>>>>>> master/*}
             </TableRow>}
     </>
     );

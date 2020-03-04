@@ -10,12 +10,8 @@ import { calculateMatchPoints } from "../../../../helpers/calculatePoints";
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-// <<<<<<< table-ui
-        width: "100%"
-// =======
-//         maxWidth: 'fit-content',
-//         minWidth: '15rem',
-// >>>>>>> master
+        minWidth: '17rem',
+
     },
 
     roundPaper: {
