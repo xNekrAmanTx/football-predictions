@@ -28,11 +28,6 @@ export default (props) => {
     const [fixtures, setFixtures] = useState([]);
 
     useEffect(() => {
-// <<<<<<< table-ui
-//         getCurrentRound(leagueId)
-//             .then(round => (setRound(round), round))
-//             .then(console.log)
-// =======
         /* let canselled = false;
         !canselled &&  */getCurrentRound(leagueId)
             .then(round => (setRound(round), round))
@@ -40,7 +35,6 @@ export default (props) => {
             // canselled = true;
             setRound(0);
         };
-// >>>>>>> master
     }, [leagueId])
 
     const handler = snapshot => {
@@ -56,18 +50,11 @@ export default (props) => {
     }, [leagueId, round]);
 
     return (
-// <<<<<<< table-ui
-//         < div className={classes.tablesContainer}>
-//             <Top10UsersPerLeagueList round={round} leagueId={leagueId}/>
-//             <PredictionTable setRound={setRound} round={round} leagueId={leagueId}/>
-//             <TournamentTable round={round} leagueId={leagueId}/>
-//         </div>
-// =======
+
         < div className={classes.tablesContainer} >
             <Top10UsersPerLeagueList users={users} round={round} leagueId={leagueId} fixtures={fixtures} />
             <PredictionTable setRound={setRound} round={round} leagueId={leagueId} user={user} fixtures={fixtures} />
             <TournamentTable round={round} leagueId={leagueId} />
         </div >
-// >>>>>>> master
     )
 }

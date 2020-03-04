@@ -7,7 +7,7 @@ const useStyles = makeStyles({
         width: '2em',
         textAlign: 'center',
         WebkitAppearance: 'none',
-        outline: "none"
+        outline: "none",
     },
 
 });
@@ -15,10 +15,6 @@ const useStyles = makeStyles({
 export default ({ prediction, setPrediction, which }) => {
     const classes = useStyles();
 
-// <<<<<<< table-ui
-//     return <input className={classes.inputNum} type='number' min='0'/>;
-// }
-// =======
     return (
         <input
             type='number'
@@ -30,8 +26,6 @@ export default ({ prediction, setPrediction, which }) => {
                 newPrediction[which] = e.target.value;
                 setPrediction(newPrediction);
             }}
-            width={10}
         />
     )
 }
-// >>>>>>> master

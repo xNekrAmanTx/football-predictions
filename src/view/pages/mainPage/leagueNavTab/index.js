@@ -1,13 +1,8 @@
-// <<<<<<< table-ui
-// import React, {useEffect} from 'react'
-// import {useHistory, useLocation, useRouteMatch, useParams} from 'react-router-dom';
-// =======
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-// >>>>>>> master
-import {makeStyles, Paper, Tabs, Tab} from '@material-ui/core';
+import { makeStyles, Paper, Tabs, Tab } from '@material-ui/core';
 import LeagueLogo from '../../../components/leagueLogo';
-import {paths} from '../../../../constants';
+import { paths } from '../../../../constants';
 
 const useStyles = makeStyles({
     root: {
@@ -19,7 +14,13 @@ const useStyles = makeStyles({
         backgroundColor: "#fff",
         overflow: "inherit",
     },
-    tabIndex: {}
+    // tabIndex: {}
+    tabIndex: {
+        minWidth: 200,
+        backgroundColor: "#fff",
+        borderRadius: "10px",
+        margin: "10px"
+    },
 });
 
 const tabIndex = {
@@ -29,32 +30,15 @@ const tabIndex = {
     margin: "10px"
 };
 
-// <<<<<<< table-ui
-
-
-// export default ({leagues/* , setValue, value */}) => {
-//     const classes = useStyles();
-//     const history = useHistory();
-//     const location = useLocation();
-//     const match = useRouteMatch();
-//     const {id} = useParams();
-//     const [value, setValue] = React.useState(0);
-
-//     useEffect(() => {
-//             Object.keys(leagues).length && setValue(Object.keys(leagues).indexOf(id));
-//         }
-//         , [leagues, id]);
-// =======
 export default ({ leagues, leagueId }) => {
     const classes = useStyles();
     const history = useHistory();
     const [value, setValue] = React.useState(0);
 
     useEffect(() => {
-        leagues.length && setValue(leagues.map(liga=>liga.league_id).indexOf(leagueId));
+        leagues.length && setValue(leagues.map(liga => liga.league_id).indexOf(leagueId));
     }
-    , [leagues, leagueId]);
-// >>>>>>> master
+        , [leagues, leagueId]);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -66,9 +50,10 @@ export default ({ leagues, leagueId }) => {
         history.push(paths.main + '/' + id);
     }
 
-    return (<Paper square className={classes.root}>
-// <<<<<<< table-ui
-//             <Tabs
+    return (
+        <Paper square className={classes.root}>
+            {/* // <<<<<<< table-ui */}
+            {/* //             <Tabs
 //                 centered={true}
 //                 value={value}
 //                 onChange={handleChange}
@@ -92,31 +77,30 @@ export default ({ leagues, leagueId }) => {
 //                 ))}
 //             </Tabs>
 //         </Paper>
-// =======
-        <Tabs
-            centered={true}
-            value={value}
-            onChange={handleChange}
-            indicatorColor="secondary"
-            textColor="secondary"
-            aria-label="leagues tab"
-        >
-            {leagues.map(liga => (
-                <Tab
-                    style={tabIndex}
-                    onClick={() => handleTabClick(liga.league_id)}
-                    key={liga.league_id}
-                    label={liga.name}
-                    icon={<LeagueLogo 
-                        src={liga.logo} 
-                        alt={liga.league_id} 
+// ======= */}
+            <Tabs
+                centered={true}
+                value={value}
+                onChange={handleChange}
+                indicatorColor="secondary"
+                textColor="secondary"
+                aria-label="leagues tab"
+            >
+                {leagues.map(liga => (
+                    <Tab
+                        style={tabIndex}
+                        onClick={() => handleTabClick(liga.league_id)}
+                        key={liga.league_id}
+                        label={liga.name}
+                        icon={<LeagueLogo
+                            src={liga.logo}
+                            alt={liga.league_id}
+                        />}
                         className={classes.tabIndex}
-                    />}
-                />
-            ))}
-        </Tabs>
-    </Paper>
-// >>>>>>> master
+                    />
+                ))}
+            </Tabs>
+        </Paper>
     )
 }
 
