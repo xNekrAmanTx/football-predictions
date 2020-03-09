@@ -7,7 +7,8 @@ import { paths } from '../../../../constants';
 const useStyles = makeStyles({
     root: {
         backgroundColor: "transparent",
-        paddingTop: "10px"
+        paddingTop: "10px",
+        marginBottom: "10px"
 
     },
     tabBlock: {
@@ -38,7 +39,7 @@ export default ({ leagues, leagueId }) => {
     useEffect(() => {
         leagues.length && setValue(leagues.map(liga => liga.league_id).indexOf(leagueId));
     }
-        , [leagues, leagueId]);
+        , [leagues]);
 
     const handleChange = (e, newValue) => {
         setValue(newValue);
@@ -79,16 +80,17 @@ export default ({ leagues, leagueId }) => {
 //         </Paper>
 // ======= */}
             <Tabs
+                className={classes.indicator}
                 centered={true}
                 value={value}
                 onChange={handleChange}
                 indicatorColor="secondary"
-                textColor="secondary"
+                // textColor="secondary"
                 aria-label="leagues tab"
             >
                 {leagues.map(liga => (
                     <Tab
-                        style={tabIndex}
+                        // style={tabIndex}
                         onClick={() => handleTabClick(liga.league_id)}
                         key={liga.league_id}
                         label={liga.name}

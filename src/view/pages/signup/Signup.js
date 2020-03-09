@@ -75,9 +75,9 @@ function SignUpSnack({handleOpen, setIsLoading}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    let [isTouchedUsername, setIsTouchedUsername] = useState(false);
-    let [isTouchedEmail, setIsTouchedEmail] = useState(false);
-    let [isTouchedPassword, setIsTouchedPassword] = useState(false);
+    const [isTouchedUsername, setIsTouchedUsername] = useState(false);
+    const [isTouchedEmail, setIsTouchedEmail] = useState(false);
+    const [isTouchedPassword, setIsTouchedPassword] = useState(false);
 
     const {enqueueSnackbar} = useSnackbar();
 
