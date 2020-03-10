@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from  '../../../images/logoBalls/headerLogo.png';
+import logo from  '../../../images/logoBalls/logo.png';
 import './index.css';
 import { withRouter } from 'react-router-dom';
 import {paths} from '../../../../constants'
