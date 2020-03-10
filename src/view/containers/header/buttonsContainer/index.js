@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button} from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import {
     Link,
     useLocation,
 } from 'react-router-dom';
-import {Typography} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { paths } from '../../../../constants';
 import LoginDialogForm from '../../loginDialog';
 import firebase from 'firebase/app';
@@ -23,20 +23,22 @@ const buttonStyle = {
 const blockStyle = {
     display: "flex",
     minWidth: "300px",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center"
 };
 
-export default ({user, ...props}) => {
+
+
+export default ({ user, ...props }) => {
     const location = useLocation();
 
     const handleLogout = () => {
-        firebase.auth().signOut().then(function() {
+        firebase.auth().signOut().then(function () {
             // Sign-out successful.
             // console.log(firebase.auth().currentUser, user.email, 'logout')
-          }).catch(function(error) {
+        }).catch(function (error) {
             // An error happened.
-          });
+        });
     };
 
     return (
@@ -47,24 +49,22 @@ export default ({user, ...props}) => {
             <Link to={paths.rules} style={linkStyle}>
                 <Typography variant="body2">Rules</Typography>
             </Link>
-            {!user ? 
-            <>
-            <Button
-                style={buttonStyle}
-                disabled={location.pathname === paths.signup}
-                color="primary"
-                onClick={props.handleOpen}>
-                    Log In
-            </Button>
-            <LoginDialogForm {...props}/>
-            <Link to={paths.signup} style={linkStyle}>
-                <Button color="primary"
-                        style={buttonStyle}>
-                    Sign up
-                </Button>
-            </Link>
-            </> :
-            <Button color="primary" onClick={handleLogout}>Log Out</Button>}
+            {!user ?
+                location.pathname === paths.signup || <>
+                    <Button
+                        // style={buttonStyle}
+                        color="primary"
+                        variant="contained"
+                        onClick={props.handleOpen}>
+                        Log In
+                    </Button>
+                    <LoginDialogForm {...props} />
+                </> :
+                <Button
+                    onClick={handleLogout}
+                    style={buttonStyle}
+
+                >Log Out</Button>}
         </div>
     )
 }

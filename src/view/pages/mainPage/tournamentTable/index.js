@@ -17,8 +17,7 @@ import getTournamentTable from '../../../../helpers/databaseSetsGets/getTourname
 const useStyles = makeStyles({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        // width: "auto"
-        maxWidth: 'fit-content'
+        minWidth: '17rem',
     },
     rootDiv: {
         display: 'flex',
@@ -27,6 +26,10 @@ const useStyles = makeStyles({
 
     roundPaper: {
         backgroundColor: "rgba(255, 255, 255, 0.75)",
+    },
+
+    nowrap: {
+        whiteSpace:'nowrap',
     },
 });
 
@@ -50,21 +53,24 @@ export default function TournamentTable({ leagueId }) {
                 <Table className={classes.table} aria-label='tournament table'>
                     <TableHead>
                         <TableRow>
-                            {['', 'team', 'm', 'p'].map((str, i) => <TableCell align={i - 1 ? 'center' : 'left'}>{str}</TableCell>)}
+                            {['', 'team', 'm', 'p'].map((str, i) =>
+                                <TableCell key={i} align={i - 1 ? 'center' : 'left'} padding="none">{str}</TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {standings.map(team => (
-                            <TableRow key={team.team_id}>
-                                <TableCell align='center'>{team.rank}</TableCell>
-                                <TableCell align='left'>
+                            <TableRow key={team.team_id} hover /* className={classes.nowrap} */>
+                                <TableCell align='center' padding="none">{team.rank} </TableCell>
+                                <TableCell padding="none">
                                     <Grid container alignItems="center">
                                         <img src={team.logo} alt={team.team_id} width="30" height="30" />
+                                        &nbsp;
                                         {team.teamName}
                                     </Grid>
                                 </TableCell>
-                                <TableCell align='center'>{team.all.matchsPlayed}</TableCell>
-                                <TableCell align='center'>{team.points}</TableCell>
+                                <TableCell align='center' padding="none">{team.all.matchsPlayed}</TableCell>
+                                <TableCell align='center' padding="none">{team.points}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

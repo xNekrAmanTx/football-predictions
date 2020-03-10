@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
     Table,
     TableBody,
@@ -16,12 +17,14 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
 import FixtureRow from '../../../components/FixtureRow';
+import getRoundsNumber from '../../../../helpers/databaseGets/getRoundsNumber';
 
 
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        maxWidth: 'fit-content'
+        maxHeight: "390px",
+        marginBottom: "20px"
     },
 
     roundCaption: {
@@ -54,7 +57,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+
 function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
+
     const classes = useStyles();
 
     const [checkboxValue, setCheckboxValue] = useState(0);
@@ -62,7 +67,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
 
     const areAllStarted = fixtures.every(fix => fix.statusShort !== 'NS')
 
-    const handleRoundChangeCLick = val => setRound(/* val > 0 ?  */round + val);
+    const handleRoundChangeCLick = dif => round + dif > 0 && round + dif <= roundsCount && setRound(round + dif);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -75,16 +80,18 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
         });
     };
 
-    // const handleCheckboxValue = e => {
+    useEffect(() => {
+        getRoundsNumber(leagueId).then(roundsNumber => setRoundsCount(roundsNumber))
+    }, [leagueId])
 
-    // }
 
     return (
         <div className={classes.rootDiv}>
             <Paper square className={classes.roundCaption}>
                 <Grid container justify="space-between" className={classes.prevNextDiv} alignItems='center'>
-                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(-1)} item>
+                    <Grid onClick={() => handleRoundChangeCLick(-1)} item>
                         <Button
+                            disabled={round === 1}
                             component='span'
                             color="primary"
                             size="small"
@@ -94,8 +101,9 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                         </Button>
                     </Grid>
                     <Grid item>{`Round ${round}`}</Grid>
-                    <Grid className={classes.clickable} onClick={() => handleRoundChangeCLick(1)} item>
+                    <Grid onClick={() => handleRoundChangeCLick(1)} item>
                         <Button
+                            disabled={round === roundsCount}
                             component='span'
                             color="primary"
                             size="small"
@@ -111,15 +119,17 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" />
-                                <TableCell align="right">First Team</TableCell>
-                                <TableCell align="center">Result</TableCell>
-                                <TableCell align="left">Second Team</TableCell>
+
+                                <TableCell align="center" padding="none" />
+                                <TableCell align="right" padding="none">First Team</TableCell>
+                                <TableCell align="center" padding="none">Result</TableCell>
+                                <TableCell align="left" padding="none">Second Team</TableCell>
                                 {user && <>
-                                    <TableCell align="center">x2</TableCell>
-                                    <TableCell align="center">Prediction</TableCell>
-                                    <TableCell align="center">Points</TableCell>
+                                    <TableCell align="center" padding="none">x2</TableCell>
+                                    <TableCell align="center" padding="none">Prediction</TableCell>
+                                    <TableCell align="center" padding="none">Points</TableCell>
                                 </>}
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -140,13 +150,16 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                     </Table>
 
                 </TableContainer>
-                {user ? <Grid container justify="flex-end">
-                    <Button
-                        disabled={areAllStarted}
-                        type="submit"
-                        variant="contained"
-                    >Save Prediction</Button>
-                </Grid> : <Grid className={classes.textCenter} component='h3' justify='center'> Please sign in to predict </Grid>}
+                {user
+                    ? <Grid container justify="flex-end">
+                        <Button
+                            disabled={areAllStarted}
+                            type="submit"
+                            variant="contained"
+                            color="secondary"
+                        >Save Prediction</Button>
+                    </Grid>
+                    : <Grid container className={classes.textCenter} component='h3' justify='center'> Please sign in to predict </Grid>}
             </form>
         </div>
     );

@@ -7,6 +7,7 @@ const useStyles = makeStyles({
         width: '2em',
         textAlign: 'center',
         WebkitAppearance: 'none',
+        outline: "none",
     },
 
 });
@@ -25,7 +26,6 @@ export default ({ prediction, setPrediction, which }) => {
                 newPrediction[which] = e.target.value;
                 setPrediction(newPrediction);
             }}
-            width={10}
         />
     )
 }

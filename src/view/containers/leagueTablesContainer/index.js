@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
-import { makeStyles } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 import PredictionTable from '../../pages/mainPage/predictionTable';
 import Top10UsersPerLeagueList from '../../pages/mainPage/top10UsersPerLeagueList';
 import TournamentTable from '../../pages/mainPage/tournamentTable';
@@ -10,8 +10,12 @@ import getFixturesOfCurrentLeagueAndRound from '../../../helpers/databaseGets/ge
 
 const useStyles = makeStyles({
     tablesContainer: {
-        display: "flex",
-        justifyContent: "space-between",
+        display: "grid",
+        gridTemplateColumns: "0.5fr 2fr 0.5fr",
+        gridGap: "20px"
+    },
+    td:{
+        padding: 0,
     }
 });
 
@@ -24,10 +28,13 @@ export default (props) => {
     const [fixtures, setFixtures] = useState([]);
 
     useEffect(() => {
-        getCurrentRound(leagueId)
+        /* let canselled = false;
+        !canselled &&  */getCurrentRound(leagueId)
             .then(round => (setRound(round), round))
-            // .then(console.log)
-        return () => setRound(0);
+        return () => {
+            // canselled = true;
+            setRound(0);
+        };
     }, [leagueId])
 
     const handler = snapshot => {
@@ -35,10 +42,15 @@ export default (props) => {
     }
 
     useEffect(() => {
-        round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
+        let canselled = false;
+        !canselled && round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
+        return () => {
+            canselled = true;
+        }
     }, [leagueId, round]);
 
     return (
+
         < div className={classes.tablesContainer} >
             <Top10UsersPerLeagueList users={users} round={round} leagueId={leagueId} fixtures={fixtures} />
             <PredictionTable setRound={setRound} round={round} leagueId={leagueId} user={user} fixtures={fixtures} />

@@ -22,8 +22,16 @@ const useStyles = makeStyles({
         backgroundSize: "contain"
     },
     link: {
-        textDecoration: 'none'
+        textDecoration: 'none',
+        '&:hover':{
+            transform: "scale(0.9)",
+            transition: ".5s linear",
+            boxShadow: "0 4px 10px 0 rgba(132, 138, 145, 0.77)",
+            position: "relative"
+        }
     }
+
+
 });
 
 function LeagueCard({liga}) {
