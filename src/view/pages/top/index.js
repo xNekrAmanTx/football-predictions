@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import topThree from './../../images/top/top.png'
 import {
     Avatar,
@@ -10,6 +10,9 @@ import {
     TableRow,
     Typography,
 } from "@material-ui/core";
+import getUsers from "../../../helpers/databaseGets/getUsers";
+import firebase from "firebase";
+import randomMaterialColor from 'random-material-color'
 
 const useStyles = makeStyles(theme => ({
     rootDiv: {
@@ -46,59 +49,96 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+function getColor(namePrefix) {
+    return randomMaterialColor.getColor({text: namePrefix});
+}
+
 export default function Rules() {
     const classes = useStyles();
+    const [usersTop, setUsersTop] = useState([]);
 
-    useEffect(() => {});
+
+    useEffect(() => {
+        let userPoints = [];
+        getUsers().then((users) => {
+            const promises = [];
+            Object.keys(users).forEach((userName)=> {
+                promises.push(new Promise((resolve) => {
+                    firebase.database().ref(`points/leaguePoints/${userName}/`).on('value', snap => {
+                        if(snap.val()) {
+                            const score = Object.values(snap.val()).reduce((total, current) => total + current);
+                            userPoints.push({userName, score});
+                        }
+                        resolve();
+                    })
+                }))
+
+            });
+            Promise.all(promises).then(function () {
+                const userPointsSorted = userPoints.sort(function(a, b){return b.score-a.score});
+                setUsersTop(userPointsSorted);
+            });
+        })
+    }, []);
 
     return (
         <div className={classes.rootDiv}>
             <h1>Top Users</h1>
             <div className={classes.top3usr}>
-                <div className={classes.top3}>
-                    <Avatar alt="User2" src='src'/>
-                    <Typography variant="overline" display="block" gutterBottom>
-                        User2
-                    </Typography>
-                    <Typography variant="overline" display="block" gutterBottom>
-                        55
-                    </Typography>
-                </div>
-                <div className={classes.top3}>
-                    <Avatar alt="User1" src="src"/>
-                    <Typography variant="overline" display="block" gutterBottom>
-                        User1
-                    </Typography>
-                    <Typography variant="overline" display="block" gutterBottom>
-                        111
-                    </Typography>
-                </div>
-                <div className={classes.top3}>
-                    <Avatar alt="User3" src="src"/>
-                    <Typography variant="overline" display="block" gutterBottom>
-                        User3
-                    </Typography>
-                    <Typography variant="overline" display="block" gutterBottom>
-                        22
-                    </Typography>
-                </div>
+                { usersTop[1] &&
+                    <div className={classes.top3}>
+                        <Avatar style={{color: "white", backgroundColor:randomMaterialColor.getColor({text: usersTop[1].userName})}}
+                                alt={usersTop[1].userName.toUpperCase()} src={usersTop[1].avatar || usersTop[1].userName}/>
+                        <Typography display="block" gutterBottom>
+                            {usersTop[1].userName}
+                        </Typography>
+                        <Typography display="block" gutterBottom>
+                            {usersTop[1].score}
+                        </Typography>
+                    </div>
+                }
+                { usersTop[0] &&
+                    <div className={classes.top3}>
+                        <Avatar style={{color: "white", backgroundColor:randomMaterialColor.getColor({text: usersTop[0].userName})}}
+                                alt={usersTop[0].userName.toUpperCase()} src={usersTop[0].avatar || usersTop[0].userName}/>
+                        <Typography display="block" gutterBottom>
+                            {usersTop[0].userName}
+                        </Typography>
+                        <Typography display="block" gutterBottom>
+                            {usersTop[0].score}
+                        </Typography>
+                    </div>
+                }
+                { usersTop[2] &&
+                    <div className={classes.top3}>
+                        <Avatar style={{color: "white", backgroundColor:randomMaterialColor.getColor({text: usersTop[2].userName})}}
+                                alt={usersTop[2].userName.toUpperCase()} src={usersTop[2].avatar || usersTop[2].userName}/>
+                        <Typography display="block" gutterBottom>
+                            {usersTop[2].userName}
+                        </Typography>
+                        <Typography display="block" gutterBottom>
+                            {usersTop[2].score}
+                        </Typography>
+                    </div>
+                }
             </div>
             <img src={topThree} alt='top three'/>
             <TableContainer component={Paper} className={classes.paper}>
                 <Table aria-label="customized table">
                     <TableBody>
-                        {[{username:'user4', points: 10, avatar:'U'},{username:'user5', points: 5, avatar:'U'}].map((user, i) => (
-                            <TableRow key={user.username}>
+                        {usersTop.slice(3).map((user, i) => (
+                            <TableRow key={user.userName}>
                                 <TableCell align="center" className={classes.txtColor}>{i + 4}</TableCell>
                                 <TableCell align="center" className={classes.txtColor}>
                                     <div className={classes.avUsr}>
-                                        <Avatar alt={'User' + i} src={user.avatar} />
-                                        <Typography variant="overline" display="block" gutterBottom>
-                                            &emsp;{user.username}
+                                        <Avatar style={{color: "white", backgroundColor:randomMaterialColor.getColor({text: user.userName})}}
+                                                alt={user.userName.toUpperCase()} src={user.avatar || user.userName}/>
+                                        <Typography display="block" gutterBottom>
+                                            &emsp;{user.userName}
                                         </Typography>
                                     </div>
                                 </TableCell>
-                                <TableCell align="center" className={classes.txtColor}>{user.points}</TableCell>
+                                <TableCell align="center" className={classes.txtColor}>{user.score}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
