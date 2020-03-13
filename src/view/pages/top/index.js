@@ -23,6 +23,8 @@ const useStyles = makeStyles(theme => ({
         color: 'white'
     },
 
+
+
     top3usr: {
         display: 'flex',
     },
@@ -34,8 +36,7 @@ const useStyles = makeStyles(theme => ({
     },
 
     paper: {
-        backgroundColor: 'transparent',
-        color: 'white'
+        backgroundColor: "rgba(255, 255, 255, 0.52)",
      },
 
      avUsr: {
@@ -43,10 +44,6 @@ const useStyles = makeStyles(theme => ({
          justifyContent: 'center',
          alignItems: 'center'
      },
-
-    txtColor: {
-        color: 'white'
-    }
 }));
 
 function getColor(namePrefix) {
@@ -128,8 +125,8 @@ export default function Rules() {
                     <TableBody>
                         {usersTop.slice(3).map((user, i) => (
                             <TableRow key={user.userName}>
-                                <TableCell align="center" className={classes.txtColor}>{i + 4}</TableCell>
-                                <TableCell align="center" className={classes.txtColor}>
+                                <TableCell align="center">{i + 4}</TableCell>
+                                <TableCell align="center">
                                     <div className={classes.avUsr}>
                                         <Avatar style={{color: "white", backgroundColor:randomMaterialColor.getColor({text: user.userName})}}
                                                 alt={user.userName.toUpperCase()} src={user.avatar || user.userName}/>
@@ -138,7 +135,7 @@ export default function Rules() {
                                         </Typography>
                                     </div>
                                 </TableCell>
-                                <TableCell align="center" className={classes.txtColor}>{user.score}</TableCell>
+                                <TableCell align="center">{user.score}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
