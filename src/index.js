@@ -6,6 +6,7 @@ import App from './App';
 
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
+import {SnackbarProvider} from "notistack";
 
 var firebaseConfig = {
     apiKey: "AIzaSyBFJEhQXvZEAu84UhZ9sQcXViSDhCH_y8A",
@@ -21,8 +22,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-
-const AppWithRouter = <Router> <App /> </Router>;
+const AppWithSnackbar = <SnackbarProvider maxSnack={3}><App/></SnackbarProvider>;
+const AppWithRouter = <Router>{AppWithSnackbar}</Router>;
 
 ReactDOM.render(AppWithRouter, document.getElementById('root'));
 

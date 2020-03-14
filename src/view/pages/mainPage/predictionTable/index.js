@@ -18,6 +18,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
 import FixtureRow from '../../../components/FixtureRow';
 import getRoundsNumber from '../../../../helpers/databaseGets/getRoundsNumber';
+import {useSnackbar} from "notistack";
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,6 +62,7 @@ const useStyles = makeStyles(theme => ({
 function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
 
     const classes = useStyles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [checkboxValue, setCheckboxValue] = useState(0);
     const [roundsCount, setRoundsCount] = useState(0);
@@ -70,19 +72,25 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
     const handleRoundChangeCLick = dif => round + dif > 0 && round + dif <= roundsCount && setRound(round + dif);
 
     const handleSubmit = e => {
+        const promises = [];
         e.preventDefault();
         fixtures.map(fixture => {
             let id = fixture.fixture_id;
             let matchRow = document.getElementById(id);
             let x2 = checkboxValue === id;
             let [home, away] = [...matchRow.querySelectorAll('input[type=number]')].map(inp => inp.value);
-            home && away && setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0);
+            if(home && away){
+                promises.push(new Promise((resolve,reject) => {
+                setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0).then(() => {resolve(); console.log('ddd')});
+                }));
+            }
         });
+        Promise.all(promises).then((asd) => enqueueSnackbar("Prediction Saved", { variant: "success" }));
     };
 
     useEffect(() => {
         getRoundsNumber(leagueId).then(roundsNumber => setRoundsCount(roundsNumber))
-    }, [leagueId])
+    }, [leagueId]);
 
 
     return (

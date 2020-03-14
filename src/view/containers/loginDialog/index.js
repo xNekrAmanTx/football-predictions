@@ -1,26 +1,37 @@
 import React, { useState, useRef } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+    Button,
+    TextField,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    InputLabel,
+    InputAdornment,
+    IconButton,
+    FormControl,
+    Input
+} from '@material-ui/core';
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 import { paths } from '../../../constants'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import "./login.css";
 
-export default function LoginDialogForm(props) {
-    return (
-        <SnackbarProvider maxSnack={2}>
-            <LoginDialog {...props} />
-        </SnackbarProvider>
-    );
-}
 
-function LoginDialog({ open, handleClose, setIsLoading }) {
+// export default function LoginDialogForm(props) {
+//     return (
+//         <SnackbarProvider maxSnack={3}>
+//             <LoginDialog {...props} />
+//         </SnackbarProvider>
+//     );
+// }
+
+export default function LoginDialogForm({ open, handleClose, setIsLoading }) {
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -35,6 +46,11 @@ function LoginDialog({ open, handleClose, setIsLoading }) {
             // console.log(errorCode, 'errorLogin', errorMessage);
         })
     }
+
+
+    const handleMouseDownPassword = e => {
+        e.preventDefault();
+    };
 
     return (
         <Dialog
@@ -51,12 +67,33 @@ function LoginDialog({ open, handleClose, setIsLoading }) {
                         fullWidth
                         autoFocus
                     />
-                    <TextField
-                        margin="dense"
-                        label="Password"
-                        type="password"
+                    {/*<TextField*/}
+                    {/*    margin="dense"*/}
+                    {/*    label="Password"*/}
+                    {/*    type="password"*/}
+                    {/*    fullWidth*/}
+                    {/*/>*/}
+                    <FormControl
                         fullWidth
-                    />
+                        margin="dense">
+                        <InputLabel>Password</InputLabel>
+                        <Input
+                            name="password"
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        onMouseDown={(e) => handleMouseDownPassword(e)}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
