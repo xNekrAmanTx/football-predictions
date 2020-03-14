@@ -7,11 +7,17 @@ import {
     FormHelperText,
     Grid,
     Typography,
-    makeStyles,
     Container,
+    FormControl,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
+    IconButton,
     createMuiTheme,
-    MuiThemeProvider
+    MuiThemeProvider,
+    makeStyles,
 } from '@material-ui/core';
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {paths} from '../../../constants';
 import signUp from '../../../helpers/userSignUp'
@@ -20,9 +26,14 @@ import firebase from "firebase/app";
 import 'firebase/auth';
 import {SnackbarProvider, useSnackbar} from 'notistack';
 
+
 const { validatePassword, validateUsername, validateEmail } = validation;
 
 const useStyles = makeStyles(theme => ({
+    container: {
+        margin: 'auto',
+    },
+
     paper: {
         margin: theme.spacing(1),
         display: 'flex',
@@ -37,7 +48,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.primary.dark,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(3),
     },
     submit: {
@@ -49,15 +60,15 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function SignUp(props) {
-    return (
-        <SnackbarProvider maxSnack={2}>
-            <SignUpSnack {...props} />
-        </SnackbarProvider>
-    );
-}
+// export default function SignUp(props) {
+//     return (
+//         <SnackbarProvider maxSnack={3}>
+//             <SignUpWithSnack {...props} />
+//         </SnackbarProvider>
+//     );
+// }
 
-function SignUpSnack({handleOpen, setIsLoading}) {
+export default function SignUp({handleOpen, setIsLoading}) {
     const history = useHistory();
     const classes = useStyles();
 
@@ -74,10 +85,14 @@ function SignUpSnack({handleOpen, setIsLoading}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
     const [isTouchedUsername, setIsTouchedUsername] = useState(false);
     const [isTouchedEmail, setIsTouchedEmail] = useState(false);
     const [isTouchedPassword, setIsTouchedPassword] = useState(false);
+    const [isTouchedRepeatPassword, setIsTouchedRepeatPassword] = useState(false);
 
     const {enqueueSnackbar} = useSnackbar();
 
@@ -86,29 +101,43 @@ function SignUpSnack({handleOpen, setIsLoading}) {
 
     useEffect(() => userNameRef.current && userNameRef.current.focus(), []);
 
-    const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password));
+    const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password) && password === repeatPassword);
 
     const handleChange = (e, setValue) => { setValue(e.target.value) };
+
+    const handleClickShowPassword = (setValue) => {
+        setValue(!showPassword);
+    };
+
+    const handleClickShowRepeatPassword = (setValue) => {
+        setValue(!showRepeatPassword);
+    };
+
+
+    const handleMouseDownPassword = e => {
+        e.preventDefault();
+    };
 
     const handleSubmit = e => {
         e.preventDefault();
         signUp(username, email, password)
-        // .then(res => console.log(res, 'after create'))
+            // .then(res => console.log(res, 'after create'))
             .then(cred => cred.user.updateProfile({
                 displayName: username,
-            }))  
+            }))
             .then(() => {
                 firebase.database().ref('users/' + username).set({
                     email: email,
                     avatar: username[0].toUpperCase(),
                 })
             })
-
-            .then(() => { history.push(paths.home); })
+            .then(() => {
+                history.push(paths.home);
+            })
             .catch(function (error) {
                 let errorCode = error.code;
                 let errorMessage = error.message;
-                enqueueSnackbar(errorMessage, { variant: "error" })
+                enqueueSnackbar(errorMessage, {variant: "error"})
             })
         // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
     };
@@ -161,24 +190,111 @@ function SignUpSnack({handleOpen, setIsLoading}) {
                                 {isTouchedEmail && !validateEmail(email) &&
                                 <FormHelperText error>Email is not valid</FormHelperText>}
                             </Grid>
+                            {/*<Grid item xs={12}>*/}
+                            {/*    <TextField*/}
+                            {/*        variant="outlined"*/}
+                            {/*        required*/}
+                            {/*        fullWidth*/}
+                            {/*        name="password"*/}
+                            {/*        label="Password"*/}
+                            {/*        type="password"*/}
+                            {/*        id="password"*/}
+                            {/*        autoComplete="current-password"*/}
+                            {/*        size="small"*/}
+                            {/*        error={isTouchedPassword && !validatePassword(password)}*/}
+                            {/*        onChange={(e) => handleChange(e, setPassword)}*/}
+                            {/*        onBlur={() => { setIsTouchedPassword(true) }}*/}
+                            {/*    />*/}
+                            {/*    {isTouchedPassword && !validatePassword(password) &&*/}
+                            {/*    <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin*/}
+                            {/*        letters and 1 digit(8 or more chars)</FormHelperText>}*/}
+                            {/*</Grid>*/}
+                            {/*<Grid item xs={12}>*/}
+                            {/*    <TextField*/}
+                            {/*        variant="outlined"*/}
+                            {/*        required*/}
+                            {/*        fullWidth*/}
+                            {/*        name="repeat_password"*/}
+                            {/*        label="Repeat Password"*/}
+                            {/*        type="password"*/}
+                            {/*        id="repeat_password"*/}
+                            {/*        autoComplete="current-password"*/}
+                            {/*        size="small"*/}
+                            {/*        error={isTouchedRepeatPassword && password !== repeatPassword}*/}
+                            {/*        onChange={(e) => handleChange(e, setRepeatPassword)}*/}
+                            {/*        onBlur={() => { setIsTouchedRepeatPassword(true) }}*/}
+                            {/*    />*/}
+                            {/*    {isTouchedRepeatPassword && password !== repeatPassword &&*/}
+                            {/*    <FormHelperText error>Passwords don't match</FormHelperText>}*/}
+                            {/*</Grid>*/}
                             <Grid item xs={12}>
-                                <TextField
+                                <FormControl
                                     variant="outlined"
+                                    size="small"
                                     required
                                     fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    size="small"
-                                    error={isTouchedPassword && !validatePassword(password)}
-                                    onChange={(e) => handleChange(e, setPassword)}
-                                    onBlur={() => { setIsTouchedPassword(true) }}
-                                />
+                                    error={isTouchedPassword && !validatePassword(password)}>
+                                    <InputLabel>Password</InputLabel>
+                                    <OutlinedInput
+                                        name="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        id="password"
+                                        autoComplete="current-password"
+                                        error={isTouchedPassword && !validatePassword(password)}
+                                        onChange={(e) => handleChange(e, setPassword)}
+                                        onBlur={() => { setIsTouchedPassword(true) }}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => handleClickShowPassword(setShowPassword)}
+                                                    onMouseDown={(e) => handleMouseDownPassword(e)}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        labelWidth={83}
+                                    />
+                                </FormControl>
                                 {isTouchedPassword && !validatePassword(password) &&
                                 <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin
                                     letters and 1 digit(8 or more chars)</FormHelperText>}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControl
+                                    variant="outlined"
+                                    size="small"
+                                    required
+                                    fullWidth
+                                    error={isTouchedRepeatPassword && password !== repeatPassword}>
+                                    <InputLabel>Repeat Password</InputLabel>
+                                    <OutlinedInput
+                                        name="repeat_password"
+                                        type={showRepeatPassword ? 'text' : 'password'}
+                                        id="repeat_password"
+                                        autoComplete="current-password"
+                                        error={isTouchedRepeatPassword && password !== repeatPassword}
+                                        onChange={(e) => handleChange(e, setRepeatPassword)}
+                                        onBlur={() => { setIsTouchedRepeatPassword(true) }}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle repeat password visibility"
+                                                    onClick={() => handleClickShowRepeatPassword(setShowRepeatPassword)}
+                                                    onMouseDown={(e) => handleMouseDownPassword(e)}
+                                                    edge="end"
+                                                >
+                                                    {showRepeatPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        labelWidth={137}
+                                    />
+                                </FormControl>
+                                {isTouchedRepeatPassword && password !== repeatPassword &&
+                                <FormHelperText error>Passwords don't match</FormHelperText>}
                             </Grid>
                         </Grid>
                         <Button
