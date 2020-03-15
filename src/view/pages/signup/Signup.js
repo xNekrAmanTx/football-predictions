@@ -60,13 +60,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-// export default function SignUp(props) {
-//     return (
-//         <SnackbarProvider maxSnack={3}>
-//             <SignUpWithSnack {...props} />
-//         </SnackbarProvider>
-//     );
-// }
 
 export default function SignUp({handleOpen, setIsLoading}) {
     const history = useHistory();
@@ -190,43 +183,7 @@ export default function SignUp({handleOpen, setIsLoading}) {
                                 {isTouchedEmail && !validateEmail(email) &&
                                 <FormHelperText error>Email is not valid</FormHelperText>}
                             </Grid>
-                            {/*<Grid item xs={12}>*/}
-                            {/*    <TextField*/}
-                            {/*        variant="outlined"*/}
-                            {/*        required*/}
-                            {/*        fullWidth*/}
-                            {/*        name="password"*/}
-                            {/*        label="Password"*/}
-                            {/*        type="password"*/}
-                            {/*        id="password"*/}
-                            {/*        autoComplete="current-password"*/}
-                            {/*        size="small"*/}
-                            {/*        error={isTouchedPassword && !validatePassword(password)}*/}
-                            {/*        onChange={(e) => handleChange(e, setPassword)}*/}
-                            {/*        onBlur={() => { setIsTouchedPassword(true) }}*/}
-                            {/*    />*/}
-                            {/*    {isTouchedPassword && !validatePassword(password) &&*/}
-                            {/*    <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin*/}
-                            {/*        letters and 1 digit(8 or more chars)</FormHelperText>}*/}
-                            {/*</Grid>*/}
-                            {/*<Grid item xs={12}>*/}
-                            {/*    <TextField*/}
-                            {/*        variant="outlined"*/}
-                            {/*        required*/}
-                            {/*        fullWidth*/}
-                            {/*        name="repeat_password"*/}
-                            {/*        label="Repeat Password"*/}
-                            {/*        type="password"*/}
-                            {/*        id="repeat_password"*/}
-                            {/*        autoComplete="current-password"*/}
-                            {/*        size="small"*/}
-                            {/*        error={isTouchedRepeatPassword && password !== repeatPassword}*/}
-                            {/*        onChange={(e) => handleChange(e, setRepeatPassword)}*/}
-                            {/*        onBlur={() => { setIsTouchedRepeatPassword(true) }}*/}
-                            {/*    />*/}
-                            {/*    {isTouchedRepeatPassword && password !== repeatPassword &&*/}
-                            {/*    <FormHelperText error>Passwords don't match</FormHelperText>}*/}
-                            {/*</Grid>*/}
+                            
                             <Grid item xs={12}>
                                 <FormControl
                                     variant="outlined"

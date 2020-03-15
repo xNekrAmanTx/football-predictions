@@ -122,19 +122,6 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
             </Paper>
             <TableContainer square component={Paper} className={classes.paper}>
                 <Table aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-
-                            <TableCell align="center" className="tableCell" padding="none"/>
-                            <TableCell align="center" colSpan={2} className="tableCell" padding="none">
-                                user
-                            </TableCell>
-                            <TableCell align="center" className="tableCell" padding="none">points</TableCell>
-
-                        </TableRow>
-                    </TableHead>
-
-
                     <TableBody>
 
                         {top10.map((user, i) => (
