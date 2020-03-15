@@ -12,11 +12,12 @@ const useStyles = makeStyles({
 
 });
 
-export default ({ prediction, setPrediction, which }) => {
+export default ({ prediction, setPrediction, which, disabled }) => {
     const classes = useStyles();
 
     return (
         <input
+            disabled={disabled}
             type='number'
             min='0'
             className={classes.inputNum}

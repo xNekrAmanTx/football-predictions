@@ -148,28 +148,28 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                     {fixture.awayTeam.team_name}
                 </div>
             </TableCell>
-            {user && <>
+            <>
                 <TableCell align="center" padding="none">
-                    <Checkbox
-                        disabled={!isNotStarted || !prediction.home || !prediction.away}
+                <Checkbox
+                        disabled={!user || !isNotStarted || !prediction.home || !prediction.away}
                         checked={fixId === checkboxValue}
                         onChange={handleCheckboxChange}
                         value={fixId}
                         color='secondary'
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                        // inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </TableCell>
                 <TableCell align="center" padding="none">
                     {isNotStarted ?
                         <div className={classes.inputsContainer}>
-                            <PredictionInput prediction={prediction} setPrediction={setPrediction} which='home' />
+                            <PredictionInput disabled={!user} prediction={prediction} setPrediction={setPrediction} which='home' />
                             {` - `}
-                            <PredictionInput prediction={prediction} setPrediction={setPrediction} which='away' />
+                            <PredictionInput disabled={!user} prediction={prediction} setPrediction={setPrediction} which='away' />
                         </div>
                         : `${prediction.home || '-'} : ${prediction.away || '-'}`}
                 </TableCell >
-                <TableCell padding="none" align="center">{prediction.points}</TableCell>
-            </>}
+                <TableCell padding="none" align="center">{user ? prediction.points : '-'}</TableCell>
+            </>
         </TableRow>
         {info
             &&
@@ -182,7 +182,7 @@ export default ({ user, leagueId, roundId, fixture, checkboxValue, setCheckboxVa
                         </Typography>
                     </Paper>
                 </TableCell>
-                {user && <TableCell colSpan={3} />}
+                <TableCell colSpan={3}/>
             </TableRow>}
     </>
     );

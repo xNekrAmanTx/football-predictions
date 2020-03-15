@@ -14,7 +14,7 @@ import { paths } from './constants';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import setFixturesFormatted from './helpers/databaseSets/setFixturesFormatted';
-import Loading from "./view/components/Loading";
+import Loading from "./view/components/loading";
 import getCurrentLeagues from './helpers/databaseSetsGets/getCurrentLeagues';
 // import getUsers from './helpers/databaseGets/getUsers';
 // import { calculateMatchPoints } from './helpers/calculatePoints';

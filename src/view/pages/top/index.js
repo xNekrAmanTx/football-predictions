@@ -19,10 +19,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flexStart',
+        margin: 'auto',
+        width:'fit-content',
         color: 'white'
     },
-
 
 
     top3usr: {
@@ -39,9 +39,9 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "rgba(255, 255, 255, 0.52)",
      },
 
-     avUsr: {
+    avUsr: {
          display: 'flex',
-         justifyContent: 'center',
+        //  justifyContent: 'center',
          alignItems: 'center'
      },
 }));
@@ -50,7 +50,7 @@ function getColor(namePrefix) {
     return randomMaterialColor.getColor({text: namePrefix});
 }
 
-export default function Rules() {
+export default function Top() {
     const classes = useStyles();
     const [usersTop, setUsersTop] = useState([]);
 
@@ -126,7 +126,7 @@ export default function Rules() {
                         {usersTop.slice(3).map((user, i) => (
                             <TableRow key={user.userName}>
                                 <TableCell align="center">{i + 4}</TableCell>
-                                <TableCell align="center">
+                                <TableCell>
                                     <div className={classes.avUsr}>
                                         <Avatar style={{color: "white", backgroundColor:randomMaterialColor.getColor({text: user.userName})}}
                                                 alt={user.userName.toUpperCase()} src={user.avatar || user.userName}/>

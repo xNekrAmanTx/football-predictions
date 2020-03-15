@@ -18,13 +18,13 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import setUserPrediction from '../../../../helpers/databaseSets/setUserPrediction';
 import FixtureRow from '../../../components/FixtureRow';
 import getRoundsNumber from '../../../../helpers/databaseGets/getRoundsNumber';
-import {useSnackbar} from "notistack";
+import { useSnackbar } from "notistack";
 
 
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: "rgba(255, 255, 255, 0.52)",
-        maxHeight: "390px",
+        maxHeight: "515px",
         marginBottom: "20px"
     },
 
@@ -53,11 +53,19 @@ const useStyles = makeStyles(theme => ({
         whiteSpace: 'noWrap',
     },
 
-    textCenter: {
+    plsSign: {
         textAlign: 'center',
+        // backgroundColor: 'rgb(245,0,87)',
+        // color: 'rgba(255, 255, 255)',
+        textShadow: '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+        // width: 'fit-content',
+        // margin: 'auto',
+        // padding: 5,
+        // borderRadius: '50%'
     },
 }));
 
+// error()
 
 function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
 
@@ -72,20 +80,21 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
     const handleRoundChangeCLick = dif => round + dif > 0 && round + dif <= roundsCount && setRound(round + dif);
 
     const handleSubmit = e => {
-        const promises = [];
         e.preventDefault();
-        fixtures.map(fixture => {
+        let c = 0;
+        Promise.all(fixtures.map(fixture => {
             let id = fixture.fixture_id;
             let matchRow = document.getElementById(id);
             let x2 = checkboxValue === id;
             let [home, away] = [...matchRow.querySelectorAll('input[type=number]')].map(inp => inp.value);
-            if(home && away){
-                promises.push(new Promise((resolve,reject) => {
-                setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0).then(() => {resolve(); console.log('ddd')});
-                }));
+            if (home && away) {
+                c++
+                return new Promise((resolve, reject) => {
+                    setUserPrediction(user.displayName, leagueId, round, id, x2, home, away, 0).then(() => resolve());
+                });
             }
-        });
-        Promise.all(promises).then((asd) => enqueueSnackbar("Prediction Saved", { variant: "success" }));
+        }))
+            .then(() => enqueueSnackbar(c ? "Prediction Saved" : "Nothing To Save", { variant: c ? "success" : "warning" }))
     };
 
     useEffect(() => {
@@ -132,11 +141,9 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                                 <TableCell align="right" padding="none">First Team</TableCell>
                                 <TableCell align="center" padding="none">Result</TableCell>
                                 <TableCell align="left" padding="none">Second Team</TableCell>
-                                {user && <>
-                                    <TableCell align="center" padding="none">x2</TableCell>
-                                    <TableCell align="center" padding="none">Prediction</TableCell>
-                                    <TableCell align="center" padding="none">Points</TableCell>
-                                </>}
+                                <TableCell align="center" padding="none">x2</TableCell>
+                                <TableCell align="center" padding="none">Prediction</TableCell>
+                                <TableCell align="center" padding="none">Points</TableCell>
 
                             </TableRow>
                         </TableHead>
@@ -167,9 +174,9 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                             color="secondary"
                         >Save Prediction</Button>
                     </Grid>
-                    : <Grid container className={classes.textCenter} component='h3' justify='center'> Please sign in to predict </Grid>}
+                    : <Grid container className={classes.plsSign} justify='center' component='h3'> Please Sign In To Predict </Grid>}
             </form>
-        </div>
+        </div >
     );
 }
 
