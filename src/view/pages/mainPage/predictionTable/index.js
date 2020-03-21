@@ -54,14 +54,14 @@ const useStyles = makeStyles(theme => ({
     },
 
     plsSign: {
-        textAlign: 'center',
-        // backgroundColor: 'rgb(245,0,87)',
-        // color: 'rgba(255, 255, 255)',
+        // textAlign: 'center',
+        // backgroundColor: 'rgb(63,81,181)',
+        color: 'orange',
         textShadow: '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
         // width: 'fit-content',
         // margin: 'auto',
         // padding: 5,
-        // borderRadius: '50%'
+        // borderRadius: '15px'
     },
 }));
 
@@ -138,7 +138,7 @@ function PredictionTable({ user, leagueId, round, setRound, fixtures }) {
                             <TableRow>
 
                                 <TableCell align="center" padding="none" />
-                                <TableCell align="right" padding="none">First Team</TableCell>
+                                <TableCell align="right">First Team</TableCell>
                                 <TableCell align="center" padding="none">Result</TableCell>
                                 <TableCell align="left" padding="none">Second Team</TableCell>
                                 <TableCell align="center" padding="none">x2</TableCell>
