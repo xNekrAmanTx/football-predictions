@@ -13,7 +13,7 @@ export default function MainPage(props) {
         <section>
             <LeagueNavTab {...props} leagueId={id} />
 
-            {isValidId ? <LeagueTablesContainer {...props} leagueId={id} /> : <h1 style={{ textAlign: 'center' }}>There is no such league id</h1>}
+            {isValidId ? <LeagueTablesContainer {...props} leagueId={id} /> : <h1 style={{color:'red', textAlign: 'center' }}>There is no such league id</h1>}
 
         </section>
     )

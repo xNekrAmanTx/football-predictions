@@ -22,13 +22,19 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
     },
-  
+
     avatar: {
         width: "30px",
         height: "30px",
         margin: "5px 0"
     },
-  
+
+    avUsr: {
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft:'10%',
+        // padding: '0 10%',
+    }
     /* noFocus:{
         '&:active': {
             outline: 'none',
@@ -126,10 +132,13 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
 
                         {top10.map((user, i) => (
                             <TableRow key={user.username}>
-                                <TableCell align="center" className="tableCell" padding="none">{i + 1}</TableCell>
-                                <TableCell align="right" className="tableCell" padding="none"><Avatar>{user.avatar}</Avatar></TableCell>
-                                <TableCell align="left" className="tableCell" padding="none">{user.username}</TableCell>
-                                <TableCell align="center" className="tableCell" padding="none">{user.points}</TableCell>
+                                <TableCell align="center" padding="none">{i + 1}</TableCell>
+                                <TableCell align="right" padding="none">
+                                    <div className={classes.avUsr}>
+                                        <Avatar>{user.avatar}</Avatar>&emsp;{user.username}
+                                    </div>
+                                </TableCell>
+                                <TableCell align="center" padding="none">{user.points}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -138,3 +147,5 @@ export default ({ round, leagueId, fixtures/* , users */ }) => {
         </div>
     );
 }
+
+// error()
