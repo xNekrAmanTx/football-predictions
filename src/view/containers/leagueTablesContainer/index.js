@@ -42,10 +42,10 @@ export default (props) => {
     }
 
     useEffect(() => {
-        let canselled = false;
-        !canselled && round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
+        let cancelled = false;
+        !cancelled && round && getFixturesOfCurrentLeagueAndRound(handler, leagueId, round)
         return () => {
-            canselled = true;
+            cancelled = true;
         }
     }, [leagueId, round]);
 
