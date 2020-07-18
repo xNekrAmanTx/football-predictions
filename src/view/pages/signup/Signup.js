@@ -1,5 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import {
     Avatar,
     Button,
@@ -17,14 +17,14 @@ import {
     MuiThemeProvider,
     makeStyles,
 } from '@material-ui/core';
-import {Visibility, VisibilityOff} from "@material-ui/icons";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {paths} from '../../../constants';
+import { paths } from '../../../constants';
 import signUp from '../../../helpers/userSignUp'
 import * as validation from '../../../helpers/validation/signupValidation';
 import firebase from "firebase/app";
 import 'firebase/auth';
-import {SnackbarProvider, useSnackbar} from 'notistack';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 
 const { validatePassword, validateUsername, validateEmail } = validation;
@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SignUp({handleOpen, setIsLoading}) {
+export default function SignUp({ handleOpen, setUser, setIsLoading }) {
     const history = useHistory();
     const classes = useStyles();
 
@@ -87,13 +87,19 @@ export default function SignUp({handleOpen, setIsLoading}) {
     const [isTouchedPassword, setIsTouchedPassword] = useState(false);
     const [isTouchedRepeatPassword, setIsTouchedRepeatPassword] = useState(false);
 
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
 
     let userNameRef = useRef();
 
 
     useEffect(() => userNameRef.current && userNameRef.current.focus(), []);
-
+    // useEffect(() => {
+    //     return () => {
+    //         // console.log('Unmount signup', firebase.auth().currentUser.displayName)
+    //         setUser(firebase.auth().currentUser);
+    //     }
+    // }, []);
+    
     const disabledSignUpButton = !(validateUsername(username) && validateEmail(email) && validatePassword(password) && password === repeatPassword);
 
     const handleChange = (e, setValue) => { setValue(e.target.value) };
@@ -122,7 +128,8 @@ export default function SignUp({handleOpen, setIsLoading}) {
                 firebase.database().ref('users/' + username).set({
                     email: email,
                     avatar: username[0].toUpperCase(),
-                })
+                });
+                setUser({...firebase.auth().currentUser});
             })
             .then(() => {
                 history.push(paths.home);
@@ -130,7 +137,7 @@ export default function SignUp({handleOpen, setIsLoading}) {
             .catch(function (error) {
                 let errorCode = error.code;
                 let errorMessage = error.message;
-                enqueueSnackbar(errorMessage, {variant: "error"})
+                enqueueSnackbar(errorMessage, { variant: "error" })
             })
         // console.log(firebase.auth().currentUser, 'SignupCurrentUser');
     };
@@ -139,7 +146,7 @@ export default function SignUp({handleOpen, setIsLoading}) {
         <Container component="main" maxWidth="xs" className={classes.container}>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
+                    <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign Up
@@ -163,7 +170,7 @@ export default function SignUp({handleOpen, setIsLoading}) {
                                     onBlur={(e) => { setIsTouchedUsername(true); console.log(e.target) }}
                                 />
                                 {isTouchedUsername && !validateUsername(username) &&
-                                <FormHelperText error>Username must contain only latin letters and digits(2-20
+                                    <FormHelperText error>Username must contain only latin letters and digits(2-20
                                     chars)</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
@@ -181,9 +188,9 @@ export default function SignUp({handleOpen, setIsLoading}) {
                                     onBlur={() => { setIsTouchedEmail(true) }}
                                 />
                                 {isTouchedEmail && !validateEmail(email) &&
-                                <FormHelperText error>Email is not valid</FormHelperText>}
+                                    <FormHelperText error>Email is not valid</FormHelperText>}
                             </Grid>
-                            
+
                             <Grid item xs={12}>
                                 <FormControl
                                     variant="outlined"
@@ -216,7 +223,7 @@ export default function SignUp({handleOpen, setIsLoading}) {
                                     />
                                 </FormControl>
                                 {isTouchedPassword && !validatePassword(password) &&
-                                <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin
+                                    <FormHelperText error>Password must contain at least 1 uppercase, 1 lowercase latin
                                     letters and 1 digit(8 or more chars)</FormHelperText>}
                             </Grid>
                             <Grid item xs={12}>
@@ -251,12 +258,13 @@ export default function SignUp({handleOpen, setIsLoading}) {
                                     />
                                 </FormControl>
                                 {isTouchedRepeatPassword && password !== repeatPassword &&
-                                <FormHelperText error>Passwords don't match</FormHelperText>}
+                                    <FormHelperText error>Passwords don't match</FormHelperText>}
                             </Grid>
                         </Grid>
                         <Button
                             type="submit"
                             fullWidth
+                            color="primary"
                             variant="contained"
                             className={classes.submit}
                             disabled={disabledSignUpButton}

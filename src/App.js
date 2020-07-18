@@ -23,7 +23,7 @@ import getCurrentLeagues from './helpers/databaseSetsGets/getCurrentLeagues';
 function App() {
 
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(firebase.auth().currentUser);
+  const [user, setUser] = useState(null);
   // const [users, setUsers] = useState([]);
   const [leagues, setLeagues] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,8 +34,8 @@ function App() {
       getCurrentLeagues()
         .then(leagues => (setLeagues(Object.values(leagues)), leagues))
         .then(leagues => Object.keys(leagues).map(ligueId => setFixturesFormatted(ligueId))).then(resolve);
-    }).then(() => { setIsLoading(false);})
-  }, [user]);
+    }).then(() => { setIsLoading(false)})
+  }, [/* user?.displayName */]);
 
   // useEffect(() => {
     
@@ -71,6 +71,5 @@ function App() {
 
   );
 }
-
 
 export default App;
